@@ -24,14 +24,4 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
-    try {
-        const { question, category, level, choices } = req.body;
-        const result = await service.createQuestion(question, category, level, choices);
-        res.status(201).json(result);
-    } catch (error: any) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
 export default router;

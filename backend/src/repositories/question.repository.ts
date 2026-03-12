@@ -21,13 +21,4 @@ export class QuestionRepository {
         });
     }
 
-    async createQuestion(question: string, category: string, level: string) {
-        const result = await db.insert(questions).values({ question, category, level }).returning();
-        return result[0];
-    }
-
-    async createChoice(answer: string, isCorrect: boolean, questionId: UUID) {
-        const result = await db.insert(choices).values({ answer, isCorrect, questionId }).returning();
-        return result[0];
-    }
 }
