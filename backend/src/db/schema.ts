@@ -18,23 +18,28 @@ export const choices = pgTable('choices', {
 
 export const user = pgTable('user', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
-  profileImage: text('profile_image').notNull(),
+  profileImage: text('profile_image'),
   username: text('username').notNull(),
   email: text('email').notNull(),
   password: text('password').notNull(),
   currentScore: integer('current_score').default(0),
+  createdAt: timestamp('created_at').defaultNow(),
 });
 
 export const shelter = pgTable('shelter', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
   name: text('name').notNull(),
+  image: text('image'),
   address: text('address').notNull(),
   phone: text('phone').notNull(),
   details: text('details').notNull(),
   owner: text('owner').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
 });
 
 export const donation = pgTable('donation', {
+  uuid: uuid('uuid').primaryKey().defaultRandom(),
+  amount: integer('amount').notNull(),
   userId: uuid('user_id')
     .references(() => user.uuid, { onDelete: 'cascade' })
     .notNull(),
@@ -43,9 +48,11 @@ export const donation = pgTable('donation', {
     .references(() => shelter.uuid, { onDelete: 'cascade' })
     .notNull(),
   
+  createdAt: timestamp('created_at').defaultNow(),
 }); 
 
 export const quiz_history = pgTable('quiz_history', {
+  uuid: uuid('uuid').primaryKey().defaultRandom(),
   userId: uuid('user_id')
     .references(() => user.uuid, { onDelete: 'cascade' })
     .notNull(),
@@ -56,6 +63,7 @@ export const quiz_history = pgTable('quiz_history', {
     .references(() => choices.uuid, { onDelete: 'cascade' })
     .notNull(),
   is_correct: boolean('is_correct').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
 }); 
 
 export const score_history = pgTable('score_history', {
