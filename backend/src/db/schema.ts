@@ -1,8 +1,22 @@
 import { pgTable, serial, text, integer, uuid, boolean, timestamp } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
+export const quiz = pgTable('quiz', {
+  uuid: uuid('uuid').primaryKey().defaultRandom(),
+  title: text('title').notNull(),
+  description: text('description'),
+  category: text('category').notNull(),
+  level: text('level').notNull(),
+  quizImage: text('image'), 
+  duration: integer('duration'),
+  points: integer('points'),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+
 export const questions = pgTable('questions', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
+  quizId: uuid('quiz_id').references(() => quiz.uuid, { onDelete: 'cascade' }).notNull(),
   question: text('question').notNull(),
   category: text('category').notNull(),
   level: text('level').notNull(),
@@ -20,8 +34,9 @@ export const user = pgTable('user', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
   profileImage: text('profile_image'),
   username: text('username').notNull(),
-  email: text('email').notNull(),
-  password: text('password').notNull(),
+  email: text('email').notNull().unique(), // Added unique constraint to prevent duplicate accounts
+  password: text('password'), // Removed notNull to allow Google Login (which has no password)
+  provider: text('provider').default('local'), // Added provider column (e.g., 'local', 'google')
   currentScore: integer('current_score').default(0),
   createdAt: timestamp('created_at').defaultNow(),
 });
@@ -29,7 +44,7 @@ export const user = pgTable('user', {
 export const shelter = pgTable('shelter', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
   name: text('name').notNull(),
-  image: text('image'),
+  shelterImage: text('image'),
   address: text('address').notNull(),
   phone: text('phone').notNull(),
   details: text('details').notNull(),
@@ -56,13 +71,13 @@ export const quiz_history = pgTable('quiz_history', {
   userId: uuid('user_id')
     .references(() => user.uuid, { onDelete: 'cascade' })
     .notNull(),
-  questions_id: uuid('questions_id')
+  questionId: uuid('questions_id')
     .references(() => questions.uuid, { onDelete: 'cascade' })
     .notNull(),
-  choices_id: uuid('choices_id')
+  choiceId: uuid('choices_id')
     .references(() => choices.uuid, { onDelete: 'cascade' })
     .notNull(),
-  is_correct: boolean('is_correct').notNull(),
+  isCorrect: boolean('is_correct').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 }); 
 
@@ -84,10 +99,21 @@ export const score_history = pgTable('score_history', {
 
 
 //rules
+
+//quiz
+export const quizRelations = relations(quiz, ({ many }) => ({
+  questions: many(questions),
+}));
+
 //questions
-export const questionsRelations = relations(questions, ({ many }) => ({
+export const questionsRelations = relations(questions, ({ one, many }) => ({
   choices: many(choices),
   quizHistory: many(quiz_history),
+
+  quiz: one(quiz, {
+    fields: [questions.quizId],
+    references: [quiz.uuid],
+  }),
 }));
 
 //choices
@@ -130,11 +156,11 @@ export const quiz_historyRelations = relations(quiz_history, ({ one }) => ({
     references: [user.uuid],
   }),
   question: one(questions, {
-    fields: [quiz_history.questions_id],
+    fields: [quiz_history.questionId],
     references: [questions.uuid],
   }),
   choice: one(choices, {
-    fields: [quiz_history.choices_id],
+    fields: [quiz_history.choiceId],
     references: [choices.uuid],
   }),
 }));
