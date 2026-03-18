@@ -1,0 +1,98 @@
+[
+  {
+    "question": "What should you do if you find a stray kitten?",
+    "category": "Cat Care",
+    "level": "Beginner",
+    "explanation": "It's important to check for a mother cat first, as they often leave kittens alone to hunt.",
+    "choices": [
+      {
+        "choices": "Take it home immediately",
+        "isCorrect": false
+      },
+      {
+        "choices": "Wait and observe if the mother returns",
+        "isCorrect": true
+      },
+      {
+        "choices": "Feed it cow's milk",
+        "isCorrect": false
+      },
+      {
+        "choices": "Leave it alone forever",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Which food is toxic to dogs?",
+    "category": "Dog Care",
+    "level": "Beginner",
+    "explanation": "Grapes and raisins can cause kidney failure in dogs.",
+    "choices": [
+      {
+        "choices": "Carrots",
+        "isCorrect": false
+      },
+      {
+        "choices": "Apples (without seeds)",
+        "isCorrect": false
+      },
+      {
+        "choices": "Grapes",
+        "isCorrect": true
+      },
+      {
+        "choices": "Blueberries",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "What is your name",
+    "category": "Basic",
+    "level": "Beginner",
+    "explanation": "nothing",
+    "choices": [
+      {
+        "choices": "Apples (without seeds)",
+        "isCorrect": false
+      },
+      {
+        "choices": "Pineapple",
+        "isCorrect": false
+      },
+      {
+        "choices": "Orage",
+        "isCorrect": false
+      },
+      {
+        "choices": "banana",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "What is your surname",
+    "category": "Basic",
+    "level": "Beginner",
+    "explanation": "nothing",
+    "choices": [
+      {
+        "choices": "Apples (without seeds)",
+        "isCorrect": false
+      },
+      {
+        "choices": "Pineapple",
+        "isCorrect": false
+      },
+      {
+        "choices": "Orage",
+        "isCorrect": false
+      },
+      {
+        "choices": "banana",
+        "isCorrect": false
+      }
+    ]
+  }
+]
