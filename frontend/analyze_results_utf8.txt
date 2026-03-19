@@ -1,0 +1,31 @@
+﻿Analyzing frontend...                                           
+
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home.dart:87:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home.dart:171:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home.dart:207:29 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home.dart:209:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home.dart:218:35 - deprecated_member_use
+  error - Arguments of a constant creation must be constant expressions - lib\screens\home\home.dart:221:31 - const_with_non_constant_argument
+  error - The getter 'pawPrint' isn't defined for the type 'LucideIcons' - lib\screens\home\home.dart:221:43 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home.dart:246:45 - deprecated_member_use
+  error - The getter 'pawPrint' isn't defined for the type 'LucideIcons' - lib\screens\home\home.dart:298:24 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home.dart:315:33 - deprecated_member_use
+
+flutter : 10 issues 
+found. (ran in 1.0s)
+At line:1 char:1
++ flutter analyze > 
+analyze_results.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (10 issues fou   
+ nd. (ran in 1.0s):    
+String) [], Remote    
+Exception
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
