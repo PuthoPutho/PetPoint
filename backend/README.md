@@ -51,3 +51,12 @@ npm run db:push
 - **ORM**: Drizzle ORM
 - **Database**: PostgreSQL
 - **Containerization**: Docker & Docker Compose
+
+Verification Plan
+Automated Tests
+Run npm run db:seed and verify data in the database (via Drizzle Studio or logs).
+Run npm run db:delete and verify the tables are empty.
+Manual Verification
+Provide docker exec commands for running scripts inside the container:
+docker exec -it 8eea61376e5e0e042a821755dfb07b2394738a1a96bd80433651475ceef9015b npm run db:seed
+docker exec -it 8eea61376e5e0e042a821755dfb07b2394738a1a96bd80433651475ceef9015b npm run db:delete

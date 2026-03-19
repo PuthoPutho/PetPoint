@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Happy Paws Shelter",
+    "image": "https://images.unsplash.com/photo-1548191265-cc70d3d45ba1",
+    "address": "123 Pet Lane, Bangkok",
+    "phone": "02-123-4567",
+    "details": "A safe haven for rescued dogs and cats.",
+    "owner": "John Doe"
+  },
+  {
+    "name": "Sunshine Animal Rescue",
+    "image": "https://images.unsplash.com/photo-1548191265-cc70d3d45ba2",
+    "address": "456 Sunny Road, Chiang Mai",
+    "phone": "053-987-6543",
+    "details": "Specializing in emergency rescue and rehabilitation.",
+    "owner": "Jane Smith"
+  }
+]

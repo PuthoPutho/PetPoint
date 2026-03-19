@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Pet Care Basics",
+    "description": "Learn the essentials of taking care of your furry friends.",
+    "category": "Basic",
+    "level": "Beginner",
+    "image": "https://images.unsplash.com/photo-1548191265-cc70d3d45ba1",
+    "duration": 10,
+    "points": 100
+  },
+  {
+    "title": "Another Pet Dont care",
+    "description": "Learn the essentials of taking care of your furry friends.",
+    "category": "Basic",
+    "level": "Beginner",
+    "image": "https://images.unsplash.com/photo-1548191265-cc70d3d45ba1",
+    "duration": 10,
+    "points": 100
+  }
+]
