@@ -79,8 +79,8 @@ class QuizDetailScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    print('เริ่มทำควิซ: ${quizData.title}');
-                    // TODO: นำทางไปหน้า QuizPlayScreen
+                    // print('เริ่มทำควิซ: ${quizData.title}');
+                    // นำทางไปหน้า QuizPlayScreen
                   },
                   child: const Text(
                     'Start Quiz',
