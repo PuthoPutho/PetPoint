@@ -6,6 +6,8 @@ class Quiz {
   final int points;
   final int duration; // 👈 เพิ่มเวลาทำควิซ (นาที)
   final int questionCount; // 👈 เพิ่มจำนวนข้อ
+  final String level;
+  final String tag;
   final DateTime createdAt;
 
   Quiz({
@@ -16,6 +18,8 @@ class Quiz {
     required this.points,
     required this.duration,
     required this.questionCount,
+    required this.tag,
     required this.createdAt,
+    required this.level,
   });
 }

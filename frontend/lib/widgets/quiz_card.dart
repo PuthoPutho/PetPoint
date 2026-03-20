@@ -40,7 +40,7 @@ class QuizCard extends StatelessWidget {
                 width: double.infinity,
                 color: _getCategoryColor(quizData.category),
                 child: const Center(
-                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(color: Colors.white)),
+                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(fontFamily: 'GoogleSans', color: Colors.white)),
                 ),
               ),
               // ส่วนที่ 2: ข้อความด้านล่าง
@@ -58,14 +58,14 @@ class QuizCard extends StatelessWidget {
                           children: [
                             Text(
                               quizData.title,
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 14, fontWeight: FontWeight.bold),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              quizData.description,
-                              style: const TextStyle(color: Colors.grey, fontSize: 12),
+                              quizData.tag,
+                              style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 12),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -75,7 +75,7 @@ class QuizCard extends StatelessWidget {
                       const SizedBox(width: 8),
                       Text(
                         '+${quizData.points} Points',
-                        style: const TextStyle(color: Colors.grey, fontSize: 13),
+                        style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 13),
                       ),
                     ],
                   ),
