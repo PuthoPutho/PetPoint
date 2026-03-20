@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/quiz/quiz_list_screen.dart';
+//import 'screens/quiz/quiz_list_screen.dart';
 import 'package:frontend/screens/home/home.dart';
 
 void main() {
@@ -15,11 +15,12 @@ class MyApp extends StatelessWidget {
       title: 'PetPoint',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'GoogleSans',
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6B4226)),
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const QuizListScreen(), // เปลี่ยนหน้าแรกเป็นหน้า Quiz
+      home: const HomeScreen(), // เปลี่ยนหน้าแรกเป็นหน้า Quiz
       // ตั้งค่าเริ่มต้นเปิดมาเป็นหน้าโฮม (Home Screen)
       initialRoute: '/',
       routes: {
