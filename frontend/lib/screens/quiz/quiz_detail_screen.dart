@@ -81,8 +81,8 @@ class QuizDetailScreen extends StatelessWidget {
                   ),
                   onPressed: () {
 
-                    print('เริ่มทำควิซ: ${quizData.title}');
-                    // TODO: นำทางไปหน้า QuizPlayScreen
+
+                   
 
                     Navigator.push(
                       context,
@@ -91,7 +91,7 @@ class QuizDetailScreen extends StatelessWidget {
                       ),
                     );
 
-                  },
+    },
                   child: const Text(
                     'Start Quiz',
                     style: TextStyle(fontFamily: 'GoogleSans', fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
