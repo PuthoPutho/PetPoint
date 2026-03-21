@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../../services/mock_quiz_service.dart';
 import '../../widgets/quiz_card.dart';
 
@@ -27,6 +28,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
     'Last year',
   ];
   String selectedTimeFilter = 'All time';
+  String searchQuery = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,15 @@ class _QuizListScreenState extends State<QuizListScreen> {
         matchesTime = difference.inDays <= 365;
       }
       
-      return matchesCategory && matchesTime;
+      bool matchesSearch = true;
+      if (searchQuery.isNotEmpty) {
+        final query = searchQuery.toLowerCase();
+        matchesSearch = quiz.title.toLowerCase().contains(query) ||
+                        quiz.category.toLowerCase().contains(query) ||
+                        quiz.tag.toLowerCase().contains(query);
+      }
+      
+      return matchesCategory && matchesTime && matchesSearch;
     }).toList();
 
     return Scaffold(
@@ -62,10 +73,15 @@ class _QuizListScreenState extends State<QuizListScreen> {
             const SizedBox(height: 18),
             // 1. ช่องค้นหา (Search Bar)
             TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
+              },
               decoration: InputDecoration(
                 hintText: 'Search',
-                hintStyle: const TextStyle(color: Colors.grey),
-                suffixIcon: const Icon(Icons.search, color: Colors.grey), // ไอคอนอยู่ขวา
+                hintStyle: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
+                suffixIcon: const Icon(LucideIcons.search, color: Colors.grey), // ไอคอนอยู่ขวา
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
@@ -100,7 +116,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                       child: DropdownButton<String>(
                         value: selectedCategory,
                         isExpanded: true,
-                        icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+                        icon: const Icon(LucideIcons.chevronDown, color: Colors.grey),
                         dropdownColor: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         elevation: 2,
@@ -110,7 +126,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 item,
-                                style: const TextStyle(color: Colors.grey),
+                                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
                               ),
                             );
                           }).toList();
@@ -124,13 +140,13 @@ class _QuizListScreenState extends State<QuizListScreen> {
                               children: [
                                 Text(
                                   category,
-                                  style: TextStyle(
+                                  style: TextStyle(fontFamily: 'GoogleSans', 
                                     color: isSelected ? Colors.black87 : Colors.grey.shade700,
                                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                                   ),
                                 ),
                                 if (isSelected)
-                                  const Icon(Icons.check, size: 18, color: Colors.black87),
+                                  const Icon(LucideIcons.check, size: 18, color: Colors.black87),
                               ],
                             ),
                           );
@@ -159,7 +175,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                       child: DropdownButton<String>(
                         value: selectedTimeFilter,
                         isExpanded: true,
-                        icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+                        icon: const Icon(LucideIcons.chevronDown, color: Colors.grey),
                         dropdownColor: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         elevation: 2,
@@ -169,7 +185,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 item,
-                                style: const TextStyle(color: Colors.grey),
+                                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
                               ),
                             );
                           }).toList();
@@ -183,13 +199,13 @@ class _QuizListScreenState extends State<QuizListScreen> {
                               children: [
                                 Text(
                                   filter,
-                                  style: TextStyle(
+                                  style: TextStyle(fontFamily: 'GoogleSans', 
                                     color: isSelected ? Colors.black87 : Colors.grey.shade700,
                                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                                   ),
                                 ),
                                 if (isSelected)
-                                  const Icon(Icons.check, size: 18, color: Colors.black87),
+                                  const Icon(LucideIcons.check, size: 18, color: Colors.black87),
                               ],
                             ),
                           );

@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/quiz.dart';
 import '../../utils/app_colors.dart';
+import 'quiz_play_screen.dart';
 
 class QuizDetailScreen extends StatelessWidget {
   final Quiz quizData; // 👈 รับข้อมูลควิซที่ถูกกดส่งมาหน้านี้
@@ -16,8 +17,8 @@ class QuizDetailScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          onPressed: () => Navigator.pop(context), // 👈 กดแล้วย้อนกลับหน้าเดิม
+          icon: const Icon(LucideIcons.chevronLeft, color: Colors.black),
+          onPressed: () => Navigator.pop(context), 
         ),
       ),
       body: Padding(
@@ -42,7 +43,7 @@ class QuizDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Center(
-                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(color: Colors.white)),
+                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(fontFamily: 'GoogleSans', color: Colors.white)),
                 ),
               ),
               const SizedBox(height: 24),
@@ -50,22 +51,22 @@ class QuizDetailScreen extends StatelessWidget {
               // 2. ชื่อและรายละเอียด
               Text(
                 quizData.title,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
               Text(
-                quizData.description,
-                style: const TextStyle(color: Colors.grey, fontSize: 16),
+                quizData.tag,
+                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 16),
               ),
               const SizedBox(height: 24),
 
               // 3. กล่องข้อมูล (ใช้ฟังก์ชัน _buildInfoRow ที่สร้างไว้ด้านล่าง)
-              _buildInfoRow(Icons.book_outlined, '${quizData.questionCount} questions', AppColors.primaryGreen),
-              _buildInfoRow(Icons.timer_outlined, '${quizData.duration} minutes', AppColors.primaryGreen),
-              _buildInfoRow(Icons.star_border_rounded, '${quizData.points} points', AppColors.primaryGreen),
-              _buildInfoRow(Icons.info_outline_rounded, quizData.category, AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.bookOpen, '${quizData.questionCount} questions', AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.timer, '${quizData.duration} minutes', AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.star, '${quizData.points} points', AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.info, '${quizData.description} ', AppColors.primaryGreen),
 
-              const Spacer(), // 👈 ดันปุ่มให้ไปอยู่ล่างสุดของกล่อง
+              const Spacer(),
 
               // 4. ปุ่ม Start Quiz
               SizedBox(
@@ -79,12 +80,21 @@ class QuizDetailScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    // print('เริ่มทำควิซ: ${quizData.title}');
-                    // นำทางไปหน้า QuizPlayScreen
-                  },
+
+
+                   
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizPlayScreen(quizData: quizData),
+                      ),
+                    );
+
+    },
                   child: const Text(
                     'Start Quiz',
-                    style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontFamily: 'GoogleSans', fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -108,7 +118,7 @@ class QuizDetailScreen extends StatelessWidget {
         children: [
           Icon(icon, color: iconColor),
           const SizedBox(width: 16),
-          Text(text, style: const TextStyle(fontSize: 16)),
+          Text(text, style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 16)),
         ],
       ),
     );
