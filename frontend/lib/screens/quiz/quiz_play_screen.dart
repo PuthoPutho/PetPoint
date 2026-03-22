@@ -4,6 +4,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/quiz.dart';
 import '../../models/question.dart';
 import '../../services/mock_quiz_service.dart';
+import 'quiz_result_screen.dart';
 
 class QuizPlayScreen extends StatefulWidget {
   final Quiz quizData;
@@ -19,6 +20,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   int _currentIndex = 0;
   int _score = 0;
   int? _selectedChoiceId;
+  final List<int?> _userAnswers = [];
 
   Timer? _timer;
   int _timeLeft = 10; // 60 วินาทีต่อข้อ
@@ -53,6 +55,8 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   void _nextQuestion() {
     _timer?.cancel();
 
+    _userAnswers.add(_selectedChoiceId);
+
     if (_selectedChoiceId != null) {
       final currentQ = _questions[_currentIndex];
       final selectedChoice = currentQ.choices.firstWhere((c) => c.id == _selectedChoiceId);
@@ -69,7 +73,16 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
       _startTimer();
     } else {
       print('สอบเสร็จแล้ว! ได้คะแนน $_score / ${_questions.length}');
-      // TODO: ใส่คำสั่งเด้งไปหน้า Result ตรงนี้
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => QuizResultScreen(
+            quizData: widget.quizData,
+            questions: _questions,
+            userAnswers: _userAnswers,
+          ),
+        ),
+      );
     }
   }
 
