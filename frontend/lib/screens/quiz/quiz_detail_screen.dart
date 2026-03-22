@@ -118,7 +118,9 @@ class QuizDetailScreen extends StatelessWidget {
         children: [
           Icon(icon, color: iconColor),
           const SizedBox(width: 16),
-          Text(text, style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 16)),
+          Expanded(
+            child: Text(text, style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 16)),
+          ),
         ],
       ),
     );
