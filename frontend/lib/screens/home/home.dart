@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currentScore = 75; 
+  int currentScore = 80; 
   
   // 1. เปลี่ยนตัวแปรมาใช้เช็คสถานะการ Hover (เอาเมาส์ชี้) แทน
   bool _isMegaphoneHovered = false;
