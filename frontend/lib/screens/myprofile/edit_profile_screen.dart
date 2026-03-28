@@ -1,12 +1,85 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  final String currentUsername;
+  final String? currentImagePath;
+
+  const EditProfileScreen({
+    Key? key,
+    required this.currentUsername,
+    this.currentImagePath,
+  }) : super(key: key);
+
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  File? _pickedImage;
+  late TextEditingController _usernameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController(text: widget.currentUsername);
+    if (widget.currentImagePath != null) {
+      _pickedImage = File(widget.currentImagePath!);
+    }
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    super.dispose();
+  }
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final XFile? image = await _picker.pickImage(source: source);
+      if (image == null) return;
+      setState(() {
+        _pickedImage = File(image.path);
+      });
+    } catch (e) {
+      print('Error picking image: $e');
+    }
+  }
+
+  void _showImagePickerMenu() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Photo Gallery'),
+                onTap: () {
+                  _pickImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Camera'),
+                onTap: () {
+                  _pickImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +130,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           border: Border.all(color: Colors.grey.shade300, width: 1.5),
                         ),
                         child: ClipOval(
-                          child: Image.asset(
-                            'assets/OrangeCat.png', // เปลี่ยนเป็นรูปภาพที่มีอยู่แล้วในโปรเจกต์
-                            width: 140,
-                            height: 140,
-                            fit: BoxFit.cover,
-                          ),
+                          child: _pickedImage != null 
+                              ? Image.file(
+                                  _pickedImage!,
+                                  width: 140,
+                                  height: 140,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/OrangeCat.png', // เปลี่ยนเป็นรูปภาพที่มีอยู่แล้วในโปรเจกต์
+                                  width: 140,
+                                  height: 140,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       Positioned(
@@ -70,8 +150,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         bottom: 4,
                         child: GestureDetector(
                           onTap: () {
-                            // เปิดฟังก์ชันเลือกรูปภาพ (ต้องเพิ่มโค้ดที่นี่)
-                            print("เลือกรูปภาพใหม่");
+                            // เปิดฟังก์ชันเลือกรูปภาพ
+                            _showImagePickerMenu();
                           },
                           child: Container(
                             padding: EdgeInsets.all(8),
@@ -93,6 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Text("Username", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'GoogleSans')),
                       SizedBox(height: 12),
                       TextField(
+                        controller: _usernameController,
                         style: TextStyle(fontFamily: 'GoogleSans', fontSize: 16),
                         decoration: InputDecoration(
                           hintText: "Your Username",
@@ -121,8 +202,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         // ดำเนินการบันทึกการเปลี่ยนแปลงและย้อนกลับไปยังหน้าโปรไฟล์
-                        print("บันทึกการเปลี่ยนแปลง");
-                        Navigator.pop(context);
+                        Navigator.pop(context, {
+                          'username': _usernameController.text,
+                          'imagePath': _pickedImage?.path,
+                        });
                       },
                       child: Text("Save", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'GoogleSans')),
                       style: ElevatedButton.styleFrom(

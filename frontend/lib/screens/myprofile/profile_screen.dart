@@ -1,10 +1,19 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:spider_chart/spider_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'edit_profile_screen.dart'; // Import หน้าแก้ไขโปรไฟล์
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String _username = "PunPun";
+  String? _imagePath;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,40 +32,59 @@ class ProfileScreen extends StatelessWidget {
                   radius: 70,
                   backgroundColor: Colors.white,
                   child: ClipOval(
-                    child: Image.asset(
-                      'assets/OrangeCat.png', // เปลี่ยนเป็นรูปภาพที่มีอยู่แล้วในโปรเจกต์
-                      width: 140,
-                      height: 140,
-                      fit: BoxFit.cover,
-                    ),
+                    child: _imagePath != null
+                        ? Image.file(
+                            File(_imagePath!),
+                            width: 140,
+                            height: 140,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/OrangeCat.png', // เปลี่ยนเป็นรูปภาพที่มีอยู่แล้วในโปรเจกต์
+                            width: 140,
+                            height: 140,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 Positioned(
                   right: 10,
                   bottom: 10,
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       // นำทางไปยังหน้าแก้ไขโปรไฟล์
-                      Navigator.push(
+                      final result = await Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                        MaterialPageRoute(
+                          builder: (context) => EditProfileScreen(
+                            currentUsername: _username,
+                            currentImagePath: _imagePath,
+                          ),
+                        ),
                       );
+
+                      if (result != null && result is Map) {
+                        setState(() {
+                          _username = result['username'] ?? _username;
+                          _imagePath = result['imagePath'] ?? _imagePath;
+                        });
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: Color(0xFF59AC77), // สีเขียวอ่อน
+                        color: Colors.white, // สีเขียวอ่อน
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
+                        border: Border.all(color: Colors.grey.shade300, width: 2),
                       ),
-                      child: Icon(LucideIcons.pencil, color: Colors.white, size: 20),
+                      child: Icon(LucideIcons.pencil, color: Color(0xFF59AC77), size: 20),
                     ),
                   ),
                 )
               ],
             ),
             SizedBox(height: 15),
-            Text("PunPun", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'GoogleSans')),
+            Text(_username, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'GoogleSans')),
             SizedBox(height: 5),
             Text("PunKung@gmail.com", style: TextStyle(color: Colors.grey[600], fontSize: 14, fontFamily: 'GoogleSans')),
             SizedBox(height: 30),
@@ -86,66 +114,33 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: RadarChart(
-          RadarChartData(
-          // กำหนดข้อมูลระดับทักษะสำหรับแต่ละแกน (เช่น 5 แกน)
-          dataSets: [
-            RadarDataSet(
-              fillColor: Color(0xFFE8F5E9), // สีเขียวอ่อนสุดๆ
-              borderColor: Color(0xFF59AC77), // สีเขียวอ่อน
-              entryRadius: 0,
-              dataEntries: [
-                RadarEntry(value: 18), // ตัวอย่างคะแนน (ปรับให้ไม่เกิน 20)
-                RadarEntry(value: 14),
-                RadarEntry(value: 16),
-                RadarEntry(value: 12),
-                RadarEntry(value: 15),
-              ],
-            ),
-            // ข้อมูลจำลองที่โปร่งใสเพื่อขยายขอบเขตของ Chart ให้ครอบคลุมมากขึ้น
-            RadarDataSet(
-              fillColor: Colors.transparent,
-              borderColor: Colors.transparent,
-              entryRadius: 0,
-              dataEntries: [
-                RadarEntry(value: 20), // คะแนนสูงสุดคือ 20
-                RadarEntry(value: 20),
-                RadarEntry(value: 20),
-                RadarEntry(value: 20),
-                RadarEntry(value: 20),
-              ],
-            ),
-          ],
-          radarShape: RadarShape.polygon,
-          radarBackgroundColor: Colors.white,
-          borderData: FlBorderData(show: false),
-          radarBorderData: const BorderSide(color: Colors.transparent),
-          titlePositionPercentageOffset: 0.1,
-          titleTextStyle: const TextStyle(color: Colors.grey, fontSize: 12, fontFamily: 'GoogleSans'),
-          // กำหนดป้ายกำกับแกน
-          getTitle: (index, angle) {
-            switch (index) {
-              case 0:
-                return RadarChartTitle(text: 'Grammar');
-              case 1:
-                return RadarChartTitle(text: 'Vocab');
-              case 2:
-                return RadarChartTitle(text: 'Conversation');
-              case 3:
-                return RadarChartTitle(text: 'Sentence');
-              case 4:
-                return RadarChartTitle(text: 'Meaning');
-              default:
-                return const RadarChartTitle(text: '');
-            }
-          },
-          tickCount: 4,
-          ticksTextStyle: const TextStyle(color: Colors.transparent, fontFamily: 'GoogleSans'),
-          tickBorderData: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.5),
-          gridBorderData: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.5),
+        padding: const EdgeInsets.all(36.0),
+        child: Center(
+          child: SpiderChart(
+            data: const [
+              18.0, // Grammar
+              14.0, // Vocab
+              16.0, // Conversation
+              12.0, // Sentence
+              15.0, // Meaning
+            ],
+            maxValue: 20, // คะแนนเต็ม 20
+            colors: const [
+              Color(0xFF59AC77),
+              Color(0xFF59AC77),
+              Color(0xFF59AC77),
+              Color(0xFF59AC77),
+              Color(0xFF59AC77),
+            ],
+            labels: const [
+              'Grammar',
+              'Vocab',
+              'Conversation',
+              'Sentence',
+              'Meaning'
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

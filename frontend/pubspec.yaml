@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   lucide_icons: ^0.257.0
   fl_chart: ^1.2.0
+  spider_chart: ^0.2.0
+  image_picker: ^1.2.1
 
 
 dev_dependencies:
