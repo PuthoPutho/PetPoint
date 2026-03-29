@@ -11,6 +11,20 @@ class QuizDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int timePerQuestion = quizData.category.toLowerCase() == 'reading' ? 20 : 10;
+    final int totalSeconds = quizData.questionCount * timePerQuestion;
+    final int minutes = totalSeconds ~/ 60;
+    final int seconds = totalSeconds % 60;
+    
+    String timeDisplay = '';
+    if (minutes > 0 && seconds > 0) {
+      timeDisplay = '$minutes min $seconds sec';
+    } else if (minutes > 0) {
+      timeDisplay = '$minutes min';
+    } else {
+      timeDisplay = '$seconds sec';
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5), // พื้นหลังสีเทาอ่อน
       appBar: AppBar(
@@ -62,7 +76,7 @@ class QuizDetailScreen extends StatelessWidget {
 
               // 3. กล่องข้อมูล (ใช้ฟังก์ชัน _buildInfoRow ที่สร้างไว้ด้านล่าง)
               _buildInfoRow(LucideIcons.bookOpen, '${quizData.questionCount} questions', AppColors.primaryGreen),
-              _buildInfoRow(LucideIcons.timer, '${quizData.duration} minutes', AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.timer, timeDisplay, AppColors.primaryGreen),
               _buildInfoRow(LucideIcons.star, '${quizData.points} points', AppColors.primaryGreen),
               _buildInfoRow(LucideIcons.info, '${quizData.description} ', AppColors.primaryGreen),
 

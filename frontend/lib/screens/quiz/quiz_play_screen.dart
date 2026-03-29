@@ -23,7 +23,9 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   final List<int?> _userAnswers = [];
 
   Timer? _timer;
-  int _timeLeft = 10; // 60 วินาทีต่อข้อ
+  late int _timeLeft;
+
+  int get _maxTime => widget.quizData.category.toLowerCase() == 'reading' ? 20 : 10;
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   }
 
   void _startTimer() {
-    _timeLeft = 10;
+    _timeLeft = _maxTime;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
@@ -135,7 +137,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                 child: Stack(
                   children: [
                     FractionallySizedBox(
-                      widthFactor: _timeLeft / 10,
+                      widthFactor: _timeLeft / _maxTime,
                       child: Container(
                         decoration: BoxDecoration(
                           color: colorGreen,
@@ -171,24 +173,35 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Question ${_currentIndex + 1}',
-                        style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 16, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        currentQuestion.question,
-                        style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 32),
-
                       // ==========================================
-                      // 🔥 ส่วนของกรอบคำตอบยาวเต็มกรอบ มีช่องไฟ 🔥
+                      // 📝 ส่วนของคำถามที่สามารถเลื่อนอ่านได้ 📝
                       // ==========================================
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
-                            children: currentQuestion.choices.map((choice) {
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Question ${_currentIndex + 1}',
+                                style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 16, color: Colors.grey),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                currentQuestion.question,
+                                style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      // ==========================================
+                      // 🔥 ส่วนของกรอบคำตอบคงที่ยาวเต็มกรอบ มีช่องไฟ 🔥
+                      // ==========================================
+                      Column(
+                        children: currentQuestion.choices.map((choice) {
                               final isSelected = _selectedChoiceId == choice.id;
                               return GestureDetector(
                                 onTap: () {
@@ -219,9 +232,8 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                                 ),
                               );
                             }).toList(),
-                          ),
-                        ),
                       ),
+                      const SizedBox(height: 16),
                       // ==========================================
 
                       // 5. ปุ่ม Next
