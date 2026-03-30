@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NewsCard extends StatefulWidget { // เปลี่ยนเป็น StatefulWidget เพื่อเก็บสถานะ Hover
+class NewsCard extends StatefulWidget { 
   final String title;
   final String description;
   final String content;
@@ -19,7 +19,7 @@ class NewsCard extends StatefulWidget { // เปลี่ยนเป็น Sta
 }
 
 class _NewsCardState extends State<NewsCard> {
-  bool _isHovered = false; // ตัวแปรเก็บสถานะว่าเมาส์ชี้อยู่หรือไม่
+  bool _isHovered = false; 
 
   void _showDetails(BuildContext context) {
     showDialog(
@@ -103,7 +103,7 @@ class _NewsCardState extends State<NewsCard> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: SystemMouseCursors.click, // เปลี่ยนเป็นรูปนิ้วชี้เมื่อ Hover
+      cursor: SystemMouseCursors.click, 
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(

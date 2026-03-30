@@ -33,12 +33,12 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
         onTap: widget.onTap,
-        // --- ส่วนที่แก้ไข: ครอบการ์ดทั้งใบด้วย AnimatedScale ---
+        
         child: AnimatedScale(
-          // ขยายขนาดการ์ดทั้งใบ 5% (1.05) เมื่อ Hover
+          
           scale: _isHovered ? 1.0015 : 1.0, 
           duration: const Duration(milliseconds: 400),
-          curve: Curves.easeInOut, // ปรับ Curve ให้สมูทขึ้น
+          curve: Curves.easeInOut, 
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 100),
             decoration: BoxDecoration(
@@ -46,7 +46,6 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  // ปรับเงาให้เข้มและกระจายมากขึ้นเมื่อ Hover เพื่อให้ดู "ลอย" ขึ้น
                   color: Colors.black.withOpacity(_isHovered ? 0.15 : 0.05),
                   blurRadius: _isHovered ? 16 : 8,
                   spreadRadius: _isHovered ? 2 : 1,
@@ -77,7 +76,6 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
                   ),
                 ),
 
-                // ส่วนรายละเอียดด้านล่างภาพ
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(

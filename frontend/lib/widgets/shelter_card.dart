@@ -31,13 +31,13 @@ class _ShelterCardState extends State<ShelterCard> {
         onTapUp: (_) => setState(() => _isHovered = false),
         onTapCancel: () => setState(() => _isHovered = false),
         onTap: () {
-          // --- เมื่อกดการ์ด จะไปยังหน้า ShelterDetailScreen ---
+      
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ShelterDetailScreen(
                 title: widget.title,
-                subtitle: widget.subtitle, // ส่ง subtitle ไปเพื่อแก้ Error
+                subtitle: widget.subtitle, 
               ),
             ),
           );

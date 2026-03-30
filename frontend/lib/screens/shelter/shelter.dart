@@ -68,11 +68,10 @@ class ShelterScreen extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 24), // ระยะห่างระหว่างหัวกับรายการการ์ด
-          // --- ส่วนที่ 2: รายการ Shelter Card ---
+          const SizedBox(height: 24),
           ShelterCard(
             imageWidget: Image.asset(
-              'assets/shelter1.png', // ใส่ URL รูปภาพของคุณที่นี่
+              'assets/shelter1.png', 
               fit: BoxFit.cover,
             ),
             title: 'บ้านนางฟ้าของสัตว์จร',
@@ -80,18 +79,18 @@ class ShelterScreen extends StatelessWidget {
           ),
           ShelterCard(
             imageWidget: Image.asset(
-              'assets/shelter1.png', // ใส่ URL รูปภาพของคุณที่นี่
+              'assets/shelter1.png', 
               fit: BoxFit.cover,
             ),
             title: 'บ้านนางฟ้าของสัตว์จร',
             subtitle: 'จังหวัดสระบุรี',
           ),
 
-          const SizedBox(height: 80), // เผื่อระยะด้านล่าง
+          const SizedBox(height: 80), 
         ],
       ),
 
-      // // Bottom Navigation Bar (เปิดคอมเมนต์เพื่อให้เหมือนรูปต้นฉบับ)
+      // // Bottom Navigation Bar 
       // bottomNavigationBar: BottomNavigationBar(
       //   type: BottomNavigationBarType.fixed,
       //   selectedItemColor: const Color(0xFF67AC7D),

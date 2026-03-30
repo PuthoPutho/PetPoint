@@ -1,4 +1,3 @@
-// ไฟล์: lib/main.dart
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -13,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentScore = 80; 
   
-  // 1. เปลี่ยนตัวแปรมาใช้เช็คสถานะการ Hover (เอาเมาส์ชี้) แทน
+  
   bool _isMegaphoneHovered = false;
 
   String _getCatImage(int score) {
@@ -31,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 1. สีพื้นหลัง
+          
           Column(
             children: [
               Expanded(
@@ -45,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
 
-          // 2. รูปน้องแมว
+        
           Align(
             alignment: const Alignment(0, 0.15), 
             child: Image.asset(
@@ -55,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // 3. ส่วนเนื้อหา
+          
           SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween, 
@@ -91,27 +90,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       
-                      // ** จุดที่แก้ไข: ใช้ MouseRegion คลุมเพื่อจับการ Hover **
+                     
                       MouseRegion(
-                        // เปลี่ยนเคอร์เซอร์เมาส์เป็นรูปนิ้วชี้
+                        
                         cursor: SystemMouseCursors.click, 
-                        // เมื่อเมาส์ชี้เข้ามาที่ปุ่ม
+                        
                         onEnter: (_) {
                           setState(() {
                             _isMegaphoneHovered = true;
                           });
                         },
-                        // เมื่อเมาส์เลื่อนออกไปจากปุ่ม
+                        
                         onExit: (_) {
                           setState(() {
                             _isMegaphoneHovered = false;
                           });
                         },
                         child: GestureDetector(
-                          // ยังคงใช้ onTap เพื่อให้คลิกเปลี่ยนหน้าได้
+                          
                           onTap: () {
-                            // (ถ้าต้องการให้สีกลับเป็นปกติก่อนเปลี่ยนหน้า เปิดโค้ดด้านล่างนี้ได้ครับ)
-                            // setState(() { _isMegaphoneHovered = false; });
                             
                             Navigator.push(
                               context,
@@ -121,12 +118,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                           child: AnimatedContainer( 
-                            duration: const Duration(milliseconds: 200), // ปรับให้เปลี่ยนสีนุ่มๆ ที่ 200ms
+                            duration: const Duration(milliseconds: 200),
                             decoration: BoxDecoration(
-                              // เงื่อนไข: ถ้าเมาส์ชี้ (Hover) ให้ใช้สีเข้ม ถ้าไม่ได้ชี้ให้ใช้สีปกติ
+                              
                               color: _isMegaphoneHovered 
-                                  ? const Color(0xFFE5C850) // สีเหลืองเข้มตอน Hover
-                                  : const Color(0xFFFCE380), // สีปุ่มปกติ
+                                  ? const Color(0xFFE5C850) 
+                                  : const Color(0xFFFCE380), 
                               shape: BoxShape.circle,
                             ),
                             padding: const EdgeInsets.all(12),
@@ -143,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                // -- การ์ด Quiz XP --
+                // -- Quiz XP --
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24.0,

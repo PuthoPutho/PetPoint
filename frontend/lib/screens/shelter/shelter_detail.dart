@@ -10,10 +10,10 @@ class ShelterDetailScreen extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
-    this.imagePath = 'assets/shelter1.png', // เปลี่ยนเป็น path รูปของคุณ
+    this.imagePath = 'assets/shelter1.png', 
   });
 
-  // --- ฟังก์ชันสำหรับแสดง Popup ยืนยัน ---
+  
   void _showSuccessDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -133,7 +133,7 @@ class ShelterDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // นำตัวแปร subtitle มาแสดงผลตรงนี้
+                
                 _buildInfoRow(icon: LucideIcons.mapPin, text: subtitle),
                 _buildInfoRow(
                   icon: LucideIcons.user,
