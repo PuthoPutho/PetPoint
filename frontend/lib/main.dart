@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/quiz.dart';
 import 'package:frontend/screens/login/login.dart';
 //import 'package:frontend/screens/signup/sign_up.dart';
 import 'package:frontend/screens/home/home.dart';
+import 'package:frontend/screens/quiz/quiz_detail_screen.dart';
 import 'package:frontend/screens/quiz/quiz_list_screen.dart';
 //import 'screens/quiz/quiz_list_screen.dart';
 //import 'package:frontend/screens/home/home.dart';
 import 'package:frontend/screens/shelter/shelter.dart';
 import 'package:frontend/screens/myprofile/profile_screen.dart';
-
+import 'package:frontend/screens/allscore/all_score.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +33,21 @@ class MyApp extends StatelessWidget {
       // ตั้งค่าเริ่มต้นเปิดมาเป็นหน้าโฮม (Home Screen)
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/': (context) => const AllScoreScreen(),
+        // '/': (context) => QuizDetailScreen(
+        //   quizData: Quiz(
+        //     uuid: '1',
+        //     title: 'Quiz 1',
+        //     description: 'Description 1',
+        //     category: 'Category 1',
+        //     points: 1,
+        //     duration: 1,
+        //     questionCount: 1,
+        //     level: 'Level 1',
+        //     tag: 'Tag 1',
+        //     createdAt: DateTime.now(),
+        //   ),
+        // ),
         // ตัวอย่างการเพิ่มหน้าอื่นๆ (ตอนนี้ใส่ placeholder ไว้ก่อนเพื่อไม่ให้ App Crash เวลาคลิกเมนู)
         '/foster': (context) => const PlaceholderScreen(title: 'Foster'),
         '/score': (context) => const PlaceholderScreen(title: 'Score'),
