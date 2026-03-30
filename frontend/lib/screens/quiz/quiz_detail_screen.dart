@@ -11,8 +11,7 @@ class QuizDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int timePerQuestion = quizData.category.toLowerCase() == 'reading' ? 20 : 10;
-    final int totalSeconds = quizData.questionCount * timePerQuestion;
+    final int totalSeconds = quizData.duration;
     final int minutes = totalSeconds ~/ 60;
     final int seconds = totalSeconds % 60;
     

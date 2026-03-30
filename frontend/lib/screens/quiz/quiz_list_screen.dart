@@ -11,6 +11,9 @@ class QuizListScreen extends StatefulWidget {
 }
 
 class _QuizListScreenState extends State<QuizListScreen> {
+  bool _isCategoryExpanded = false;
+  bool _isTimeFilterExpanded = false;
+  
   final List<String> categories = [
     'All Category',
     'Vocabulary',
@@ -105,136 +108,135 @@ class _QuizListScreenState extends State<QuizListScreen> {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.grey.shade300, width: 1),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: selectedCategory,
-                        isExpanded: true,
-                        icon: const Icon(LucideIcons.chevronDown, color: Colors.grey),
-                        dropdownColor: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        elevation: 2,
-                        selectedItemBuilder: (BuildContext context) {
-                          return categories.map<Widget>((String item) {
-                            return Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
-                              ),
-                            );
-                          }).toList();
-                        },
-                        items: categories.map((String category) {
-                          final isSelected = category == selectedCategory;
-                          return DropdownMenuItem<String>(
-                            value: category,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  category,
-                                  style: TextStyle(fontFamily: 'GoogleSans', 
-                                    color: isSelected ? Colors.black87 : Colors.grey.shade700,
-                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                                  ),
-                                ),
-                                if (isSelected)
-                                  const Icon(LucideIcons.check, size: 18, color: Colors.black87),
-                              ],
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isCategoryExpanded = !_isCategoryExpanded;
+                        if (_isCategoryExpanded) _isTimeFilterExpanded = false;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: Colors.grey.shade300, width: 1),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              selectedCategory,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
                             ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() {
-                              selectedCategory = newValue;
-                            });
-                          }
-                        },
+                          ),
+                          Icon(_isCategoryExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, color: Colors.grey, size: 20),
+                        ],
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.grey.shade300, width: 1),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: selectedTimeFilter,
-                        isExpanded: true,
-                        icon: const Icon(LucideIcons.chevronDown, color: Colors.grey),
-                        dropdownColor: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        elevation: 2,
-                        selectedItemBuilder: (BuildContext context) {
-                          return timeFilters.map<Widget>((String item) {
-                            return Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
-                              ),
-                            );
-                          }).toList();
-                        },
-                        items: timeFilters.map((String filter) {
-                          final isSelected = filter == selectedTimeFilter;
-                          return DropdownMenuItem<String>(
-                            value: filter,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  filter,
-                                  style: TextStyle(fontFamily: 'GoogleSans', 
-                                    color: isSelected ? Colors.black87 : Colors.grey.shade700,
-                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                                  ),
-                                ),
-                                if (isSelected)
-                                  const Icon(LucideIcons.check, size: 18, color: Colors.black87),
-                              ],
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isTimeFilterExpanded = !_isTimeFilterExpanded;
+                        if (_isTimeFilterExpanded) _isCategoryExpanded = false;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: Colors.grey.shade300, width: 1),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              selectedTimeFilter,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
                             ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() {
-                              selectedTimeFilter = newValue;
-                            });
-                          }
-                        },
+                          ),
+                          Icon(_isTimeFilterExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, color: Colors.grey, size: 20),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
 
-            // 3. รายการการ์ดแบบเลื่อนได้ (List of Cards)
+            // 3. รายการการ์ดแบบเลื่อนได้ (และลอยทับเมนู)
             Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                padding: const EdgeInsets.only(bottom: 24),
-                itemCount: quizzes.length,
-                itemBuilder: (context, index) {
-                  // เรียกใช้เลโก้ QuizCard ที่เราสร้างไว้
-                  return QuizCard(quizData: quizzes[index]);
-                },
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    padding: const EdgeInsets.only(top: 8, bottom: 24),
+                    itemCount: quizzes.length,
+                    itemBuilder: (context, index) {
+                      return QuizCard(quizData: quizzes[index]);
+                    },
+                  ),
+                  
+                  // เลเยอร์จับการกดพื้นหลังเพื่อปิดเมนู
+                  if (_isCategoryExpanded || _isTimeFilterExpanded)
+                    Positioned.fill(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          setState(() {
+                            _isCategoryExpanded = false;
+                            _isTimeFilterExpanded = false;
+                          });
+                        },
+                      ),
+                    ),
+
+                  // เลเยอร์เมนูแบบลอยทับ
+                  if (_isCategoryExpanded || _isTimeFilterExpanded)
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: _isCategoryExpanded
+                                ? _buildCustomMenu(categories, selectedCategory, (val) {
+                                    setState(() {
+                                      selectedCategory = val;
+                                      _isCategoryExpanded = false;
+                                    });
+                                  })
+                                : const SizedBox.shrink(),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: _isTimeFilterExpanded
+                                ? _buildCustomMenu(timeFilters, selectedTimeFilter, (val) {
+                                    setState(() {
+                                      selectedTimeFilter = val;
+                                      _isTimeFilterExpanded = false;
+                                    });
+                                  })
+                                : const SizedBox.shrink(),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
               ),
             ),
           ],
@@ -244,4 +246,43 @@ class _QuizListScreenState extends State<QuizListScreen> {
     );
   }
 
+  Widget _buildCustomMenu(List<String> items, String selectedValue, Function(String) onSelect) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: items.map((item) {
+            final isSelected = item == selectedValue;
+            return InkWell(
+              onTap: () => onSelect(item),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                color: isSelected ? const Color(0xFFF0FDF4) : Colors.transparent, // เขียวเป๊ะถึงขอบ
+                child: Text(
+                  item,
+                  style: TextStyle(
+                    fontFamily: 'GoogleSans',
+                    color: Colors.grey.shade700,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
 }
