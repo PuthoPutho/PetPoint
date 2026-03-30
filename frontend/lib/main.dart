@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: const LoginScreen(), // เปลี่ยนหน้าแรกเป็นหน้า Quiz
-      // ตั้งค่าเริ่มต้นเปิดมาเป็นหน้าโฮม (Home Screen)
+      // home: const LoginScreen(), 
+  
       initialRoute: '/',
       routes: {
         '/': (context) => const AllScoreScreen(),
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         //     createdAt: DateTime.now(),
         //   ),
         // ),
-        // ตัวอย่างการเพิ่มหน้าอื่นๆ (ตอนนี้ใส่ placeholder ไว้ก่อนเพื่อไม่ให้ App Crash เวลาคลิกเมนู)
+        
         '/foster': (context) => const PlaceholderScreen(title: 'Foster'),
         '/score': (context) => const PlaceholderScreen(title: 'Score'),
         '/quiz': (context) => const PlaceholderScreen(title: 'Quiz'),

@@ -10,12 +10,12 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // คอมเมนต์ตัวแปรนี้ไว้ก่อน
+  
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
   bool _isHoveringLogin = false;
 
   Future<void> _handleGoogleSignIn() async {
-    // จำลองการทำงานไปก่อน
+    
     print("Google Sign-In Clicked! (Mock)");
     /*
     try {
@@ -40,7 +40,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         bottom: false,
         child: Stack(
           children: [
-            // 1. ส่วนหัวข้อ "Sign Up"
             const Positioned(
               top: 60,
               left: 0,
@@ -57,9 +56,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
 
-            // 2. รูปน้องแมว (ปรับ bottom ลงมาเพื่อไม่ให้ดันขึ้นไปทับข้อความ)
+            
             Positioned(
-              bottom: 470, // ปรับลงมาจาก 530
+              bottom: 470, 
               left: 0,
               right: 0,
               child: Image.asset(
@@ -76,12 +75,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
 
-            // 3. ส่วนฟอร์มสีขาว (ปรับความสูงลดลงเพื่อให้กล่องเตี้ยลง)
+       
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: double.infinity,
-                height: 550, // ปรับลงมาจาก 600
+                height: 550,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(35)),

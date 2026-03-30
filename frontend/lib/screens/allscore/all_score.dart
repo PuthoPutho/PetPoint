@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/quiz.dart';
 import 'package:frontend/screens/quiz/quiz_detail_screen.dart';
 import 'package:frontend/services/mock_quiz_service.dart';
-// อย่าลืมตรวจสอบ path import ให้ถูกต้องนะครับ
-import '../../widgets/quiz_history_card.dart';
 
-// --- 1. Import หน้า QuizDetailScreen ของคุณที่นี่ ---
-// import 'quiz_detail_screen.dart';
+import '../../widgets/quiz_history_card.dart';
 
 class AllScoreScreen extends StatefulWidget {
   const AllScoreScreen({Key? key}) : super(key: key);
@@ -90,7 +87,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
 
                 const SizedBox(height: 16),
 
-                // --- ส่วนปุ่ม Dropdown ---
+                // Dropdown
                 Theme(
                   data: Theme.of(context).copyWith(
                     popupMenuTheme: const PopupMenuThemeData(
@@ -168,7 +165,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
                   ),
                 ),
 
-                // --- จบส่วนปุ่ม Dropdown ---
+                //end
                 const SizedBox(height: 20),
 
                 if (displayData.isEmpty)
@@ -199,13 +196,11 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
                           score: "0",
                           points: "0",
                           imagePath: "assets/vocab_a1_part1.png",
-                          // --- 2. เพิ่มส่วน onTap ตรงนี้ เพื่อให้เมื่อคลิกแล้วเปลี่ยนหน้า ---
+                          //onTap
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                // *ข้อควรระวัง: ถ้า QuizDetailScreen ของคุณบังคับรับ Parameter
-                                // อย่าลืมโยนข้อมูลจาก data[...] เข้าไปด้วยนะครับ
                                 builder: (context) => QuizDetailScreen(
                                   quizData: Quiz(
                                     uuid: data.uuid,
@@ -333,7 +328,6 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
   }
 }
 
-// --- Widget ใหม่สำหรับจัดการ Hover Effect ---
 class _HoverMenuItem extends StatefulWidget {
   final String value;
   final bool isFirst;
