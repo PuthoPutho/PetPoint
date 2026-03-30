@@ -13,7 +13,7 @@ class MockQuizService {
         level: 'A1', // 👈 เพิ่ม Level เข้าไป
         points: 10,
         createdAt: now.subtract(const Duration(days: 2)),
-        duration: 1, 
+        duration: 100, // 👈 10 วินาที x 10 ข้อ
         questionCount: 10, 
         tag: 'Part 1',
       ),
@@ -25,7 +25,7 @@ class MockQuizService {
         level: 'A1', // 👈 เพิ่ม Level
         points: 10,
         createdAt: now.subtract(const Duration(days: 15)),
-        duration: 1, 
+        duration: 100, // 👈 10 วินาที x 10 ข้อ
         questionCount: 10, 
         tag: 'Part 1',
       ),
@@ -37,7 +37,7 @@ class MockQuizService {
         level: 'A1', // 👈 เพิ่ม Level
         points: 10,
         createdAt: now.subtract(const Duration(days: 45)),
-        duration: 1, 
+        duration: 200, // 👈 20 วินาที x 10 ข้อ
         questionCount: 10, 
         tag: 'Part 1',
       ),
@@ -49,7 +49,7 @@ class MockQuizService {
         level: 'A1', // 👈 ลองให้เป็น A2 บ้าง
         points: 10,
         createdAt: now.subtract(const Duration(days: 5)),
-        duration: 1, 
+        duration: 100, // 👈 10 วินาที x 10 ข้อ
         questionCount: 10, 
         tag: 'Part 1',
       ),
@@ -61,7 +61,7 @@ class MockQuizService {
         level: 'A2', // 👈 ลองให้เป็น B1
         points: 10,
         createdAt: now.subtract(const Duration(days: 400)),
-        duration: 1, 
+        duration: 100, // 👈 10 วินาที x 10 ข้อ
         questionCount: 10, 
         tag: 'Part 1',
       ),
@@ -73,7 +73,7 @@ class MockQuizService {
         level: 'A2', // 👈 ลองให้เป็น B2
         points: 10,
         createdAt: now.subtract(const Duration(days: 20)),
-        duration: 1, 
+        duration: 100, // 👈 10 วินาที x 10 ข้อ
         questionCount: 10, 
         tag: 'Part 2',
       ),

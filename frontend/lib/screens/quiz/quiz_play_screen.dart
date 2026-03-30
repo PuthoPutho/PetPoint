@@ -25,7 +25,10 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   Timer? _timer;
   late int _timeLeft;
 
-  int get _maxTime => widget.quizData.category.toLowerCase() == 'reading' ? 20 : 10;
+  int get _maxTime {
+    if (widget.quizData.questionCount <= 0) return 10; // Fallback
+    return widget.quizData.duration ~/ widget.quizData.questionCount;
+  }
 
   @override
   void initState() {
