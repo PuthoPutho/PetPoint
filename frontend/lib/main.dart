@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/home/home.dart';
-import 'package:frontend/screens/quiz/quiz_list_screen.dart';
-//import 'screens/quiz/quiz_list_screen.dart';
-//import 'package:frontend/screens/home/home.dart';
-import 'package:frontend/screens/shelter/shelter.dart';
-
+import 'package:frontend/screens/login/login.dart';
+//import 'package:frontend/screens/signup/sign_up.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,11 +20,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const ShelterScreen(), // เปลี่ยนหน้าแรกเป็นหน้า Quiz
+      // home: const LoginScreen(), // เปลี่ยนหน้าแรกเป็นหน้า Quiz
       // ตั้งค่าเริ่มต้นเปิดมาเป็นหน้าโฮม (Home Screen)
       initialRoute: '/',
       routes: {
-        // '/': (context) => const HomeScreen(),
+        '/': (context) => const LoginScreen(),
         // ตัวอย่างการเพิ่มหน้าอื่นๆ (ตอนนี้ใส่ placeholder ไว้ก่อนเพื่อไม่ให้ App Crash เวลาคลิกเมนู)
         '/foster': (context) => const PlaceholderScreen(title: 'Foster'),
         '/score': (context) => const PlaceholderScreen(title: 'Score'),
