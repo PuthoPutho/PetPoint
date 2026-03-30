@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/login/login.dart';
 //import 'package:frontend/screens/signup/sign_up.dart';
+import 'package:frontend/screens/home/home.dart';
+import 'package:frontend/screens/quiz/quiz_list_screen.dart';
+//import 'screens/quiz/quiz_list_screen.dart';
+//import 'package:frontend/screens/home/home.dart';
+import 'package:frontend/screens/shelter/shelter.dart';
+import 'package:frontend/screens/myprofile/profile_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
