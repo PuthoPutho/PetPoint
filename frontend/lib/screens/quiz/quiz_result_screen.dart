@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/quiz.dart';
 import '../../models/question.dart';
-import 'quiz_list_screen.dart'; // สำหรับกด Next แล้วกลับหน้าแรก
+import '../main_navigation.dart'; // สำหรับกด Next แล้วกลับหน้าแรก
 
 class QuizResultScreen extends StatelessWidget {
   final Quiz quizData;
@@ -101,10 +101,10 @@ class QuizResultScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () {
-                    // กด Next ให้เคลียร์หน้าจอทั้งหมดแล้วกลับไป MainScreen (หน้าโฮม)
+                    // กด Next ให้เคลียร์หน้าจอทั้งหมดแล้วกลับไป MainScreen แท็บ Quiz
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const QuizListScreen()),
+                      MaterialPageRoute(builder: (context) => const MainNavigationScreen(initialIndex: 3)),
                       (route) => false,
                     );
                   },

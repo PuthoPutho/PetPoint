@@ -10,6 +10,7 @@ import 'package:frontend/screens/quiz/quiz_list_screen.dart';
 import 'package:frontend/screens/shelter/shelter.dart';
 import 'package:frontend/screens/myprofile/profile_screen.dart';
 import 'package:frontend/screens/allscore/all_score.dart';
+import 'package:frontend/screens/main_navigation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
   
       initialRoute: '/',
       routes: {
-        '/': (context) => const AllScoreScreen(),
+        '/': (context) => const MainNavigationScreen(),
         // '/': (context) => QuizDetailScreen(
         //   quizData: Quiz(
         //     uuid: '1',
