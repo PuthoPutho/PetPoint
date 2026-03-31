@@ -68,7 +68,7 @@ class QuizResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     
-                    // 🐱 รูปแมว (ใช้ Transform ทับช่องว่างของกรอบรูปใสๆ ดึงให้มือแมวลงมาเกาะที่ขอบสีเขียว)
+                    //(ใช้ Transform ทับช่องว่างของกรอบรูปใสๆ ดึงให้มือแมวลงมาเกาะที่ขอบสีเขียว)
                     Transform.translate(
                       offset: const Offset(0, 48), // ดึงภาพลงมาข้างล่าง 34 พิกเซลให้สนิทเป๊ะ
                       child: Image.asset(
@@ -78,7 +78,7 @@ class QuizResultScreen extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                       ),
                     ),
-                    // นำ SizedBox ขวางออก เพื่อให้รูปแมวนั่งติดขอบกล่องสถิติด้านล่างพอดี
+                    
 
                     // กล่องสถิติ 3 ช่อง (Total, Correct, Wrong)
                     Container(
