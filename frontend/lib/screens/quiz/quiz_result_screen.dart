@@ -29,7 +29,7 @@ class QuizResultScreen extends StatelessWidget {
     final colorGreen = const Color(0xFF59AC77);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -44,6 +44,14 @@ class QuizResultScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                  border: Border.all(color: Colors.grey.withOpacity(0.1)),
                 ),
                 child: Column(
                   children: [
@@ -60,12 +68,17 @@ class QuizResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     
-                    // 🐱 รูปแมว (เปลี่ยนเป็น path รูปที่คุณมีได้เลย เช่น 'assets/cat.png')
-                    Image.network(
-                      'https://cdn-icons-png.flaticon.com/512/616/616430.png', 
-                      height: 120,
+                    //(ใช้ Transform ทับช่องว่างของกรอบรูปใสๆ ดึงให้มือแมวลงมาเกาะที่ขอบสีเขียว)
+                    Transform.translate(
+                      offset: const Offset(0, 48), // ดึงภาพลงมาข้างล่าง 34 พิกเซลให้สนิทเป๊ะ
+                      child: Image.asset(
+                        'assets/catresult.png', 
+                        height: 150,
+                        fit: BoxFit.contain,
+                        alignment: Alignment.bottomCenter,
+                      ),
                     ),
-                    const SizedBox(height: 16),
+                    
 
                     // กล่องสถิติ 3 ช่อง (Total, Correct, Wrong)
                     Container(
@@ -122,6 +135,14 @@ class QuizResultScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                  border: Border.all(color: Colors.grey.withOpacity(0.1)),
                 ),
                 child: Column(
                   children: [

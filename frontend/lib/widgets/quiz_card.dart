@@ -13,16 +13,22 @@ class QuizCard extends StatelessWidget {
       width: 336,
       height: 218,
       margin: const EdgeInsets.only(bottom: 16.0),
-      child: Card(
-        margin: EdgeInsets.zero,
-        color: Colors.white,
-        clipBehavior: Clip.antiAlias, // ทำให้มุมการ์ดโค้งมนกินเข้าไปในรูป
-        shape: RoundedRectangleBorder(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: Colors.grey.shade200, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          border: Border.all(color: Colors.grey.withOpacity(0.1)),
         ),
-        elevation: 0, // ลดเงาให้ดูแบนๆ คล้ายดีไซน์
-        child: InkWell(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: InkWell(
           onTap: () {
             Navigator.push(
             context,
@@ -83,6 +89,7 @@ class QuizCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
         ),
       ),
     );
