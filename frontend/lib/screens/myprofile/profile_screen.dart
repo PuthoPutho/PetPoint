@@ -19,8 +19,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
 
             SizedBox(height: 20),
             Text("Profile", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'GoogleSans',)),
@@ -92,6 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: 30),
             _buildSettingsList(),
           ],
+        ),
         ),
       ),
     );
