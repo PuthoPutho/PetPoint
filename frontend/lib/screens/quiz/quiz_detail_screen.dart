@@ -25,7 +25,7 @@ class QuizDetailScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5), // พื้นหลังสีเทาอ่อน
+      backgroundColor: Colors.white, // พื้นหลังขาวตาม Figma
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -42,7 +42,15 @@ class QuizDetailScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24), // กล่องโค้งมนตามดีไซน์
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
+            ],
+            border: Border.all(color: Colors.grey.withOpacity(0.1)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
