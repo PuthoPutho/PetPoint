@@ -1,5 +1,19 @@
-import { pgTable, serial, text, integer, uuid, boolean, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, uuid, boolean, timestamp } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
+
+
+export const user = pgTable('user', {
+  uuid: uuid('uuid').primaryKey().defaultRandom(),
+  profileImage: text('profile_image'),
+  username: text('username').notNull(),
+  email: text('email').notNull().unique(),
+  password: text('password'), 
+  provider: text('provider').default('local'),
+  currentScore: integer('current_score').default(0),
+  equippedPet: text('equipped_pet').default('cat_orange'), // เก็บ Pet ที่กำลังใช้งาน
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
 
 export const quiz = pgTable('quiz', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
@@ -7,19 +21,17 @@ export const quiz = pgTable('quiz', {
   description: text('description'),
   category: text('category').notNull(),
   level: text('level').notNull(),
+  tag: integer('tag').notNull(),
   quizImage: text('image'), 
   duration: integer('duration'),
   points: integer('points'),
   createdAt: timestamp('created_at').defaultNow(),
 });
 
-
 export const questions = pgTable('questions', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
   quizId: uuid('quiz_id').references(() => quiz.uuid, { onDelete: 'cascade' }).notNull(),
   question: text('question').notNull(),
-  category: text('category').notNull(),
-  level: text('level').notNull(),
   explanation: text('explanation').notNull(), 
 }); 
 
@@ -30,15 +42,33 @@ export const choices = pgTable('choices', {
   questionId: uuid('question_id').references(() => questions.uuid, { onDelete: 'cascade' }).notNull(),
 });
 
-export const user = pgTable('user', {
+export const quiz_attempts = pgTable('quiz_attempts', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
-  profileImage: text('profile_image'),
-  username: text('username').notNull(),
-  email: text('email').notNull().unique(), // Added unique constraint to prevent duplicate accounts
-  password: text('password'), // Removed notNull to allow Google Login (which has no password)
-  provider: text('provider').default('local'), // Added provider column (e.g., 'local', 'google')
-  currentScore: integer('current_score').default(0),
+  userId: uuid('user_id').references(() => user.uuid, { onDelete: 'cascade' }).notNull(),
+  quizId: uuid('quiz_id').references(() => quiz.uuid, { onDelete: 'cascade' }).notNull(),
+  score: integer('score').notNull(), 
   createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const quiz_history = pgTable('quiz_history', {
+  uuid: uuid('uuid').primaryKey().defaultRandom(),
+  attemptId: uuid('attempt_id').references(() => quiz_attempts.uuid, { onDelete: 'cascade' }).notNull(),
+  userId: uuid('user_id').references(() => user.uuid, { onDelete: 'cascade' }).notNull(),
+  questionId: uuid('question_id').references(() => questions.uuid, { onDelete: 'cascade' }).notNull(),
+  choiceId: uuid('choice_id').references(() => choices.uuid, { onDelete: 'cascade' }).notNull(),
+  isCorrect: boolean('is_correct').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const user_skill_stats = pgTable('user_skill_stats', {
+  uuid: uuid('uuid').primaryKey().defaultRandom(),
+  userId: uuid('user_id').references(() => user.uuid, { onDelete: 'cascade' }).notNull().unique(), // 1 คนมีแค่ 1 แถว
+  grammar: integer('grammar').default(0),
+  vocab: integer('vocab').default(0),
+  conversation: integer('conversation').default(0),
+  sentence: integer('sentence').default(0),
+  reading: integer('reading').default(0),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export const shelter = pgTable('shelter', {
@@ -55,68 +85,27 @@ export const shelter = pgTable('shelter', {
 export const donation = pgTable('donation', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
   amount: integer('amount').notNull(),
-  userId: uuid('user_id')
-    .references(() => user.uuid, { onDelete: 'cascade' })
-    .notNull(),
-
-  shelterId: uuid('shelter_id')
-    .references(() => shelter.uuid, { onDelete: 'cascade' })
-    .notNull(),
-  
+  userId: uuid('user_id').references(() => user.uuid, { onDelete: 'cascade' }).notNull(),
+  shelterId: uuid('shelter_id').references(() => shelter.uuid, { onDelete: 'cascade' }).notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 }); 
 
-export const quiz_history = pgTable('quiz_history', {
-  uuid: uuid('uuid').primaryKey().defaultRandom(),
-  userId: uuid('user_id')
-    .references(() => user.uuid, { onDelete: 'cascade' })
-    .notNull(),
-  questionId: uuid('questions_id')
-    .references(() => questions.uuid, { onDelete: 'cascade' })
-    .notNull(),
-  choiceId: uuid('choices_id')
-    .references(() => choices.uuid, { onDelete: 'cascade' })
-    .notNull(),
-  isCorrect: boolean('is_correct').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-}); 
+// RELATIONS
 
-export const score_history = pgTable('score_history', {
-  uuid: uuid('uuid').primaryKey().defaultRandom(),
-
-  userId: uuid('user_id')
-    .references(() => user.uuid, { onDelete: 'cascade' })
-    .notNull(),
-
-  grammar: integer('grammar').default(0),
-  vocab: integer('vocab').default(0),
-  conversation: integer('conversation').default(0),
-  sentence: integer('sentence').default(0),
-  reading: integer('reading').default(0),
-
-  createdAt: timestamp('created_at').defaultNow(),
-});
-
-
-//rules
-
-//quiz
 export const quizRelations = relations(quiz, ({ many }) => ({
   questions: many(questions),
+  attempts: many(quiz_attempts),
 }));
 
-//questions
 export const questionsRelations = relations(questions, ({ one, many }) => ({
-  choices: many(choices),
-  quizHistory: many(quiz_history),
-
   quiz: one(quiz, {
     fields: [questions.quizId],
     references: [quiz.uuid],
   }),
+  choices: many(choices),
+  quizHistory: many(quiz_history),
 }));
 
-//choices
 export const choicesRelations = relations(choices, ({ one, many }) => ({
   question: one(questions, {
     fields: [choices.questionId],
@@ -125,19 +114,17 @@ export const choicesRelations = relations(choices, ({ one, many }) => ({
   quizHistory: many(quiz_history),
 }));
 
-//user
-export const userRelations = relations(user, ({ many }) => ({
+export const userRelations = relations(user, ({ one, many }) => ({
   donations: many(donation),
+  attempts: many(quiz_attempts),
   quizHistory: many(quiz_history),
-  histories: many(score_history),
+  skillStats: one(user_skill_stats), 
 }));
 
-//shelter
 export const shelterRelations = relations(shelter, ({ many }) => ({
   donations: many(donation),
 }));
 
-//donation
 export const donationRelations = relations(donation, ({ one }) => ({
   user: one(user, {
     fields: [donation.userId],
@@ -149,8 +136,23 @@ export const donationRelations = relations(donation, ({ one }) => ({
   }),
 }));
 
-//quiz_history
-export const quiz_historyRelations = relations(quiz_history, ({ one }) => ({
+export const quizAttemptsRelations = relations(quiz_attempts, ({ one, many }) => ({
+  user: one(user, {
+    fields: [quiz_attempts.userId],
+    references: [user.uuid],
+  }),
+  quiz: one(quiz, {
+    fields: [quiz_attempts.quizId],
+    references: [quiz.uuid],
+  }),
+  answers: many(quiz_history),
+}));
+
+export const quizHistoryRelations = relations(quiz_history, ({ one }) => ({
+  attempt: one(quiz_attempts, {
+    fields: [quiz_history.attemptId],
+    references: [quiz_attempts.uuid],
+  }),
   user: one(user, {
     fields: [quiz_history.userId],
     references: [user.uuid],
@@ -165,10 +167,9 @@ export const quiz_historyRelations = relations(quiz_history, ({ one }) => ({
   }),
 }));
 
-//score_history
-export const score_historyRelations = relations(score_history, ({ one }) => ({
+export const userSkillStatsRelations = relations(user_skill_stats, ({ one }) => ({
   user: one(user, {
-    fields: [score_history.userId],
+    fields: [user_skill_stats.userId],
     references: [user.uuid],
   }),
 }));
