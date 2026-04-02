@@ -1,0 +1,1125 @@
+[
+  {
+    "title": "Vocabulary A1",
+    "description": "Learn common words and everyday vocabulary.",
+    "category": "Vocabulary",
+    "level": "A1",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "What is the meaning of 'apple'?",
+        "explanation": "Apple คือแอปเปิล เป็นผลไม้ชนิดหนึ่ง",
+        "choices": [
+          { "text": "A fruit", "isCorrect": true },
+          { "text": "A car", "isCorrect": false },
+          { "text": "A city", "isCorrect": false },
+          { "text": "A job", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is a 'dog'?",
+        "explanation": "Dog คือสุนัข เป็นสัตว์เลี้ยง",
+        "choices": [
+          { "text": "A plant", "isCorrect": false },
+          { "text": "An animal", "isCorrect": true },
+          { "text": "A color", "isCorrect": false },
+          { "text": "A building", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Which of these is a color?",
+        "explanation": "Red แปลว่า สีแดง",
+        "choices": [
+          { "text": "Red", "isCorrect": true },
+          { "text": "One", "isCorrect": false },
+          { "text": "Water", "isCorrect": false },
+          { "text": "Monday", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What do you do with a 'book'?",
+        "explanation": "Book คือหนังสือ เราใช้สำหรับอ่าน (read)",
+        "choices": [
+          { "text": "Eat it", "isCorrect": false },
+          { "text": "Drink it", "isCorrect": false },
+          { "text": "Read it", "isCorrect": true },
+          { "text": "Wear it", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is 'water'?",
+        "explanation": "Water คือน้ำ เป็นเครื่องดื่ม (drink)",
+        "choices": [
+          { "text": "A food", "isCorrect": false },
+          { "text": "A drink", "isCorrect": true },
+          { "text": "A place", "isCorrect": false },
+          { "text": "An animal", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Where can you see the 'sun'?",
+        "explanation": "Sun คือดวงอาทิตย์ เราสามารถมองเห็นได้บนท้องฟ้า (sky)",
+        "choices": [
+          { "text": "In the sky", "isCorrect": true },
+          { "text": "Under the bed", "isCorrect": false },
+          { "text": "In the fridge", "isCorrect": false },
+          { "text": "On the computer", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is a 'chair' used for?",
+        "explanation": "Chair คือเก้าอี้ ใช้สำหรับนั่ง (sitting)",
+        "choices": [
+          { "text": "For sleeping", "isCorrect": false },
+          { "text": "For driving", "isCorrect": false },
+          { "text": "For sitting", "isCorrect": true },
+          { "text": "For swimming", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Where do you wear a 'shoe'?",
+        "explanation": "Shoe คือรองเท้า ต้องสวมใส่ที่เท้า (foot)",
+        "choices": [
+          { "text": "On the head", "isCorrect": false },
+          { "text": "On the hand", "isCorrect": false },
+          { "text": "On the foot", "isCorrect": true },
+          { "text": "On the neck", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is a 'pen' used for?",
+        "explanation": "Pen คือปากกา ใช้สำหรับเขียน (writing)",
+        "choices": [
+          { "text": "Writing", "isCorrect": true },
+          { "text": "Eating", "isCorrect": false },
+          { "text": "Sleeping", "isCorrect": false },
+          { "text": "Running", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Who is a 'mother'?",
+        "explanation": "Mother คือแม่ หมายถึงผู้ปกครองที่เป็นผู้หญิง (female parent)",
+        "choices": [
+          { "text": "A male parent", "isCorrect": false },
+          { "text": "A female parent", "isCorrect": true },
+          { "text": "A sibling", "isCorrect": false },
+          { "text": "A teacher", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Vocabulary A2",
+    "description": "Expand your vocabulary with more specific terms.",
+    "category": "Vocabulary",
+    "level": "A2",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "What is a 'hospital'?",
+        "explanation": "Hospital คือโรงพยาบาล เป็นสถานที่สำหรับรักษาคนป่วย",
+        "choices": [
+          { "text": "A place to buy food", "isCorrect": false },
+          { "text": "A place to watch movies", "isCorrect": false },
+          { "text": "A place for sick people", "isCorrect": true },
+          { "text": "A place to play sports", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does a 'chef' do?",
+        "explanation": "Chef คือพ่อครัว/แม่ครัว มีหน้าที่ทำอาหาร (cooks food)",
+        "choices": [
+          { "text": "Drives a bus", "isCorrect": false },
+          { "text": "Cooks food", "isCorrect": true },
+          { "text": "Teaches students", "isCorrect": false },
+          { "text": "Fixes cars", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "How is the weather if it is 'cloudy'?",
+        "explanation": "Cloudy แปลว่า มีเมฆมาก (Covered with clouds)",
+        "choices": [
+          { "text": "Covered with clouds", "isCorrect": true },
+          { "text": "Very hot and sunny", "isCorrect": false },
+          { "text": "Raining heavily", "isCorrect": false },
+          { "text": "Snowing falling", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If you are 'exhausted', how do you feel?",
+        "explanation": "Exhausted แปลว่า เหนื่อยล้ามากๆ (Very tired)",
+        "choices": [
+          { "text": "Very happy", "isCorrect": false },
+          { "text": "Very angry", "isCorrect": false },
+          { "text": "Very tired", "isCorrect": true },
+          { "text": "Very hungry", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What do you keep in a 'wallet'?",
+        "explanation": "Wallet คือกระเป๋าสตางค์ ใช้เก็บเงิน (money) และบัตรต่างๆ",
+        "choices": [
+          { "text": "Water", "isCorrect": false },
+          { "text": "Money", "isCorrect": true },
+          { "text": "Paper", "isCorrect": false },
+          { "text": "Food", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What can you find in a 'library'?",
+        "explanation": "Library คือห้องสมุด เป็นสถานที่ที่มีหนังสือจำนวนมาก",
+        "choices": [
+          { "text": "Many animals", "isCorrect": false },
+          { "text": "Many clothes", "isCorrect": false },
+          { "text": "Many books", "isCorrect": true },
+          { "text": "Many trees", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "When do you usually use an 'umbrella'?",
+        "explanation": "Umbrella คือร่ม ใช้กางตอนที่ฝนตก (When it is raining)",
+        "choices": [
+          { "text": "When it is raining", "isCorrect": true },
+          { "text": "When you are cooking", "isCorrect": false },
+          { "text": "When you are sleeping", "isCorrect": false },
+          { "text": "When you are reading", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Who is a 'dentist'?",
+        "explanation": "Dentist คือทันตแพทย์ (หมอฟัน)",
+        "choices": [
+          { "text": "A doctor for animals", "isCorrect": false },
+          { "text": "A doctor for teeth", "isCorrect": true },
+          { "text": "A person who builds houses", "isCorrect": false },
+          { "text": "A person who sells flowers", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is a 'bridge'?",
+        "explanation": "Bridge คือสะพาน สิ่งก่อสร้างที่ใช้ข้ามน้ำหรือถนน",
+        "choices": [
+          { "text": "A structure built over water", "isCorrect": true },
+          { "text": "A tall building", "isCorrect": false },
+          { "text": "A type of train", "isCorrect": false },
+          { "text": "A deep hole in the ground", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does it mean to 'whisper'?",
+        "explanation": "Whisper แปลว่า กระซิบ หรือการพูดเบาๆ (speak very softly)",
+        "choices": [
+          { "text": "To shout loudly", "isCorrect": false },
+          { "text": "To run fast", "isCorrect": false },
+          { "text": "To speak very softly", "isCorrect": true },
+          { "text": "To jump high", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Grammar A1",
+    "description": "Learn basic English grammar rules.",
+    "category": "Grammar",
+    "level": "A1",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "I ___ a student.",
+        "explanation": "ประธานเป็น I ต้องใช้ Verb to be คือ 'am'",
+        "choices": [
+          { "text": "is", "isCorrect": false },
+          { "text": "am", "isCorrect": true },
+          { "text": "are", "isCorrect": false },
+          { "text": "be", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "She ___ an apple every day.",
+        "explanation": "Present Simple Tense ประธานเอกพจน์ (She) กริยาต้องเติม s/es",
+        "choices": [
+          { "text": "eat", "isCorrect": false },
+          { "text": "eating", "isCorrect": false },
+          { "text": "eats", "isCorrect": true },
+          { "text": "ate", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "They ___ playing football now.",
+        "explanation": "Present Continuous Tense ประธานเป็น They ต้องใช้ 'are' + V.ing",
+        "choices": [
+          { "text": "is", "isCorrect": false },
+          { "text": "am", "isCorrect": false },
+          { "text": "are", "isCorrect": true },
+          { "text": "do", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "___ you like pizza?",
+        "explanation": "ประโยคคำถามใน Present Simple กับประธาน you ต้องใช้กริยาช่วย 'Do'",
+        "choices": [
+          { "text": "Are", "isCorrect": false },
+          { "text": "Does", "isCorrect": false },
+          { "text": "Is", "isCorrect": false },
+          { "text": "Do", "isCorrect": true }
+        ]
+      },
+      {
+        "question": "He ___ not like coffee.",
+        "explanation": "ประโยคปฏิเสธของ He ใน Present Simple ต้องใช้ 'does not' (doesn't)",
+        "choices": [
+          { "text": "do", "isCorrect": false },
+          { "text": "does", "isCorrect": true },
+          { "text": "is", "isCorrect": false },
+          { "text": "are", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "We ___ to the park yesterday.",
+        "explanation": "มีคำว่า yesterday (เมื่อวาน) เป็น Past Simple ต้องใช้กริยาช่อง 2 (went)",
+        "choices": [
+          { "text": "go", "isCorrect": false },
+          { "text": "goes", "isCorrect": false },
+          { "text": "went", "isCorrect": true },
+          { "text": "going", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I have two ___.",
+        "explanation": "มีสองตัว (two) คำนามต้องเป็นพหูพจน์ (เติม s)",
+        "choices": [
+          { "text": "cat", "isCorrect": false },
+          { "text": "cats", "isCorrect": true },
+          { "text": "cat's", "isCorrect": false },
+          { "text": "a cat", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "This is ___ book.",
+        "explanation": "คำแสดงความเป็นเจ้าของที่วางหน้าคำนามได้คือ my (หนังสือของฉัน)",
+        "choices": [
+          { "text": "I", "isCorrect": false },
+          { "text": "me", "isCorrect": false },
+          { "text": "my", "isCorrect": true },
+          { "text": "mine", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The cat is ___ the table.",
+        "explanation": "under แปลว่า ใต้ (แมวอยู่ใต้โต๊ะ)",
+        "choices": [
+          { "text": "under", "isCorrect": true },
+          { "text": "between", "isCorrect": false },
+          { "text": "into", "isCorrect": false },
+          { "text": "next", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "There ___ a pen on the desk.",
+        "explanation": "a pen เป็นเอกพจน์ โครงสร้าง There is แปลว่า มี",
+        "choices": [
+          { "text": "is", "isCorrect": true },
+          { "text": "are", "isCorrect": false },
+          { "text": "have", "isCorrect": false },
+          { "text": "has", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Grammar A2",
+    "description": "Understand more complex grammar structures.",
+    "category": "Grammar",
+    "level": "A2",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "I ___ my homework already.",
+        "explanation": "มี already เป็น Present Perfect โครงสร้างคือ have/has + V.3",
+        "choices": [
+          { "text": "finish", "isCorrect": false },
+          { "text": "finished", "isCorrect": false },
+          { "text": "have finished", "isCorrect": true },
+          { "text": "am finishing", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "She was sleeping when the phone ___.",
+        "explanation": "เหตุการณ์ที่กำลังเกิดในอดีต (was sleeping) ถูกขัดจังหวะด้วย Past Simple (rang)",
+        "choices": [
+          { "text": "ring", "isCorrect": false },
+          { "text": "rang", "isCorrect": true },
+          { "text": "rung", "isCorrect": false },
+          { "text": "is ringing", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If it rains, we ___ at home.",
+        "explanation": "If-clause type 1: If + Present Simple, Future Simple (will + V.1)",
+        "choices": [
+          { "text": "stay", "isCorrect": false },
+          { "text": "stayed", "isCorrect": false },
+          { "text": "will stay", "isCorrect": true },
+          { "text": "would stay", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "This book is ___ than that one.",
+        "explanation": "การเปรียบเทียบขั้นกว่า มีคำว่า than ต้องใช้ better (ดีกว่า)",
+        "choices": [
+          { "text": "good", "isCorrect": false },
+          { "text": "better", "isCorrect": true },
+          { "text": "best", "isCorrect": false },
+          { "text": "more good", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "He speaks English very ___.",
+        "explanation": "ขยายกริยา speaks ต้องใช้ Adverb คือ well (อย่างดี)",
+        "choices": [
+          { "text": "good", "isCorrect": false },
+          { "text": "well", "isCorrect": true },
+          { "text": "better", "isCorrect": false },
+          { "text": "best", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "You ___ wear a uniform at school.",
+        "explanation": "เป็นกฎระเบียบที่ต้องทำ ต้องใช้ must (ต้อง)",
+        "choices": [
+          { "text": "can", "isCorrect": false },
+          { "text": "might", "isCorrect": false },
+          { "text": "must", "isCorrect": true },
+          { "text": "could", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I have been living here ___ 5 years.",
+        "explanation": "บอกระยะเวลา (5 ปี) ต้องใช้ for",
+        "choices": [
+          { "text": "since", "isCorrect": false },
+          { "text": "for", "isCorrect": true },
+          { "text": "in", "isCorrect": false },
+          { "text": "from", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The car ___ by my brother yesterday.",
+        "explanation": "รถถูกล้าง เป็น Passive Voice รูปอดีต (was + V.3)",
+        "choices": [
+          { "text": "washed", "isCorrect": false },
+          { "text": "was washed", "isCorrect": true },
+          { "text": "is washed", "isCorrect": false },
+          { "text": "has washed", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "She asked me where I ___.",
+        "explanation": "Reported speech จากประโยคอดีต กริยาในประโยคย่อยต้องถอย Tense ลงเป็น Past",
+        "choices": [
+          { "text": "live", "isCorrect": false },
+          { "text": "lived", "isCorrect": true },
+          { "text": "living", "isCorrect": false },
+          { "text": "am living", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I am looking forward to ___ you.",
+        "explanation": "สำนวน look forward to ต้องตามด้วย V.ing เสมอ",
+        "choices": [
+          { "text": "see", "isCorrect": false },
+          { "text": "saw", "isCorrect": false },
+          { "text": "seeing", "isCorrect": true },
+          { "text": "seen", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Grammar A1",
+    "description": "Learn basic English grammar rules.",
+    "category": "Grammar",
+    "level": "A1",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "I ___ a student.",
+        "explanation": "ประธานเป็น I ต้องใช้ Verb to be คือ 'am'",
+        "choices": [
+          { "text": "is", "isCorrect": false },
+          { "text": "am", "isCorrect": true },
+          { "text": "are", "isCorrect": false },
+          { "text": "be", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "She ___ an apple every day.",
+        "explanation": "Present Simple Tense ประธานเอกพจน์ (She) กริยาต้องเติม s/es",
+        "choices": [
+          { "text": "eat", "isCorrect": false },
+          { "text": "eating", "isCorrect": false },
+          { "text": "eats", "isCorrect": true },
+          { "text": "ate", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "They ___ playing football now.",
+        "explanation": "Present Continuous Tense ประธานเป็น They ต้องใช้ 'are' + V.ing",
+        "choices": [
+          { "text": "is", "isCorrect": false },
+          { "text": "am", "isCorrect": false },
+          { "text": "are", "isCorrect": true },
+          { "text": "do", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "___ you like pizza?",
+        "explanation": "ประโยคคำถามใน Present Simple กับประธาน you ต้องใช้กริยาช่วย 'Do'",
+        "choices": [
+          { "text": "Are", "isCorrect": false },
+          { "text": "Does", "isCorrect": false },
+          { "text": "Is", "isCorrect": false },
+          { "text": "Do", "isCorrect": true }
+        ]
+      },
+      {
+        "question": "He ___ not like coffee.",
+        "explanation": "ประโยคปฏิเสธของ He ใน Present Simple ต้องใช้ 'does not' (doesn't)",
+        "choices": [
+          { "text": "do", "isCorrect": false },
+          { "text": "does", "isCorrect": true },
+          { "text": "is", "isCorrect": false },
+          { "text": "are", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "We ___ to the park yesterday.",
+        "explanation": "มีคำว่า yesterday (เมื่อวาน) เป็น Past Simple ต้องใช้กริยาช่อง 2 (went)",
+        "choices": [
+          { "text": "go", "isCorrect": false },
+          { "text": "goes", "isCorrect": false },
+          { "text": "went", "isCorrect": true },
+          { "text": "going", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I have two ___.",
+        "explanation": "มีสองตัว (two) คำนามต้องเป็นพหูพจน์ (เติม s)",
+        "choices": [
+          { "text": "cat", "isCorrect": false },
+          { "text": "cats", "isCorrect": true },
+          { "text": "cat's", "isCorrect": false },
+          { "text": "a cat", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "This is ___ book.",
+        "explanation": "คำแสดงความเป็นเจ้าของที่วางหน้าคำนามได้คือ my (หนังสือของฉัน)",
+        "choices": [
+          { "text": "I", "isCorrect": false },
+          { "text": "me", "isCorrect": false },
+          { "text": "my", "isCorrect": true },
+          { "text": "mine", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The cat is ___ the table.",
+        "explanation": "under แปลว่า ใต้ (แมวอยู่ใต้โต๊ะ)",
+        "choices": [
+          { "text": "under", "isCorrect": true },
+          { "text": "between", "isCorrect": false },
+          { "text": "into", "isCorrect": false },
+          { "text": "next", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "There ___ a pen on the desk.",
+        "explanation": "a pen เป็นเอกพจน์ โครงสร้าง There is แปลว่า มี",
+        "choices": [
+          { "text": "is", "isCorrect": true },
+          { "text": "are", "isCorrect": false },
+          { "text": "have", "isCorrect": false },
+          { "text": "has", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Grammar A2",
+    "description": "Understand more complex grammar structures.",
+    "category": "Grammar",
+    "level": "A2",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "I ___ my homework already.",
+        "explanation": "มี already เป็น Present Perfect โครงสร้างคือ have/has + V.3",
+        "choices": [
+          { "text": "finish", "isCorrect": false },
+          { "text": "finished", "isCorrect": false },
+          { "text": "have finished", "isCorrect": true },
+          { "text": "am finishing", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "She was sleeping when the phone ___.",
+        "explanation": "เหตุการณ์ที่กำลังเกิดในอดีต (was sleeping) ถูกขัดจังหวะด้วย Past Simple (rang)",
+        "choices": [
+          { "text": "ring", "isCorrect": false },
+          { "text": "rang", "isCorrect": true },
+          { "text": "rung", "isCorrect": false },
+          { "text": "is ringing", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If it rains, we ___ at home.",
+        "explanation": "If-clause type 1: If + Present Simple, Future Simple (will + V.1)",
+        "choices": [
+          { "text": "stay", "isCorrect": false },
+          { "text": "stayed", "isCorrect": false },
+          { "text": "will stay", "isCorrect": true },
+          { "text": "would stay", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "This book is ___ than that one.",
+        "explanation": "การเปรียบเทียบขั้นกว่า มีคำว่า than ต้องใช้ better (ดีกว่า)",
+        "choices": [
+          { "text": "good", "isCorrect": false },
+          { "text": "better", "isCorrect": true },
+          { "text": "best", "isCorrect": false },
+          { "text": "more good", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "He speaks English very ___.",
+        "explanation": "ขยายกริยา speaks ต้องใช้ Adverb คือ well (อย่างดี)",
+        "choices": [
+          { "text": "good", "isCorrect": false },
+          { "text": "well", "isCorrect": true },
+          { "text": "better", "isCorrect": false },
+          { "text": "best", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "You ___ wear a uniform at school.",
+        "explanation": "เป็นกฎระเบียบที่ต้องทำ ต้องใช้ must (ต้อง)",
+        "choices": [
+          { "text": "can", "isCorrect": false },
+          { "text": "might", "isCorrect": false },
+          { "text": "must", "isCorrect": true },
+          { "text": "could", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I have been living here ___ 5 years.",
+        "explanation": "บอกระยะเวลา (5 ปี) ต้องใช้ for",
+        "choices": [
+          { "text": "since", "isCorrect": false },
+          { "text": "for", "isCorrect": true },
+          { "text": "in", "isCorrect": false },
+          { "text": "from", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The car ___ by my brother yesterday.",
+        "explanation": "รถถูกล้าง เป็น Passive Voice รูปอดีต (was + V.3)",
+        "choices": [
+          { "text": "washed", "isCorrect": false },
+          { "text": "was washed", "isCorrect": true },
+          { "text": "is washed", "isCorrect": false },
+          { "text": "has washed", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "She asked me where I ___.",
+        "explanation": "Reported speech จากประโยคอดีต กริยาในประโยคย่อยต้องถอย Tense ลงเป็น Past",
+        "choices": [
+          { "text": "live", "isCorrect": false },
+          { "text": "lived", "isCorrect": true },
+          { "text": "living", "isCorrect": false },
+          { "text": "am living", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I am looking forward to ___ you.",
+        "explanation": "สำนวน look forward to ต้องตามด้วย V.ing เสมอ",
+        "choices": [
+          { "text": "see", "isCorrect": false },
+          { "text": "saw", "isCorrect": false },
+          { "text": "seeing", "isCorrect": true },
+          { "text": "seen", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  
+  {
+    "title": "Sentence A1",
+    "description": "Learn basic sentence structures and word order.",
+    "category": "Sentence",
+    "level": "A1",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "Choose the correct sentence.",
+        "explanation": "โครงสร้างประโยคภาษาอังกฤษพื้นฐานคือ Subject + Verb + Object (ประธาน + กริยา + กรรม)",
+        "choices": [
+          { "text": "I apples like.", "isCorrect": false },
+          { "text": "Like I apples.", "isCorrect": false },
+          { "text": "I like apples.", "isCorrect": true },
+          { "text": "Apples I like.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct question.",
+        "explanation": "การถามชื่อที่ถูกต้องคือ What is your name?",
+        "choices": [
+          { "text": "What your name is?", "isCorrect": false },
+          { "text": "What is your name?", "isCorrect": true },
+          { "text": "Is what your name?", "isCorrect": false },
+          { "text": "Your name is what?", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct sentence.",
+        "explanation": "คำคุณศัพท์ (Adjective) ต้องวางไว้หน้าคำนาม (Noun) เสมอ เช่น beautiful girl",
+        "choices": [
+          { "text": "She is a beautiful girl.", "isCorrect": true },
+          { "text": "She is a girl beautiful.", "isCorrect": false },
+          { "text": "A beautiful girl she is.", "isCorrect": false },
+          { "text": "Is she a beautiful girl.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "He ___ tennis every Sunday.",
+        "explanation": "ประโยคปฏิเสธของ He ต้องใช้ does not (doesn't) + กริยาช่อง 1",
+        "choices": [
+          { "text": "not play", "isCorrect": false },
+          { "text": "do not play", "isCorrect": false },
+          { "text": "does not play", "isCorrect": true },
+          { "text": "is not play", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I have a cat ___ a dog.",
+        "explanation": "ใช้ and เพื่อเชื่อมสิ่งที่มีความสอดคล้องกัน (มีแมว และ หมา)",
+        "choices": [
+          { "text": "but", "isCorrect": false },
+          { "text": "or", "isCorrect": false },
+          { "text": "and", "isCorrect": true },
+          { "text": "so", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct sentence.",
+        "explanation": "โครงสร้าง There is / There are แปลว่า 'มี' ถ้านามเอกพจน์ใช้ There is",
+        "choices": [
+          { "text": "Is there a bird in the tree.", "isCorrect": false },
+          { "text": "There a bird is in the tree.", "isCorrect": false },
+          { "text": "There is a bird in the tree.", "isCorrect": true },
+          { "text": "A bird there is in the tree.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct sentence.",
+        "explanation": "ตำแหน่งของ Adverb of Frequency (เช่น always) จะวางไว้หน้ากริยาแท้",
+        "choices": [
+          { "text": "I wake up always early.", "isCorrect": false },
+          { "text": "I always wake up early.", "isCorrect": true },
+          { "text": "Always I wake up early.", "isCorrect": false },
+          { "text": "I wake always up early.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "I want ___ pizza.",
+        "explanation": "กริยา want ต้องตามด้วย to + infinitive (to eat)",
+        "choices": [
+          { "text": "eat", "isCorrect": false },
+          { "text": "eating", "isCorrect": false },
+          { "text": "ate", "isCorrect": false },
+          { "text": "to eat", "isCorrect": true }
+        ]
+      },
+      {
+        "question": "Where ___ you live?",
+        "explanation": "ประโยคคำถาม Present Simple กับประธาน You ต้องใช้กริยาช่วย Do",
+        "choices": [
+          { "text": "are", "isCorrect": false },
+          { "text": "does", "isCorrect": false },
+          { "text": "do", "isCorrect": true },
+          { "text": "is", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct sentence.",
+        "explanation": "ประโยคคำสั่งหรือขอร้อง มักจะขึ้นต้นด้วยคำกริยาเลย เช่น Please open the door.",
+        "choices": [
+          { "text": "The door please open.", "isCorrect": false },
+          { "text": "Please open the door.", "isCorrect": true },
+          { "text": "Open please the door.", "isCorrect": false },
+          { "text": "Please the door open.", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Sentence A2",
+    "description": "Construct longer sentences with conjunctions and relative clauses.",
+    "category": "Sentence",
+    "level": "A2",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "I stayed at home ___ it was raining.",
+        "explanation": "ประโยคบอกเหตุผล ต้องใช้คำเชื่อม because (เพราะว่า)",
+        "choices": [
+          { "text": "but", "isCorrect": false },
+          { "text": "because", "isCorrect": true },
+          { "text": "so", "isCorrect": false },
+          { "text": "although", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "He was very tired, ___ he went to bed early.",
+        "explanation": "ประโยคบอกผลลัพธ์ (เหนื่อย ดังนั้นจึงไปนอน) ต้องใช้ so (ดังนั้น)",
+        "choices": [
+          { "text": "so", "isCorrect": true },
+          { "text": "because", "isCorrect": false },
+          { "text": "but", "isCorrect": false },
+          { "text": "or", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The man ___ is standing there is my brother.",
+        "explanation": "ใช้ Relative Pronoun 'who' เพื่อขยายคน (The man) ที่ทำหน้าที่เป็นประธานในประโยคย่อย",
+        "choices": [
+          { "text": "which", "isCorrect": false },
+          { "text": "where", "isCorrect": false },
+          { "text": "who", "isCorrect": true },
+          { "text": "when", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct sentence.",
+        "explanation": "การเปรียบเทียบขั้นกว่า (Comparative) โครงสร้างคือ Adjective+er + than",
+        "choices": [
+          { "text": "My car is more fast than yours.", "isCorrect": false },
+          { "text": "My car is faster than yours.", "isCorrect": true },
+          { "text": "My car faster than yours.", "isCorrect": false },
+          { "text": "My car is fast than yours.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If it rains tomorrow, we ___ at home.",
+        "explanation": "ประโยคเงื่อนไขแบบที่ 1 (First Conditional) โครงสร้าง: If + Present Simple, Future Simple (will + V1)",
+        "choices": [
+          { "text": "stay", "isCorrect": false },
+          { "text": "stayed", "isCorrect": false },
+          { "text": "will stay", "isCorrect": true },
+          { "text": "would stay", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct passive sentence.",
+        "explanation": "โครงสร้าง Passive Voice ในอดีต คือ Subject + was/were + V.3 (บ้านถูกสร้างในปี 1990)",
+        "choices": [
+          { "text": "The house built in 1990.", "isCorrect": false },
+          { "text": "The house was build in 1990.", "isCorrect": false },
+          { "text": "The house was built in 1990.", "isCorrect": true },
+          { "text": "The house is built in 1990.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "This coffee is ___ hot to drink.",
+        "explanation": "โครงสร้าง too + adjective + to + V.1 แปลว่า มากเกินไปจนทำไม่ได้ (ร้อนเกินกว่าจะดื่ม)",
+        "choices": [
+          { "text": "very", "isCorrect": false },
+          { "text": "enough", "isCorrect": false },
+          { "text": "too", "isCorrect": true },
+          { "text": "much", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Do you know where ___?",
+        "explanation": "Indirect Question (คำถามซ้อนคำถาม) ประโยคย่อยต้องเรียงแบบบอกเล่า (Subject + Verb) คือ the bank is",
+        "choices": [
+          { "text": "is the bank", "isCorrect": false },
+          { "text": "the bank is", "isCorrect": true },
+          { "text": "does the bank", "isCorrect": false },
+          { "text": "the bank does", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "She ___ finished her homework yet.",
+        "explanation": "มีคำว่า yet (ยัง) มักใช้ในประโยคปฏิเสธของ Present Perfect (has not + V.3)",
+        "choices": [
+          { "text": "is not", "isCorrect": false },
+          { "text": "did not", "isCorrect": false },
+          { "text": "has not", "isCorrect": true },
+          { "text": "does not", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Choose the correct sentence.",
+        "explanation": "คำวิเศษณ์ (Adverb) เช่น very well มักจะวางไว้ท้ายประโยค เพื่อขยายกริยา speaks",
+        "choices": [
+          { "text": "She very well speaks English.", "isCorrect": false },
+          { "text": "She speaks very well English.", "isCorrect": false },
+          { "text": "She speaks English very well.", "isCorrect": true },
+          { "text": "Very well she speaks English.", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  
+  {
+    "title": "Reading A1",
+    "description": "Read simple sentences and answer basic questions.",
+    "category": "Reading",
+    "level": "A1",
+    "points": 10,
+    "duration": 200,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "Tom has a small dog. The dog's name is Max. \nQuestion: What is the dog's name?",
+        "explanation": "ประโยคบอกว่าหมาชื่อ Max (The dog's name is Max.)",
+        "choices": [
+          { "text": "Tom", "isCorrect": false },
+          { "text": "Max", "isCorrect": true },
+          { "text": "Small", "isCorrect": false },  
+          { "text": "Dog", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Mary likes to eat apples. She eats an apple every morning. \nQuestion: When does Mary eat an apple?",
+        "explanation": "ประโยคบอกชัดเจนว่ากินแอปเปิลทุกเช้า (every morning)",
+        "choices": [
+          { "text": "Every morning", "isCorrect": true },
+          { "text": "Every night", "isCorrect": false },
+          { "text": "Every week", "isCorrect": false },
+          { "text": "Every afternoon", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The sky is blue and the sun is shining today. \nQuestion: What color is the sky?",
+        "explanation": "ในประโยคบอกว่าท้องฟ้ามีสีฟ้า (The sky is blue)",
+        "choices": [
+          { "text": "Yellow", "isCorrect": false },
+          { "text": "White", "isCorrect": false },
+          { "text": "Blue", "isCorrect": true },
+          { "text": "Black", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "John works in a hospital. He is a doctor. \nQuestion: Where does John work?",
+        "explanation": "ประโยคบอกว่า John ทำงานในโรงพยาบาล (in a hospital)",
+        "choices": [
+          { "text": "In a school", "isCorrect": false },
+          { "text": "In a hospital", "isCorrect": true },
+          { "text": "In a bank", "isCorrect": false },
+          { "text": "In a shop", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "My favorite color is red. I have a red shirt. \nQuestion: What is my favorite color?",
+        "explanation": "สีที่ชอบที่สุดคือสีแดง (red)",
+        "choices": [
+          { "text": "Blue", "isCorrect": false },
+          { "text": "Red", "isCorrect": true },
+          { "text": "Green", "isCorrect": false },
+          { "text": "Yellow", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Lisa goes to school by bus. It takes 20 minutes. \nQuestion: How does Lisa go to school?",
+        "explanation": "Lisa ไปโรงเรียนโดยรถบัส (by bus)",
+        "choices": [
+          { "text": "By car", "isCorrect": false },
+          { "text": "By train", "isCorrect": false },
+          { "text": "By bus", "isCorrect": true },
+          { "text": "By bike", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "We have a big garden. There are many flowers in it. \nQuestion: What is in the garden?",
+        "explanation": "ในสวนมีดอกไม้จำนวนมาก (many flowers)",
+        "choices": [
+          { "text": "Many trees", "isCorrect": false },
+          { "text": "Many cars", "isCorrect": false },
+          { "text": "Many birds", "isCorrect": false },
+          { "text": "Many flowers", "isCorrect": true }
+        ]
+      },
+      {
+        "question": "Peter plays football on Saturdays. He plays with his friends. \nQuestion: When does Peter play football?",
+        "explanation": "Peter เล่นฟุตบอลในวันเสาร์ (on Saturdays)",
+        "choices": [
+          { "text": "On Sundays", "isCorrect": false },
+          { "text": "On Mondays", "isCorrect": false },
+          { "text": "On Saturdays", "isCorrect": true },
+          { "text": "Every day", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The book is on the table. It is a thick book. \nQuestion: Where is the book?",
+        "explanation": "หนังสืออยู่บนโต๊ะ (on the table)",
+        "choices": [
+          { "text": "On the table", "isCorrect": true },
+          { "text": "Under the table", "isCorrect": false },
+          { "text": "In the bag", "isCorrect": false },
+          { "text": "On the chair", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Sarah is wearing a yellow dress today. She looks happy. \nQuestion: What is Sarah wearing?",
+        "explanation": "Sarah ใส่ชุดเดรสสีเหลือง (a yellow dress)",
+        "choices": [
+          { "text": "A red shirt", "isCorrect": false },
+          { "text": "A blue skirt", "isCorrect": false },
+          { "text": "A yellow dress", "isCorrect": true },
+          { "text": "A green hat", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Reading A2",
+    "description": "Read short paragraphs and answer comprehension questions.",
+    "category": "Reading",
+    "level": "A2",
+    "points": 10,
+    "duration": 200,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "Yesterday, David went to the supermarket because he wanted to buy some milk and bread. \nQuestion: Why did David go to the supermarket?",
+        "explanation": "David ไปซูเปอร์มาร์เก็ตเพื่อซื้อนมและขนมปัง (to buy some milk and bread)",
+        "choices": [
+          { "text": "To meet his friends", "isCorrect": false },
+          { "text": "To buy some milk and bread", "isCorrect": true },
+          { "text": "To work there", "isCorrect": false },
+          { "text": "To buy a new shirt", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Anna usually wakes up at 7:00 AM, but on weekends she sleeps until 9:00 AM. \nQuestion: What time does Anna wake up on weekends?",
+        "explanation": "ในวันหยุดสุดสัปดาห์ (on weekends) เธอนอนจนถึง 9:00 AM",
+        "choices": [
+          { "text": "7:00 AM", "isCorrect": false },
+          { "text": "8:00 AM", "isCorrect": false },
+          { "text": "9:00 AM", "isCorrect": true },
+          { "text": "10:00 AM", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The library is closed on Mondays, so we will have to go there on Tuesday to return our books. \nQuestion: When will they go to the library?",
+        "explanation": "เนื่องจากปิดวันจันทร์ พวกเขาจึงจะไปคืนหนังสือในวันอังคาร (on Tuesday)",
+        "choices": [
+          { "text": "On Monday", "isCorrect": false },
+          { "text": "On Tuesday", "isCorrect": true },
+          { "text": "On Wednesday", "isCorrect": false },
+          { "text": "On Sunday", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "It was raining heavily, so Tom decided to stay home and watch a movie instead of playing outside. \nQuestion: What did Tom do?",
+        "explanation": "เพราะฝนตกหนัก Tom เลยตัดสินใจอยู่บ้านและดูหนัง (stay home and watch a movie)",
+        "choices": [
+          { "text": "He played outside.", "isCorrect": false },
+          { "text": "He went to the cinema.", "isCorrect": false },
+          { "text": "He stayed home and watched a movie.", "isCorrect": true },
+          { "text": "He played football in the rain.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "The new restaurant in town serves Italian food. It is very popular and always crowded. \nQuestion: What kind of food does the restaurant serve?",
+        "explanation": "ร้านอาหารเปิดใหม่เสิร์ฟอาหารอิตาเลียน (Italian food)",
+        "choices": [
+          { "text": "Chinese food", "isCorrect": false },
+          { "text": "Thai food", "isCorrect": false },
+          { "text": "Japanese food", "isCorrect": false },
+          { "text": "Italian food", "isCorrect": true }
+        ]
+      },
+      {
+        "question": "Maria speaks three languages: Spanish, English, and a little bit of French. \nQuestion: How many languages does Maria speak?",
+        "explanation": "บทความระบุชัดเจนว่า Maria พูดได้ 3 ภาษา (three languages)",
+        "choices": [
+          { "text": "One language", "isCorrect": false },
+          { "text": "Two languages", "isCorrect": false },
+          { "text": "Three languages", "isCorrect": true },
+          { "text": "Four languages", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "In the future, John wants to be a pilot because he loves traveling and flying high in the sky. \nQuestion: Why does John want to be a pilot?",
+        "explanation": "John อยากเป็นนักบินเพราะเขารักการเดินทางและการบิน (he loves traveling and flying)",
+        "choices": [
+          { "text": "Because he likes airplanes.", "isCorrect": false },
+          { "text": "Because he loves traveling and flying.", "isCorrect": true },
+          { "text": "Because it is a highly paid job.", "isCorrect": false },
+          { "text": "Because his father is a pilot.", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "After finishing her homework, Jane went to the park to meet her friends. \nQuestion: What did Jane do before going to the park?",
+        "explanation": "สิ่งที่ทำก่อนไปสวนสาธารณะคือ ทำการบ้านเสร็จ (After finishing her homework...)",
+        "choices": [
+          { "text": "She went to the park.", "isCorrect": false },
+          { "text": "She met her friends.", "isCorrect": false },
+          { "text": "She watched TV.", "isCorrect": false },
+          { "text": "She finished her homework.", "isCorrect": true }
+        ]
+      },
+      {
+        "question": "The train to London leaves at 10:30 AM and arrives at 1:00 PM. \nQuestion: How long is the train journey?",
+        "explanation": "จาก 10:30 ถึง 13:00 ใช้เวลาเดินทาง 2 ชั่วโมงครึ่ง (2.5 hours)",
+        "choices": [
+          { "text": "One hour and a half", "isCorrect": false },
+          { "text": "Two hours", "isCorrect": false },
+          { "text": "Two hours and a half", "isCorrect": true },
+          { "text": "Three hours", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "Elephants are the largest land animals in the world. They eat leaves, grass, and fruit. \nQuestion: What do elephants eat?",
+        "explanation": "ช้างกินใบไม้ หญ้า และผลไม้ (leaves, grass, and fruit)",
+        "choices": [
+          { "text": "Meat and fish", "isCorrect": false },
+          { "text": "Leaves, grass, and fruit", "isCorrect": true },
+          { "text": "Only fruit", "isCorrect": false },
+          { "text": "Insects and birds", "isCorrect": false }
+        ]
+      }
+    ]
+  }
+]
+
