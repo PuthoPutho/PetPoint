@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/quiz.dart';
 import '../../models/question.dart';
-import '../../services/mock_quiz_service.dart';
+import '../../services/quiz_service.dart';
 import 'quiz_result_screen.dart';
 
 class QuizPlayScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   @override
   void initState() {
     super.initState();
-    _questions = MockQuizService.getMockQuestionsForQuiz(widget.quizData.uuid);
+    _questions = [];
     _startTimer();
   }
 

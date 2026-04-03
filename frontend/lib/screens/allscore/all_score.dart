@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/quiz.dart';
 import 'package:frontend/screens/quiz/quiz_detail_screen.dart';
-import 'package:frontend/services/mock_quiz_service.dart';
+import 'package:frontend/services/quiz_service.dart';
 
 import '../../widgets/quiz_history_card.dart';
 
@@ -57,7 +57,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final displayData = MockQuizService.getMockQuizzes();
+    final displayData = [];
 
     return Scaffold(
       backgroundColor: Colors.white,

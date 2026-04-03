@@ -7,6 +7,7 @@
     "points": 10,
     "duration": 100,
     "questionCount": 10,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tag": 1,
     "questions": [
       {
@@ -118,6 +119,7 @@
     "level": "A2",
     "points": 10,
     "duration": 100,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "questionCount": 10,
     "tag": 1,
     "questions": [
@@ -231,6 +233,7 @@
     "points": 10,
     "duration": 100,
     "questionCount": 10,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tag": 1,
     "questions": [
       {
@@ -343,6 +346,7 @@
     "points": 10,
     "duration": 100,
     "questionCount": 10,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tag": 1,
     "questions": [
       {
@@ -447,231 +451,6 @@
       }
     ]
   },
-  {
-    "title": "Grammar A1",
-    "description": "Learn basic English grammar rules.",
-    "category": "Grammar",
-    "level": "A1",
-    "points": 10,
-    "duration": 100,
-    "questionCount": 10,
-    "tag": 1,
-    "questions": [
-      {
-        "question": "I ___ a student.",
-        "explanation": "ประธานเป็น I ต้องใช้ Verb to be คือ 'am'",
-        "choices": [
-          { "text": "is", "isCorrect": false },
-          { "text": "am", "isCorrect": true },
-          { "text": "are", "isCorrect": false },
-          { "text": "be", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "She ___ an apple every day.",
-        "explanation": "Present Simple Tense ประธานเอกพจน์ (She) กริยาต้องเติม s/es",
-        "choices": [
-          { "text": "eat", "isCorrect": false },
-          { "text": "eating", "isCorrect": false },
-          { "text": "eats", "isCorrect": true },
-          { "text": "ate", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "They ___ playing football now.",
-        "explanation": "Present Continuous Tense ประธานเป็น They ต้องใช้ 'are' + V.ing",
-        "choices": [
-          { "text": "is", "isCorrect": false },
-          { "text": "am", "isCorrect": false },
-          { "text": "are", "isCorrect": true },
-          { "text": "do", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "___ you like pizza?",
-        "explanation": "ประโยคคำถามใน Present Simple กับประธาน you ต้องใช้กริยาช่วย 'Do'",
-        "choices": [
-          { "text": "Are", "isCorrect": false },
-          { "text": "Does", "isCorrect": false },
-          { "text": "Is", "isCorrect": false },
-          { "text": "Do", "isCorrect": true }
-        ]
-      },
-      {
-        "question": "He ___ not like coffee.",
-        "explanation": "ประโยคปฏิเสธของ He ใน Present Simple ต้องใช้ 'does not' (doesn't)",
-        "choices": [
-          { "text": "do", "isCorrect": false },
-          { "text": "does", "isCorrect": true },
-          { "text": "is", "isCorrect": false },
-          { "text": "are", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "We ___ to the park yesterday.",
-        "explanation": "มีคำว่า yesterday (เมื่อวาน) เป็น Past Simple ต้องใช้กริยาช่อง 2 (went)",
-        "choices": [
-          { "text": "go", "isCorrect": false },
-          { "text": "goes", "isCorrect": false },
-          { "text": "went", "isCorrect": true },
-          { "text": "going", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "I have two ___.",
-        "explanation": "มีสองตัว (two) คำนามต้องเป็นพหูพจน์ (เติม s)",
-        "choices": [
-          { "text": "cat", "isCorrect": false },
-          { "text": "cats", "isCorrect": true },
-          { "text": "cat's", "isCorrect": false },
-          { "text": "a cat", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "This is ___ book.",
-        "explanation": "คำแสดงความเป็นเจ้าของที่วางหน้าคำนามได้คือ my (หนังสือของฉัน)",
-        "choices": [
-          { "text": "I", "isCorrect": false },
-          { "text": "me", "isCorrect": false },
-          { "text": "my", "isCorrect": true },
-          { "text": "mine", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "The cat is ___ the table.",
-        "explanation": "under แปลว่า ใต้ (แมวอยู่ใต้โต๊ะ)",
-        "choices": [
-          { "text": "under", "isCorrect": true },
-          { "text": "between", "isCorrect": false },
-          { "text": "into", "isCorrect": false },
-          { "text": "next", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "There ___ a pen on the desk.",
-        "explanation": "a pen เป็นเอกพจน์ โครงสร้าง There is แปลว่า มี",
-        "choices": [
-          { "text": "is", "isCorrect": true },
-          { "text": "are", "isCorrect": false },
-          { "text": "have", "isCorrect": false },
-          { "text": "has", "isCorrect": false }
-        ]
-      }
-    ]
-  },
-  {
-    "title": "Grammar A2",
-    "description": "Understand more complex grammar structures.",
-    "category": "Grammar",
-    "level": "A2",
-    "points": 10,
-    "duration": 100,
-    "questionCount": 10,
-    "tag": 1,
-    "questions": [
-      {
-        "question": "I ___ my homework already.",
-        "explanation": "มี already เป็น Present Perfect โครงสร้างคือ have/has + V.3",
-        "choices": [
-          { "text": "finish", "isCorrect": false },
-          { "text": "finished", "isCorrect": false },
-          { "text": "have finished", "isCorrect": true },
-          { "text": "am finishing", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "She was sleeping when the phone ___.",
-        "explanation": "เหตุการณ์ที่กำลังเกิดในอดีต (was sleeping) ถูกขัดจังหวะด้วย Past Simple (rang)",
-        "choices": [
-          { "text": "ring", "isCorrect": false },
-          { "text": "rang", "isCorrect": true },
-          { "text": "rung", "isCorrect": false },
-          { "text": "is ringing", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "If it rains, we ___ at home.",
-        "explanation": "If-clause type 1: If + Present Simple, Future Simple (will + V.1)",
-        "choices": [
-          { "text": "stay", "isCorrect": false },
-          { "text": "stayed", "isCorrect": false },
-          { "text": "will stay", "isCorrect": true },
-          { "text": "would stay", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "This book is ___ than that one.",
-        "explanation": "การเปรียบเทียบขั้นกว่า มีคำว่า than ต้องใช้ better (ดีกว่า)",
-        "choices": [
-          { "text": "good", "isCorrect": false },
-          { "text": "better", "isCorrect": true },
-          { "text": "best", "isCorrect": false },
-          { "text": "more good", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "He speaks English very ___.",
-        "explanation": "ขยายกริยา speaks ต้องใช้ Adverb คือ well (อย่างดี)",
-        "choices": [
-          { "text": "good", "isCorrect": false },
-          { "text": "well", "isCorrect": true },
-          { "text": "better", "isCorrect": false },
-          { "text": "best", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "You ___ wear a uniform at school.",
-        "explanation": "เป็นกฎระเบียบที่ต้องทำ ต้องใช้ must (ต้อง)",
-        "choices": [
-          { "text": "can", "isCorrect": false },
-          { "text": "might", "isCorrect": false },
-          { "text": "must", "isCorrect": true },
-          { "text": "could", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "I have been living here ___ 5 years.",
-        "explanation": "บอกระยะเวลา (5 ปี) ต้องใช้ for",
-        "choices": [
-          { "text": "since", "isCorrect": false },
-          { "text": "for", "isCorrect": true },
-          { "text": "in", "isCorrect": false },
-          { "text": "from", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "The car ___ by my brother yesterday.",
-        "explanation": "รถถูกล้าง เป็น Passive Voice รูปอดีต (was + V.3)",
-        "choices": [
-          { "text": "washed", "isCorrect": false },
-          { "text": "was washed", "isCorrect": true },
-          { "text": "is washed", "isCorrect": false },
-          { "text": "has washed", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "She asked me where I ___.",
-        "explanation": "Reported speech จากประโยคอดีต กริยาในประโยคย่อยต้องถอย Tense ลงเป็น Past",
-        "choices": [
-          { "text": "live", "isCorrect": false },
-          { "text": "lived", "isCorrect": true },
-          { "text": "living", "isCorrect": false },
-          { "text": "am living", "isCorrect": false }
-        ]
-      },
-      {
-        "question": "I am looking forward to ___ you.",
-        "explanation": "สำนวน look forward to ต้องตามด้วย V.ing เสมอ",
-        "choices": [
-          { "text": "see", "isCorrect": false },
-          { "text": "saw", "isCorrect": false },
-          { "text": "seeing", "isCorrect": true },
-          { "text": "seen", "isCorrect": false }
-        ]
-      }
-    ]
-  },
-  
   {
     "title": "Sentence A1",
     "description": "Learn basic sentence structures and word order.",
@@ -680,6 +459,7 @@
     "points": 10,
     "duration": 100,
     "questionCount": 10,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tag": 1,
     "questions": [
       {
@@ -792,6 +572,7 @@
     "points": 10,
     "duration": 100,
     "questionCount": 10,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tag": 1,
     "questions": [
       {
@@ -905,6 +686,7 @@
     "points": 10,
     "duration": 200,
     "questionCount": 10,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tag": 1,
     "questions": [
       {
@@ -1017,6 +799,7 @@
     "points": 10,
     "duration": 200,
     "questionCount": 10,
+    "quizImage": "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tag": 1,
     "questions": [
       {
@@ -1113,13 +896,240 @@
         "question": "Elephants are the largest land animals in the world. They eat leaves, grass, and fruit. \nQuestion: What do elephants eat?",
         "explanation": "ช้างกินใบไม้ หญ้า และผลไม้ (leaves, grass, and fruit)",
         "choices": [
-          { "text": "Meat and fish", "isCorrect": false },
+          { "text": "Meat and fishes", "isCorrect": false },
           { "text": "Leaves, grass, and fruit", "isCorrect": true },
           { "text": "Only fruit", "isCorrect": false },
           { "text": "Insects and birds", "isCorrect": false }
         ]
       }
     ]
+  },
+  {
+    "title": "Meaning A1",
+    "description": "Understand the basic meaning of words and signs.",
+    "category": "Meaning",
+    "level": "A1",
+    "quizImage": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=500&auto=format&fit=crop",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "What does a 'Red Light' at a traffic signal mean?",
+        "explanation": "ไฟจราจรสีแดงหมายถึงให้ 'หยุด' (Stop)",
+        "choices": [
+          { "text": "Go fast", "isCorrect": false },
+          { "text": "Stop", "isCorrect": true },
+          { "text": "Turn left", "isCorrect": false },
+          { "text": "Wait for 1 hour", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If a sign says 'No Smoking', what should you do?",
+        "explanation": "No Smoking คือห้ามสูบบุหรี่ (Do not smoke)",
+        "choices": [
+          { "text": "Smoke here", "isCorrect": false },
+          { "text": "Do not smoke here", "isCorrect": true },
+          { "text": "Buy cigarettes", "isCorrect": false },
+          { "text": "Sell cigarettes", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is the meaning of 'Exit'?",
+        "explanation": "Exit คือทางออก (Way out)",
+        "choices": [
+          { "text": "Way in", "isCorrect": false },
+          { "text": "Way out", "isCorrect": true },
+          { "text": "No entry", "isCorrect": false },
+          { "text": "Office", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If a shop says 'Open', can you go in?",
+        "explanation": "Open คือเปิด สามารถเข้าไปข้างในได้ (Yes, you can go in)",
+        "choices": [
+          { "text": "Yes, you can go in", "isCorrect": true },
+          { "text": "No, it is closed", "isCorrect": false },
+          { "text": "The shop is gone", "isCorrect": false },
+          { "text": "Wait for tomorrow", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does 'Push' mean on a door?",
+        "explanation": "Push คือการผลักประตูออกไป",
+        "choices": [
+          { "text": "Pull the door", "isCorrect": false },
+          { "text": "Move the door away from you", "isCorrect": true },
+          { "text": "Lock the door", "isCorrect": false },
+          { "text": "Kick the door", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "A sign says 'Silence Please'. Where are you?",
+        "explanation": "ป้ายให้เงียบ (Silence) มักพบในห้องสมุดหรือโรงพยาบาล",
+        "choices": [
+          { "text": "At a party", "isCorrect": false },
+          { "text": "In a library", "isCorrect": true },
+          { "text": "At a concert", "isCorrect": false },
+          { "text": "In a market", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does 'Danger' mean?",
+        "explanation": "Danger คืออันตราย (Not safe)",
+        "choices": [
+          { "text": "It is safe", "isCorrect": false },
+          { "text": "It is fun", "isCorrect": false },
+          { "text": "It is not safe", "isCorrect": true },
+          { "text": "It is cheap", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is a 'Gift'?",
+        "explanation": "Gift คือของขวัญ (Something you give to someone)",
+        "choices": [
+          { "text": "Something you buy for yourself", "isCorrect": false },
+          { "text": "Something you give to someone", "isCorrect": true },
+          { "text": "A type of food", "isCorrect": false },
+          { "text": "A job title", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does 'Price' mean?",
+        "explanation": "Price คือราคา (The amount of money you pay)",
+        "choices": [
+          { "text": "How heavy it is", "isCorrect": false },
+          { "text": "How much it costs", "isCorrect": true },
+          { "text": "The color of it", "isCorrect": false },
+          { "text": "The size of it", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If you are 'Late', what does it mean?",
+        "explanation": "Late คือสาย (Not on time)",
+        "choices": [
+          { "text": "You are on time", "isCorrect": false },
+          { "text": "You are early", "isCorrect": false },
+          { "text": "You are not on time", "isCorrect": true },
+          { "text": "You are sleeping", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Meaning A2",
+    "description": "Understand context and implicit meanings.",
+    "category": "Meaning",
+    "level": "A2",
+    "quizImage": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=500&auto=format&fit=crop",
+    "points": 10,
+    "duration": 100,
+    "questionCount": 10,
+    "tag": 1,
+    "questions": [
+      {
+        "question": "If a person says 'I'm feeling under the weather', what do they mean?",
+        "explanation": "สำนวน 'under the weather' หมายถึง รู้สึกไม่สบาย (sick/unwell)",
+        "choices": [
+          { "text": "They are standing in the rain", "isCorrect": false },
+          { "text": "They feel sick or unwell", "isCorrect": true },
+          { "text": "They like the sun", "isCorrect": false },
+          { "text": "They are happy", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is the meaning of 'Annual'?",
+        "explanation": "Annual หมายถึง รายปี หรือเกิดขึ้นปีละครั้ง",
+        "choices": [
+          { "text": "Happening every day", "isCorrect": false },
+          { "text": "Happening once a year", "isCorrect": true },
+          { "text": "Happening every month", "isCorrect": false },
+          { "text": "Happening once a week", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If a product is 'Refundable', what can you do?",
+        "explanation": "Refundable คือสามารถคืนเงินได้",
+        "choices": [
+          { "text": "You can get your money back", "isCorrect": true },
+          { "text": "You cannot return it", "isCorrect": false },
+          { "text": "You can eat it", "isCorrect": false },
+          { "text": "It is free", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does it mean if a task is 'Urgent'?",
+        "explanation": "Urgent คือด่วน ต้องทำทันที (Needs immediate attention)",
+        "choices": [
+          { "text": "It is not important", "isCorrect": false },
+          { "text": "It can wait until next month", "isCorrect": false },
+          { "text": "It needs to be done immediately", "isCorrect": true },
+          { "text": "It is very easy", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does 'Vacant' mean on a bathroom door?",
+        "explanation": "Vacant หมายถึง ว่าง (No one is inside)",
+        "choices": [
+          { "text": "Someone is inside", "isCorrect": false },
+          { "text": "The door is broken", "isCorrect": false },
+          { "text": "No one is inside / Available", "isCorrect": true },
+          { "text": "It is dirty", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If someone is 'Reliable', what kind of person are they?",
+        "explanation": "Reliable คือคนที่เชื่อใจได้ หรือไว้ใจได้ (Can be trusted)",
+        "choices": [
+          { "text": "They always tell lies", "isCorrect": false },
+          { "text": "They can be trusted / Dependable", "isCorrect": true },
+          { "text": "They are very rich", "isCorrect": false },
+          { "text": "They are very funny", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What is the meaning of 'Nearby'?",
+        "explanation": "Nearby คืออยู่ใกล้ๆ (Close to a place)",
+        "choices": [
+          { "text": "Very far away", "isCorrect": false },
+          { "text": "In another country", "isCorrect": false },
+          { "text": "Not far / Close to you", "isCorrect": true },
+          { "text": "Behind you", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does 'Prohibited' mean?",
+        "explanation": "Prohibited คือต้องห้าม (Not allowed)",
+        "choices": [
+          { "text": "It is free to do", "isCorrect": false },
+          { "text": "It is not allowed by law/rule", "isCorrect": true },
+          { "text": "It is recommended", "isCorrect": false },
+          { "text": "It is exciting", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "If a meeting is 'Postponed', what happened?",
+        "explanation": "Postponed คือการเลื่อนออกไปก่อน (Moved to a later time)",
+        "choices": [
+          { "text": "It was cancelled forever", "isCorrect": false },
+          { "text": "It was moved to a later time", "isCorrect": true },
+          { "text": "It started early", "isCorrect": false },
+          { "text": "It was held in a different city", "isCorrect": false }
+        ]
+      },
+      {
+        "question": "What does 'Optional' mean?",
+        "explanation": "Optional คือเป็นทางเลือก ไม่บังคับ (You can choose to do it or not)",
+        "choices": [
+          { "text": "You must do it", "isCorrect": false },
+          { "text": "You can choose to do it or not", "isCorrect": true },
+          { "text": "It is very hard", "isCorrect": false },
+          { "text": "It is for adults only", "isCorrect": false }
+        ]
+      }
+    ]
   }
+  
 ]
 
