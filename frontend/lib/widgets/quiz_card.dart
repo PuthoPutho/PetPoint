@@ -35,7 +35,7 @@ class QuizCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 🌟 ส่วนที่ 1: อัปเดตการดึงรูปภาพจาก Backend
+              // ส่วนที่ 1: อัปเดตการดึงรูปภาพจาก Backend
               SizedBox(
                 height: 152,
                 width: double.infinity,
@@ -71,7 +71,7 @@ class QuizCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              quizData.description,
+                              'Part ${quizData.tag}',
                               style: const TextStyle(color: Colors.grey, fontSize: 12),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

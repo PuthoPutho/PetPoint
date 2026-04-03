@@ -63,9 +63,9 @@ class QuizDetailScreen extends StatelessWidget {
                   color: _getCategoryColor(quizData.category), // สีปกจะเปลี่ยนตามหมวดหมู่เดียวกับที่แสดงในการ์ด
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Center(
-                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(fontFamily: 'GoogleSans', color: Colors.white)),
-                ),
+                child: quizData.image != null && quizData.image!.isNotEmpty
+    ? Image.network(quizData.image!, fit: BoxFit.cover)
+    : Center(child: Icon(Icons.image_not_supported, color: Colors.white)),
               ),
               const SizedBox(height: 24),
 

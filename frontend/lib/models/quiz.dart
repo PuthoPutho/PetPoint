@@ -13,7 +13,7 @@ class Quiz {
   final bool? isCompleted;   // เช็คว่าเคยทำหรือยัง (เอาไว้โชว์ปุ่ม Reattempt)
   final int? lastScore;      // คะแนนรอบล่าสุด (เอาไว้โชว์ในหน้า Detail)
 final String tag;
-final DateTime? createdAt;
+final DateTime createdAt;
   Quiz({
     required this.uuid,
     required this.title,
@@ -26,7 +26,7 @@ final DateTime? createdAt;
     this.image,
     this.isCompleted,
     this.lastScore,
-    this.createdAt,
+    required this.createdAt,
     required this.tag
   });
 
@@ -45,9 +45,9 @@ final DateTime? createdAt;
       tag: json['tag']?.toString() ?? 'General',
       image: json['quizImage'], // ถ้ารูปเป็น null ใน dart ก็จะมองเป็น null
       isCompleted: json['isCompleted'] ?? false, 
-     createdAt: json['createdAt'] != null 
-          ? DateTime.tryParse(json['createdAt'].toString()) 
-          : null,
+      createdAt: json['createdAt'] != null 
+          ? DateTime.parse(json['createdAt'].toString()) 
+          : DateTime.now(), // ถ้าไม่มีให้ใช้วันนี้เป็นค่าเริ่มต้
       lastScore: json['lastScore'],
     );
   }

@@ -9,9 +9,9 @@ quizRouter.post('/submit', async (req, res) => {
         const { userId, quizId, answers } = req.body;
 
         if (!userId || !quizId || !answers) {
-            res.status(400).json({ 
-                success: false, 
-                message: "ส่งข้อมูลมาไม่ครบ (ต้องการ userId, quizId, และ answers)" 
+            res.status(400).json({
+                success: false,
+                message: "ส่งข้อมูลมาไม่ครบ (ต้องการ userId, quizId, และ answers)"
             });
             return;
         }
@@ -21,9 +21,9 @@ quizRouter.post('/submit', async (req, res) => {
 
     } catch (error) {
         console.error("Error in POST /api/quiz/submit:", error);
-        res.status(500).json({ 
-            success: false, 
-            message: "เกิดข้อผิดพลาดที่ระบบหลังบ้าน" 
+        res.status(500).json({
+            success: false,
+            message: "เกิดข้อผิดพลาดที่ระบบหลังบ้าน"
         });
     }
 });
@@ -43,7 +43,7 @@ quizRouter.get('/:quizId', async (req, res) => {
     try {
         const { quizId } = req.params;
         const result = await quizService.getQuizDetails(quizId);
-        
+
         if (!result.success) {
             res.status(404).json(result);
             return;
@@ -63,9 +63,9 @@ quizRouter.get('/history/:userId', async (req, res) => {
         const result = await quizService.getUserQuizHistory(userId);
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ 
-            success: false, 
-            message: error instanceof Error ? error.message : "เกิดข้อผิดพลาดที่เซิร์ฟเวอร์" 
+        res.status(500).json({
+            success: false,
+            message: error instanceof Error ? error.message : "เกิดข้อผิดพลาดที่เซิร์ฟเวอร์"
         });
     }
 });
@@ -78,9 +78,44 @@ quizRouter.get('/spider-chart/:userId', async (req, res) => {
         const result = await quizService.getSpiderChartData(userId);
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ 
-            success: false, 
-            message: error instanceof Error ? error.message : "เกิดข้อผิดพลาดที่เซิร์ฟเวอร์" 
+        res.status(500).json({
+            success: false,
+            message: error instanceof Error ? error.message : "เกิดข้อผิดพลาดที่เซิร์ฟเวอร์"
         });
     }
-});
+},
+
+
+    // GET /api/quiz/:quizId/questions
+    quizRouter.get('/:quizId/questions', async (req, res) => {
+        try {
+            const { quizId } = req.params;
+            // 1. เรียกใช้ Service ที่เราเพิ่งเติมไปเมื่อกี้
+            const quizData = await quizService.getQuizQuestions(quizId);
+
+            if (!quizData) {
+                res.status(404).json({ success: false, message: "ไม่พบควิซนี้ในระบบ" });
+                return;
+            }
+
+            // 2. แปลงข้อมูล (Mapping) ให้ตรงกับ Model ใน Flutter
+            const formattedQuestions = quizData.questions.map((q: any) => ({
+                id: q.uuid,              // แปลง uuid เป็น id
+                question: q.question,
+                explanation: q.explanation,
+                choices: q.choices.map((c: any) => ({
+                    id: c.uuid,          // แปลง uuid เป็น id
+                    text: c.choices,     // 🌟 ใน DB คุณตั้งชื่อคอลัมน์ว่า choices แต่ Flutter รอรับ text
+                    isCorrect: c.isCorrect
+                }))
+            }));
+
+            // 3. ส่งกลับไปให้ Flutter
+            res.status(200).json({ success: true, data: formattedQuestions });
+        } catch (error) {
+            console.error("Error in GET /api/quiz/:quizId/questions:", error);
+            res.status(500).json({ success: false, message: "เกิดข้อผิดพลาดในการดึงคำถาม" });
+        }
+    })
+
+);

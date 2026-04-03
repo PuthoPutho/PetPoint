@@ -128,5 +128,8 @@ export const quizService = {
         } catch (error) {
             throw new Error("คำนวณข้อมูลกราฟไม่สำเร็จ");
         }
+    },
+    getQuizQuestions: async (quizId: string) => {
+        return await quizRepository.getQuizWithQuestionsAndChoices(quizId);
     }
 };

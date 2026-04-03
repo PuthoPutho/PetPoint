@@ -6,7 +6,7 @@ import '../main_navigation.dart'; // สำหรับกด Next แล้ว�
 class QuizResultScreen extends StatelessWidget {
   final Quiz quizData;
   final List<QuizQuestion> questions;
-  final List<int?> userAnswers; // ลิสต์เก็บ ID ชอยส์ที่ผู้ใช้เลือก (ถ้าหมดเวลาจะเป็น null)
+  final List<String?> userAnswers; // ลิสต์เก็บ ID ชอยส์ที่ผู้ใช้เลือก (ถ้าหมดเวลาจะเป็น null)
 
   const QuizResultScreen({
     super.key,
@@ -21,7 +21,9 @@ class QuizResultScreen extends StatelessWidget {
     int correctCount = 0;
     for (int i = 0; i < questions.length; i++) {
       if (userAnswers[i] != null) {
-        final selectedChoice = questions[i].choices.firstWhere((c) => c.id == userAnswers[i]);
+        // 🌟 แก้ไขเป็น String เปรียบเทียบกับ String
+        final selectedChoice = questions[i].choices.firstWhere((c) => c.id == userAnswers[i],
+            orElse: () => QuizChoice(id: '', text: '', isCorrect: false));
         if (selectedChoice.isCorrect) correctCount++;
       }
     }
@@ -149,7 +151,7 @@ class QuizResultScreen extends StatelessWidget {
                     const Text('Answer Key', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     Text(quizData.title, style: const TextStyle(fontSize: 16, color: Colors.grey)),
-                    Text(quizData.tag, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                    Text("Part ${quizData.tag}", style: const TextStyle(fontSize: 14, color: Colors.grey)),
                     const SizedBox(height: 24),
 
                     // ลูปสร้างเฉลยทีละข้อ
