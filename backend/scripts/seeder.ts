@@ -11,63 +11,74 @@ async function seed() {
   console.log('🌱 Seeding database...');
 
   try {
-    // 1. Seed Quizzes
+    // 1. อ่านไฟล์ quiz_seed_data.json
     const quizData = JSON.parse(
-      await readFile(path.join(__dirname, 'data', 'quiz.json'), 'utf-8')
+      await readFile(path.join(__dirname, 'data', 'quiz_seed_data.json'), 'utf-8')
     );
     console.log(`Inserting ${quizData.length} quizzes...`);
-    const insertedQuizzes = [];
+
+    // วนลูปทีละควิซ
     for (const q of quizData) {
-        // Map 'image' to 'quizImage' if needed
-        const { image, ...rest } = q;
-        const [inserted] = await db.insert(schema.quiz)
-            .values({ ...rest, quizImage: image })
+      // 🌟 ดักจับรูปภาพ: ถ้าใน JSON ไม่มีรูปเลย ให้ใช้รูปลูกหมา/แมวตั้งต้นแทน ห้ามเป็น null เด็ดขาด!
+      const coverImage = q.quizImage || q.imageUrl || q.image || 'https://images.unsplash.com/photo-1548191265-cc70d3d45ba1';
+
+      // 🌟 1.1 Insert ควิซลง Database (จับยัดทีละฟิลด์ ชัวร์ที่สุด)
+      const [insertedQuiz] = await db.insert(schema.quiz)
+        .values({ 
+          title: q.title,
+          description: q.description,
+          category: q.category,
+          level: q.level,
+          points: q.points || 10,
+          duration: q.duration || 100,
+          tag: q.tag || 1,
+          quizImage: coverImage 
+        })
+        .returning();
+
+      console.log(`✅ เพิ่มควิซ: ${insertedQuiz.title}`);
+
+      // 1.2 วนลูป Insert คำถามและช้อยส์
+      if (q.questions && q.questions.length > 0) {
+        for (const qBody of q.questions) {
+          const [insertedQuestion] = await db.insert(schema.questions)
+            .values({ 
+              quizId: insertedQuiz.uuid,
+              question: qBody.question,
+              explanation: qBody.explanation
+            })
             .returning();
-        insertedQuizzes.push(inserted);
-    }
 
-    // 2. Seed Shelters
-    const shelterData = JSON.parse(
-      await readFile(path.join(__dirname, 'data', 'shelter.json'), 'utf-8')
-    );
-    console.log(`Inserting ${shelterData.length} shelters...`);
-    // Map 'image' to 'shelterImage'
-    const mappedShelterData = shelterData.map((s: any) => {
-        const { image, ...rest } = s;
-        return { ...rest, shelterImage: image };
-    });
-    await db.insert(schema.shelter).values(mappedShelterData);
+          // เตรียมข้อมูล Choices
+          const choicesWithId = qBody.choices.map((c: any) => ({
+            questionId: insertedQuestion.uuid,
+            choices: c.text,
+            isCorrect: c.isCorrect
+          }));
 
-    // 3. Seed Questions and Choices
-    const questionData = JSON.parse(
-      await readFile(path.join(__dirname, 'data', 'question.json'), 'utf-8')
-    );
-    
-    console.log(`Inserting ${questionData.length} questions and their choices...`);
-    
-    for (const q of questionData) {
-      const { choices, ...questionPart } = q;
-      
-      // Use the first quiz for all questions for now
-      const quizId = insertedQuizzes[0].uuid;
-      
-      // Insert question and get the result (uuid)
-      const [insertedQuestion] = await db.insert(schema.questions)
-        .values({ ...questionPart, quizId })
-        .returning({ uuid: schema.questions.uuid });
-      
-      if (insertedQuestion) {
-        // Map choices to include the questionId
-        const choicesWithId = choices.map((c: any) => ({
-          ...c,
-          questionId: insertedQuestion.uuid
-        }));
-        
-        await db.insert(schema.choices).values(choicesWithId);
+          // Insert Choices
+          await db.insert(schema.choices).values(choicesWithId);
+        }
       }
     }
 
-    console.log('✅ Seeding completed successfully!');
+    // 2. Seed Shelters (ถ้ามีไฟล์ shelter.json)
+    try {
+      const shelterData = JSON.parse(
+        await readFile(path.join(__dirname, 'data', 'shelter.json'), 'utf-8')
+      );
+      console.log(`Inserting ${shelterData.length} shelters...`);
+      const mappedShelterData = shelterData.map((s: any) => {
+        const { image, ...rest } = s;
+        return { ...rest, shelterImage: image };
+      });
+      await db.insert(schema.shelter).values(mappedShelterData);
+      console.log('✅ เพิ่ม Shelters สำเร็จ');
+    } catch (err) {
+      console.log('⚠️ ไม่พบไฟล์ shelter.json ข้ามการ Seed ฝั่ง Shelter ไปก่อน');
+    }
+
+    console.log('🎉 Seeding completed successfully!');
     process.exit(0);
   } catch (error) {
     console.error('❌ Seeding failed:', error);

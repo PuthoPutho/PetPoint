@@ -76,7 +76,7 @@ class QuizDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                quizData.tag,
+                'Part ${quizData.tag}',
                 style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 16),
               ),
               const SizedBox(height: 24),

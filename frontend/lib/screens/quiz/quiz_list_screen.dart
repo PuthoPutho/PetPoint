@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import '../../services/mock_quiz_service.dart';
+import '../../models/quiz.dart'; // 🌟 1. อย่าลืม import model
+import '../../services/quiz_service.dart';
 import '../../widgets/quiz_card.dart';
 
 class QuizListScreen extends StatefulWidget {
@@ -13,14 +14,19 @@ class QuizListScreen extends StatefulWidget {
 class _QuizListScreenState extends State<QuizListScreen> {
   bool _isCategoryExpanded = false;
   bool _isTimeFilterExpanded = false;
+
+  // 🌟 2. เพิ่มตัวแปรสำหรับเก็บข้อมูลจาก Backend
+  List<Quiz> allQuizzes = [];
+  bool isLoading = true; // เอาไว้โชว์ไอคอนโหลดหมุนๆ
+  String? errorMessage;
   
   final List<String> categories = [
     'All Category',
     'Vocabulary',
     'Grammar',
     'Reading',
-    'Conversation',
     'Sentence',
+    'Meaning',
   ];
   String selectedCategory = 'All Category';
 
@@ -33,28 +39,52 @@ class _QuizListScreenState extends State<QuizListScreen> {
   String selectedTimeFilter = 'All time';
   String searchQuery = '';
 
+  // 🌟 3. สั่งให้โหลดข้อมูลควิซทันทีที่เปิดหน้านี้ขึ้นมา
+  @override
+  void initState() {
+    super.initState();
+    _loadQuizzes();
+  }
+
+  Future<void> _loadQuizzes() async {
+    try {
+      final quizzes = await QuizService.getAllQuizzes();
+      setState(() {
+        allQuizzes = quizzes;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'เกิดข้อผิดพลาด: $e';
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // โหลดข้อมูลจำลองและฟิลเตอร์ตามหมวดหมู่ที่เลือก
-    final allQuizzes = MockQuizService.getMockQuizzes();
-    
-    final quizzes = allQuizzes.where((quiz) {
+    // 🌟 4. ฟิลเตอร์ข้อมูลจาก allQuizzes ที่โหลดมาจาก Backend (ไม่ใช่ mock แล้ว)
+    final filteredQuizzes = allQuizzes.where((quiz) {
       final matchesCategory = 
           selectedCategory == 'All Category' || quiz.category == selectedCategory;
       
-      final now = DateTime.now();
-      final difference = now.difference(quiz.createdAt);
-      
+      // การกรองเวลา
       bool matchesTime = true;
-      if (selectedTimeFilter == 'Last week') {
-        matchesTime = difference.inDays <= 7;
-      } else if (selectedTimeFilter == 'Last month') {
-        matchesTime = difference.inDays <= 30;
-      } else if (selectedTimeFilter == 'Last year') {
-        matchesTime = difference.inDays <= 365;
+      // ⚠️ ทริค: เช็คว่า quiz มี createdAt ไหม (ถ้าใน Model ไม่มี ให้เพื่อนเติมด้วยนะ)
+      if (quiz.createdAt != null) {
+        final now = DateTime.now();
+        final difference = now.difference(quiz.createdAt!);
+        
+        if (selectedTimeFilter == 'Last week') {
+          matchesTime = difference.inDays <= 7;
+        } else if (selectedTimeFilter == 'Last month') {
+          matchesTime = difference.inDays <= 30;
+        } else if (selectedTimeFilter == 'Last year') {
+          matchesTime = difference.inDays <= 365;
+        }
       }
       
+      // การค้นหา
       bool matchesSearch = true;
       if (searchQuery.isNotEmpty) {
         final query = searchQuery.toLowerCase();
@@ -72,204 +102,217 @@ class _QuizListScreenState extends State<QuizListScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-          children: [
-            const SizedBox(height: 18),
-            // 1. ช่องค้นหา (Search Bar)
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
-                    blurRadius: 16,
-                    offset: const Offset(0, 4),
+            children: [
+              const SizedBox(height: 18),
+              // 1. ช่องค้นหา (Search Bar)
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                  border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                ),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    hintStyle: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
+                    suffixIcon: const Icon(LucideIcons.search, color: Colors.grey), // ไอคอนอยู่ขวา
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // 2. ดรอปดาวน์ฟิลเตอร์ (หมวดหมู่ และ Last month)
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isCategoryExpanded = !_isCategoryExpanded;
+                          if (_isCategoryExpanded) _isTimeFilterExpanded = false;
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 16,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                          border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                selectedCategory,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
+                              ),
+                            ),
+                            Icon(_isCategoryExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, color: Colors.grey, size: 20),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isTimeFilterExpanded = !_isTimeFilterExpanded;
+                          if (_isTimeFilterExpanded) _isCategoryExpanded = false;
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 16,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                          border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                selectedTimeFilter,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
+                              ),
+                            ),
+                            Icon(_isTimeFilterExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, color: Colors.grey, size: 20),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
-                border: Border.all(color: Colors.grey.withOpacity(0.2)),
               ),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    searchQuery = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
-                  suffixIcon: const Icon(LucideIcons.search, color: Colors.grey), // ไอคอนอยู่ขวา
-                  filled: true,
-                  fillColor: Colors.transparent,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
-            // 2. ดรอปดาวน์ฟิลเตอร์ (หมวดหมู่ และ Last month)
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isCategoryExpanded = !_isCategoryExpanded;
-                        if (_isCategoryExpanded) _isTimeFilterExpanded = false;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 16,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                        border: Border.all(color: Colors.grey.withOpacity(0.2)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              selectedCategory,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
-                            ),
-                          ),
-                          Icon(_isCategoryExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, color: Colors.grey, size: 20),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isTimeFilterExpanded = !_isTimeFilterExpanded;
-                        if (_isTimeFilterExpanded) _isCategoryExpanded = false;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 16,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                        border: Border.all(color: Colors.grey.withOpacity(0.1)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              selectedTimeFilter,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey),
-                            ),
-                          ),
-                          Icon(_isTimeFilterExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, color: Colors.grey, size: 20),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            // 3. รายการการ์ดแบบเลื่อนได้ (และลอยทับเมนู)
-            Expanded(
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                    padding: const EdgeInsets.only(top: 8, bottom: 24),
-                    itemCount: quizzes.length,
-                    itemBuilder: (context, index) {
-                      return QuizCard(quizData: quizzes[index]);
-                    },
-                  ),
-                  
-                  // เลเยอร์จับการกดพื้นหลังเพื่อปิดเมนู
-                  if (_isCategoryExpanded || _isTimeFilterExpanded)
-                    Positioned.fill(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          setState(() {
-                            _isCategoryExpanded = false;
-                            _isTimeFilterExpanded = false;
-                          });
+              // 3. รายการการ์ดแบบเลื่อนได้ (และลอยทับเมนู)
+              Expanded(
+                child: Stack(
+                  children: [
+                    // 🌟 5. เช็คสถานะ Loading ว่ากำลังโหลด พัง หรือเสร็จแล้ว
+                    if (isLoading)
+                      const Center(child: CircularProgressIndicator(color: Colors.green))
+                    else if (errorMessage != null)
+                      Center(child: Text(errorMessage!, style: const TextStyle(color: Colors.red)))
+                    else if (filteredQuizzes.isEmpty)
+                      const Center(
+                        child: Text(
+                          'No quizzes found',
+                          style: TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 16),
+                        ),
+                      )
+                    else
+                      ListView.builder(
+                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                        padding: const EdgeInsets.only(top: 8, bottom: 24),
+                        itemCount: filteredQuizzes.length, // ใช้ตัวแปรที่กรองแล้ว
+                        itemBuilder: (context, index) {
+                          return QuizCard(quizData: filteredQuizzes[index]);
                         },
                       ),
-                    ),
-
-                  // เลเยอร์เมนูแบบลอยทับ
-                  if (_isCategoryExpanded || _isTimeFilterExpanded)
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: _isCategoryExpanded
-                                ? _buildCustomMenu(categories, selectedCategory, (val) {
-                                    setState(() {
-                                      selectedCategory = val;
-                                      _isCategoryExpanded = false;
-                                    });
-                                  })
-                                : const SizedBox.shrink(),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: _isTimeFilterExpanded
-                                ? _buildCustomMenu(timeFilters, selectedTimeFilter, (val) {
-                                    setState(() {
-                                      selectedTimeFilter = val;
-                                      _isTimeFilterExpanded = false;
-                                    });
-                                  })
-                                : const SizedBox.shrink(),
-                          ),
-                        ],
+                    
+                    // เลเยอร์จับการกดพื้นหลังเพื่อปิดเมนู
+                    if (_isCategoryExpanded || _isTimeFilterExpanded)
+                      Positioned.fill(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            setState(() {
+                              _isCategoryExpanded = false;
+                              _isTimeFilterExpanded = false;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                ],
+
+                    // เลเยอร์เมนูแบบลอยทับ
+                    if (_isCategoryExpanded || _isTimeFilterExpanded)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: _isCategoryExpanded
+                                  ? _buildCustomMenu(categories, selectedCategory, (val) {
+                                      setState(() {
+                                        selectedCategory = val;
+                                        _isCategoryExpanded = false;
+                                      });
+                                    })
+                                  : const SizedBox.shrink(),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: _isTimeFilterExpanded
+                                  ? _buildCustomMenu(timeFilters, selectedTimeFilter, (val) {
+                                      setState(() {
+                                        selectedTimeFilter = val;
+                                        _isTimeFilterExpanded = false;
+                                      });
+                                    })
+                                  : const SizedBox.shrink(),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -298,7 +341,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
-                color: isSelected ? const Color(0xFFF0FDF4) : Colors.transparent, // เขียวเป๊ะถึงขอบ
+                color: isSelected ? const Color(0xFFF0FDF4) : Colors.transparent,
                 child: Text(
                   item,
                   style: TextStyle(

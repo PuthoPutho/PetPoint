@@ -1,11 +1,11 @@
 meta {
-  name: health check
+  name: call quizes
   type: http
-  seq: 1
+  seq: 5
 }
 
 get {
-  url: http://localhost:3000/health
+  url: http://localhost:3000/api/quiz/
   body: none
   auth: inherit
 }
