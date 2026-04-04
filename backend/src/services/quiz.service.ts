@@ -1,4 +1,9 @@
+// ไฟล์: src/services/quiz.service.ts
 import { quizRepository } from '../repositories/quiz.repository.js';
+import { eq } from 'drizzle-orm';
+import { db } from '../db/index.js'; 
+//  เพิ่มตาราง user เข้ามาใน import ด้วยนะครับ เพื่อเอาไว้อัปเดตคะแนน
+import { quiz, quiz_history, quiz_attempts, user } from '../db/schema.js'; 
 
 // 1. ฟังก์ชันช่วยคำนวณคะแนน (Helper Function)
 const calculateScore = async (quizId: string, userAnswers: any[]) => {
@@ -30,28 +35,73 @@ export const quizService = {
             // 1. คำนวณคะแนนและดึงรายละเอียดรายข้อ
             const { score: newScore, detailedAnswers } = await calculateScore(quizId, userAnswers); 
 
-            // 2. ดึงคะแนน "ล่าสุด" เพื่อหาส่วนต่าง
-            const latestAttempt = await quizRepository.getLatestAttempt(userId, quizId);
-            const oldScore = latestAttempt ? latestAttempt.score : 0;
-            const delta = newScore - oldScore;
-
-            // 3. บันทึกประวัติการสอบรอบนี้ (ตาราง quiz_attempts)
+            // 2. บันทึกประวัติการสอบรอบนี้ 
             const newAttempt = await quizRepository.saveAttempt(userId, quizId, newScore);
 
-            // 4. บันทึกรายละเอียดการตอบรายข้อ (ตาราง quiz_history)
+            // 3. บันทึกรายละเอียดการตอบรายข้อ 
             if (newAttempt) {
                 await quizRepository.saveQuizHistory(newAttempt.uuid, userId, detailedAnswers);
             }
 
-            // 5. อัปเดตแต้มรวม (เรียกใช้จาก quizRepository ตามที่คุณแก้มา)
-            const updatedUser = await quizRepository.updateTotalScore(userId, delta);
+            // 🌟 4. [ส่วนที่แก้ใหม่] ดึงประวัติทั้งหมด "พร้อมหมวดหมู่ (Category)" ของควิซนั้น
+            const historyWithCategory = await db.select({
+                quizId: quiz_attempts.quizId,
+                score: quiz_attempts.score,
+                category: quiz.category
+            })
+            .from(quiz_attempts)
+            .innerJoin(quiz, eq(quiz_attempts.quizId, quiz.uuid))
+            .where(eq(quiz_attempts.userId, userId));
+
+            // 🌟 5. จัดกลุ่มคะแนนล่าสุดตามหมวดหมู่ (ลอก Logic มาจาก Flutter เป๊ะๆ)
+            const latestScores: Record<string, Map<string, number>> = {
+                grammar: new Map(),
+                vocab: new Map(),
+                reading: new Map(),
+                sentence: new Map(),
+                meaning: new Map()
+            };
+
+            historyWithCategory.forEach(attempt => {
+                if (!attempt.quizId || !attempt.category) return;
+                
+                const cat = attempt.category.toLowerCase();
+                let mappedCat = '';
+                if (cat.includes('grammar')) mappedCat = 'grammar';
+                else if (cat.includes('vocab')) mappedCat = 'vocab';
+                else if (cat.includes('reading')) mappedCat = 'reading';
+                else if (cat.includes('sentence')) mappedCat = 'sentence';
+                else if (cat.includes('meaning')) mappedCat = 'meaning';
+
+                if (mappedCat) {
+                    // เซฟทับคะแนนเดิมด้วยคะแนนล่าสุด
+                    latestScores[mappedCat].set(attempt.quizId, attempt.score ?? 0);
+                }
+            });
+
+            // 🌟 6. รวมคะแนนแต่ละหมวด และ "จำกัดเพดาน (Clamp) หมวดละ 20" ให้เหมือนกราฟ
+            let newTotalScore = 0;
+            Object.keys(latestScores).forEach(key => {
+                let catSum = 0;
+                latestScores[key].forEach(score => { catSum += score; });
+                
+                // Clamp คะแนนให้อยู่ในช่วง 0 ถึง 20
+                if (catSum > 20) catSum = 20;
+                if (catSum < 0) catSum = 0;
+                
+                newTotalScore += catSum; // เอามารวมเป็นคะแนนสุทธิ
+            });
+
+            //  7. อัปเดตทับลงตาราง user
+            await db.update(user)
+                .set({ currentScore: newTotalScore })
+                .where(eq(user.uuid, userId));
 
             return {
                 success: true,
-                message: delta >= 0 ? "คะแนนดีขึ้นหรือเท่าเดิม!" : "คะแนนลดลงจากครั้งก่อนนะ",
+                message: "อัปเดตสเตตัสความสามารถล่าสุดเรียบร้อย!",
                 scoreObtained: newScore,
-                pointsChanged: delta,
-                currentTotalScore: updatedUser?.currentScore || 0
+                currentTotalScore: newTotalScore
             };
         } catch (error) {
             console.error("Submit Quiz Error:", error);
@@ -59,7 +109,6 @@ export const quizService = {
         }
     },
 
-    // --- ส่วนอื่นๆ (GET ทั้งหมด) เหมือนเดิม---
     getQuizzesList: async () => {
         try {
             const quizzes = await quizRepository.getAllQuizzes();
@@ -74,7 +123,6 @@ export const quizService = {
             const rawData = await quizRepository.getQuizWithQuestionsAndChoices(quizId);
             if (!rawData) return { success: false, message: "ไม่พบควิซ" };
 
-            // แยก questions ออกจากฟีลด์อื่นๆ ของ data
             const { questions, ...quizData } = rawData;
 
             const formattedQuiz = {
@@ -105,30 +153,27 @@ export const quizService = {
         }
     },
 
-    getSpiderChartData: async (userId: string) => {
+    async getSpiderChartData(userId: string) {
         try {
-            const latestScores = await quizRepository.getLatestScoresByCategory(userId);
-            const categories = ["Vocabulary", "Grammar", "Conversation", "Sentence", "Reading"];
-            const spiderMap: Record<string, number> = {};
-            categories.forEach(cat => spiderMap[cat] = 0);
+            const historyWithCategory = await db.select({
+                quizId: quiz_attempts.quizId,
+                score: quiz_attempts.score,
+                category: quiz.category
+            })
+            .from(quiz_attempts)
+            .innerJoin(quiz, eq(quiz_attempts.quizId, quiz.uuid))
+            .where(eq(quiz_attempts.userId, userId));
 
-            latestScores.forEach(item => {
-                if (spiderMap[item.category] !== undefined) {
-                    spiderMap[item.category] += Number(item.score);
-                }
-            });
-
-            const formattedData = Object.keys(spiderMap).map(key => ({
-                subject: key,
-                score: spiderMap[key],  
-                fullMark: 20
-            }));
-
-            return { success: true, data: formattedData };
+            return {
+                success: true,
+                data: historyWithCategory
+            };
         } catch (error) {
-            throw new Error("คำนวณข้อมูลกราฟไม่สำเร็จ");
+            console.error("Error fetching spider chart data:", error);
+            throw new Error("ไม่สามารถดึงข้อมูล Spider Chart ได้");
         }
     },
+    
     getQuizQuestions: async (quizId: string) => {
         return await quizRepository.getQuizWithQuestionsAndChoices(quizId);
     }
