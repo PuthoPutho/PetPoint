@@ -21,7 +21,7 @@ class QuizResultScreen extends StatelessWidget {
     int correctCount = 0;
     for (int i = 0; i < questions.length; i++) {
       if (userAnswers[i] != null) {
-        // 🌟 แก้ไขเป็น String เปรียบเทียบกับ String
+        // แก้ไขเป็น String เปรียบเทียบกับ String
         final selectedChoice = questions[i].choices.firstWhere((c) => c.id == userAnswers[i],
             orElse: () => QuizChoice(id: '', text: '', isCorrect: false));
         if (selectedChoice.isCorrect) correctCount++;
