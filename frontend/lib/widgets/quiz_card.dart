@@ -9,26 +9,21 @@ class QuizCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('👉 รูปภาพของควิซ ${quizData.title} คือ: ${quizData.image}');
     return Container(
       width: 336,
       height: 218,
       margin: const EdgeInsets.only(bottom: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
+      child: Card(
+        margin: EdgeInsets.zero,
+        color: Colors.white,
+        clipBehavior: Clip.antiAlias, // ทำให้มุมการ์ดโค้งมนกินเข้าไปในรูป
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 16,
-              offset: const Offset(0, 4),
-            ),
-          ],
-          border: Border.all(color: Colors.grey.withOpacity(0.1)),
+          side: BorderSide(color: Colors.grey.shade200, width: 1),
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: InkWell(
+        elevation: 0, 
+        child: InkWell(
           onTap: () {
             Navigator.push(
             context,
@@ -40,14 +35,20 @@ class QuizCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ส่วนที่ 1: รูปภาพหน้าปก (ใช้กรอบสีแทนชั่วคราว)
-              Container(
+              // ส่วนที่ 1: อัปเดตการดึงรูปภาพจาก Backend
+              SizedBox(
                 height: 152,
                 width: double.infinity,
-                color: _getCategoryColor(quizData.category),
-                child: const Center(
-                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(fontFamily: 'GoogleSans', color: Colors.white)),
-                ),
+                child: quizData.image != null && quizData.image!.isNotEmpty
+                    ? Image.network(
+                        quizData.image!,
+                        fit: BoxFit.cover, // ให้รูปขยายเต็มกรอบพอดี
+                        errorBuilder: (context, error, stackTrace) {
+                          // ถ้ารูปจาก URL โหลดไม่ขึ้น (ลิงก์ตาย) ให้กลับไปโชว์สีพื้นหลังแทน
+                          return _buildFallbackImage();
+                        },
+                      )
+                    : _buildFallbackImage(), // ถ้า Backend ไม่ส่งคีย์ image มา
               ),
               // ส่วนที่ 2: ข้อความด้านล่าง
               Expanded(
@@ -64,14 +65,14 @@ class QuizCard extends StatelessWidget {
                           children: [
                             Text(
                               quizData.title,
-                              style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 14, fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              quizData.tag,
-                              style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 12),
+                              'Part ${quizData.tag}',
+                              style: const TextStyle(color: Colors.grey, fontSize: 12),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -81,7 +82,7 @@ class QuizCard extends StatelessWidget {
                       const SizedBox(width: 8),
                       Text(
                         '+${quizData.points} Points',
-                        style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 13),
+                        style: const TextStyle(color: Colors.grey, fontSize: 13),
                       ),
                     ],
                   ),
@@ -90,12 +91,21 @@ class QuizCard extends StatelessWidget {
             ],
           ),
         ),
-        ),
       ),
     );
   }
 
-  // ฟังก์ชันเล็กๆ ช่วยสุ่มสีพื้นหลังให้ตรงส่วนหมวดหมู่
+  // วิดเจ็ตตัวสำรอง (Fallback) ถ้ารูปโหลดไม่มา
+  Widget _buildFallbackImage() {
+    return Container(
+      color: _getCategoryColor(quizData.category),
+      child: const Center(
+        child: Icon(Icons.image_not_supported, color: Colors.white, size: 40),
+      ),
+    );
+  }
+
+  // ฟังก์ชันเล็กๆ ช่วยสุ่มสีพื้นหลัง
   Color _getCategoryColor(String category) {
     final cat = category.toLowerCase();
     if (cat.contains('vocab') || cat.contains('volcab')) return const Color(0xFFFBE07A); // สีเหลือง

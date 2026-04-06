@@ -1,0 +1,33 @@
+meta {
+  name: submit quiz2
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/api/quiz/submit
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": "3bd03e8a-1ad9-40ca-a31f-4be75a1cd0ca",
+    "quizId": "abd083d5-89e4-4da4-acf8-d69a5b901cc0",
+    "answers": [
+      {
+        "questionId": "2cc5e176-e5c4-414b-9f1c-bb4d8359e485",
+        "choiceId": "90afa83d-f6a4-4b56-bcf1-69b33138d92f" 
+      },
+      {
+        "questionId" : "53ddae44-961a-45be-98fd-95d45a282b2d",
+        "choiceId" : "7df9c434-c312-4a0a-8dbb-b84cb37bf36b"
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
