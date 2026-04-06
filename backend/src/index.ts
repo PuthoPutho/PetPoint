@@ -1,11 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import questionRoutes from './routes/question.routes.js';
 import { quizRouter } from './routes/quiz.routes.js';
 import authRoutes from './routes/auth.routes.js';
 
-import { quizRouter } from './routes/quiz.routes.js';
+
 import { profileRouter } from './routes/profile.routes.js';
 import path from 'path';
 import fs from 'fs';
