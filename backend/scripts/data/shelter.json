@@ -1,18 +1,82 @@
 [
   {
-    "name": "Happy Paws Shelter",
-    "image": "https://images.unsplash.com/photo-1548191265-cc70d3d45ba1",
-    "address": "123 Pet Lane, Bangkok",
-    "phone": "02-123-4567",
-    "details": "A safe haven for rescued dogs and cats.",
-    "owner": "John Doe"
+    "name": "มูลนิธิเดอะวอยซ์ (เสียงจากเรา) - The Voice Foundation",
+    "image": "https://www.thevoicefoundation.org/wp-content/uploads/2021/logo.png",
+    "address": "กรุงเทพมหานคร (เน้นประสานงานและเคสฉุกเฉิน)",
+    "phone": "086-349-3326",
+    "details": "ก่อตั้งโดยคุณเก๋ ชลลดา มุ่งเน้นการเป็นกระบอกเสียง ช่วยเหลือสัตว์ที่บาดเจ็บ ถูกทอดทิ้ง และผลักดันกฎหมายคุ้มครองสัตว์",
+    "owner": "เก๋ ชลลดา สิริสันต์"
   },
   {
-    "name": "Sunshine Animal Rescue",
-    "image": "https://images.unsplash.com/photo-1548191265-cc70d3d45ba2",
-    "address": "456 Sunny Road, Chiang Mai",
-    "phone": "053-987-6543",
-    "details": "Specializing in emergency rescue and rehabilitation.",
-    "owner": "Jane Smith"
+    "name": "WVS Care for Dogs (Chiang Mai)",
+    "image": "https://carefordogs.org/wp-content/uploads/2020/logo.png",
+    "address": "12 หมู่ 4 ต.น้ำแพร่ อ.หางดง จ.เชียงใหม่ 50230",
+    "phone": "086-913-8701",
+    "details": "ศูนย์พักพิงและคลินิกช่วยเหลือสุนัขจรจัดในเชียงใหม่ เน้นการรักษา ทำหมัน และหาบ้านที่อบอุ่น",
+    "owner": "Worldwide Veterinary Service (WVS)"
+  },
+  {
+    "name": "มูลนิธิสันติสุขสงเคราะห์สัตว์ (Santisook Dog and Cat Rescue)",
+    "image": "https://www.santisookdogandcatrescuethailand.com/logo.png",
+    "address": "114/200 หมู่ 1 ต.สันนาเม็ง อ.สันทราย จ.เชียงใหม่ 50210",
+    "phone": "081-638-2105",
+    "details": "ช่วยเหลือสุนัขและแมวจรจัดในพื้นที่ภาคเหนือ โดยเฉพาะเคสที่เจ็บป่วยรุนแรงหรือพิการ",
+    "owner": "น้ำฝน ฮิลเกอร์ส"
+  },
+  {
+    "name": "มูลนิธิเพื่อสุนัขในเขตเมือง (The Dog Trust - Local Rescue)",
+    "image": "https://example.com/image3.jpg",
+    "address": "เขตประเวศ กรุงเทพมหานคร",
+    "phone": "02-328-1130",
+    "details": "ศูนย์พักพิงสุนัขจรจัดในความดูแลของ กทม. (ประเวศ) ซึ่งทำงานร่วมกับอาสาสมัครเพื่อพัฒนาคุณภาพชีวิตสัตว์",
+    "owner": "กรุงเทพมหานคร"
+  },
+  {
+    "name": "กลุ่มมะหมาหาบ้าน",
+    "image": "https://facebook.com/dogfindhome/logo.jpg",
+    "address": "ปทุมธานี (ศูนย์พักพิงชั่วคราว)",
+    "phone": "081-702-2002",
+    "details": "เน้นการประกาศหาบ้านและระดมทุนช่วยสุนัขเคสหนักๆ ที่ถูกทอดทิ้งตามที่สาธารณะ",
+    "owner": "เครือข่ายอาสาสมัคร"
+  },
+  {
+    "name": "มูลนิธิรักษ์แมว ปันน้ำใจให้แมวจร",
+    "image": "https://www.rakmaeow.com/logo.png",
+    "address": "ตู้ ปณ. 10 นนทบุรี 11000",
+    "phone": "081-831-2915",
+    "details": "เน้นกิจกรรมทำหมันสัญจรและช่วยเหลือแมวเจ็บป่วย รวมถึงหาบ้านใหม่ให้กับแมวทั่วประเทศ",
+    "owner": "วชิรา ทวีสยามบุตร"
+  },
+  {
+    "name": "ศูนย์พักพิงสุนัขจรจัดป้าจุ๊ (Paju Dog Shelter)",
+    "image": "https://example.com/paju.jpg",
+    "address": "อ.ลำลูกกา จ.ปทุมธานี",
+    "phone": "081-421-2244",
+    "details": "ดูแลสุนัขจรจัดจำนวนมากหลายร้อยตัวที่รับมาจากที่ต่างๆ เพื่อให้มีข้าวกินและที่อยู่อาศัยที่ปลอดภัย",
+    "owner": "คุณจุ๊ (นัชญ์ ประสพสิน - ผู้สนับสนุนหลัก)"
+  },
+  {
+    "name": "Headrock Dogs Rescue",
+    "image": "https://headrockdogs.org/logo.jpg",
+    "address": "อ.บางสะพาน จ.ประจวบคีรีขันธ์ 77140",
+    "phone": "081-736-2182",
+    "details": "ช่วยเหลือและฟื้นฟูสุนัขในพื้นที่บางสะพาน โดยเน้นการรักษาโรคเรื้อนและการทำหมัน",
+    "owner": "Verity C. Sodhi"
+  },
+  {
+    "name": "มูลนิธิเพื่อนสัตว์ป่า (Wildlife Friends Foundation Thailand)",
+    "image": "https://www.wfft.org/logo.png",
+    "address": "108 หมู่ 6 ต.ท่าไม้รวก อ.ท่ายาง จ.เพชรบุรี 76130",
+    "phone": "032-458-135",
+    "details": "แม้จะเน้นสัตว์ป่า แต่ก็มีโปรเจกต์ช่วยเหลือสุนัขและแมวจรจัดในพื้นที่ (Dog & Cat Rescue Center)",
+    "owner": "Edwin Wiek"
+  },
+  {
+    "name": "เกาะสุนัข พุทธมณฑล",
+    "image": "https://example.com/dogisland.jpg",
+    "address": "พุทธมณฑลสาย 4 ต.ศาลายา อ.พุทธมณฑล จ.นครปฐม",
+    "phone": "02-441-9012",
+    "details": "พื้นที่ดูแลสุนัขจรจัดในบริเวณพุทธมณฑล มีระบบการจัดการโดยเจ้าหน้าที่และอาสาสมัคร",
+    "owner": "สำนักงานพระพุทธศาสนาแห่งชาติ"
   }
 ]
