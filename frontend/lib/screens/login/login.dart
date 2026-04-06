@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http; // เพิ่มสำหรับ AP
 import 'dart:convert'; // เพิ่มสำหรับ json
 // คอมเมนต์ปิด google_sign_in ไว้ก่อนชั่วคราวเพื่อเทสต์ UI
 // import 'package:google_sign_in/google_sign_in.dart'; 
-import 'package:frontend/screens/signup/sign_up.dart'; 
+import 'package:frontend/screens/signup/sign_up.dart';
+import 'package:frontend/providers/auth_provider.dart';
 import 'dart:io';
 
 class LoginScreen extends StatefulWidget {
@@ -53,15 +54,36 @@ class _LoginScreenState extends State<LoginScreen> {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        // Login สำเร็จ
-        final token = data['data']['token'];
-        print("Token: $token");
-        
+        // Login สำเร็จ - ดึงข้อมูล user จาก response
+        final userData = data['data'];
+        final token = userData['token'];
+        final userId = userData['user']?['uuid'] ?? userData['userId'] ?? userData['id'] ?? '';
+        final username = userData['user']?['username'] ?? userData['username'] ?? 'User';
+        final userEmail = userData['user']?['email'] ?? userData['email'] ?? email;
+        final score = userData['user']?['currentScore'] ?? userData['currentScore'] ?? 0;
+        final profileImage = userData['user']?['profileImage'] ?? userData['profileImage'];
+
+        print("✅ Token: $token");
+        print("✅ UserId: $userId");
+        print("✅ Username: $username");
+
+        // บันทึกข้อมูลลง AuthProvider เพื่อให้ทุกหน้าเข้าถึงได้
+        if (mounted) {
+          AuthProvider.of(context).login(
+            userId: userId,
+            token: token,
+            username: username,
+            email: userEmail,
+            currentScore: score is int ? score : int.tryParse(score.toString()) ?? 0,
+            profileImage: profileImage,
+          );
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login Successful!'), backgroundColor: Colors.green),
         );
         
-        // เด้งไปหน้าหลัก
+        // ต้องสั่ง Navigator อีกครั้งเพื่อให้หน้า Login หายไปและไปที่หน้าหลักจริง
         Navigator.pushReplacementNamed(context, '/main');
       } else {
         // Login ไม่สำเร็จ

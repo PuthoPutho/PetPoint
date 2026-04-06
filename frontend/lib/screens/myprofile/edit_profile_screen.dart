@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart'; // สำหรับ kIsWeb
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +19,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  File? _pickedImage;
+  Uint8List? _pickedImageBytes; // เก็บเป็น Bytes แทน File เพื่อให้ใช้บน Web ได้
   late TextEditingController _usernameController;
   
   // 🌟 จุดสำคัญ: ตั้งค่า URL ให้ตรงกับ Backend (ถ้าใช้ Android Emulator ให้เปลี่ยนเป็น 10.0.2.2)
@@ -41,7 +42,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImage(ImageSource source) async {
-
     try {
       final XFile? image = await _picker.pickImage(
         source: source,
@@ -50,8 +50,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         maxHeight: 512, 
       );
       if (image == null) return;
+
+      // อ่านไฟล์เป็น Bytes (รองรับทั้ง Web และ Mobile)
+      final bytes = await image.readAsBytes();
+      
       setState(() {
-        _pickedImage = File(image.path);
+        _pickedImageBytes = bytes;
       });
     } catch (e) {
       print('Error picking image: $e');
@@ -129,9 +133,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           border: Border.all(color: Colors.grey.shade300, width: 1.5),
                         ),
                         child: ClipOval(
-                          child: _pickedImage != null 
-                              // 1. ถ้าเพิ่งเลือกรูปใหม่จาก Gallery/Camera
-                              ? Image.file(_pickedImage!, width: 140, height: 140, fit: BoxFit.cover)
+                          child: _pickedImageBytes != null 
+                              // 1. ถ้าเพิ่งเลือกรูปใหม่ (ใช้ Image.memory เพื่อให้รันบน Web ได้)
+                              ? Image.memory(_pickedImageBytes!, width: 140, height: 140, fit: BoxFit.cover)
                               
                               //  2. ถ้ายังไม่เลือกใหม่ แต่มีรูปเดิมจาก Server ส่งมา
                               : (widget.currentImagePath != null && widget.currentImagePath!.isNotEmpty && widget.currentImagePath != "null")
@@ -190,8 +194,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //  ส่งข้อมูลกลับไปที่หน้า Profile
                         Navigator.pop(context, {
                           'username': _usernameController.text,
-                          // ถ้าเลือกรูปใหม่ ให้ส่ง Path ในเครื่องไป ถ้าไม่เลือก ให้ส่ง Path เดิมจาก Server กลับไป
-                          'imagePath': _pickedImage?.path ?? widget.currentImagePath,
+                          // ส่ง Bytes กลับไปเพื่อให้ Navigator.pop ฝั่งรับเอาไปใช้ต่อ
+                          'imageBytes': _pickedImageBytes,
                         });
                       },
                       style: ElevatedButton.styleFrom(

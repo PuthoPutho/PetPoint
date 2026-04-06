@@ -3,9 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { quizRouter } from './routes/quiz.routes.js';
 import authRoutes from './routes/auth.routes.js';
-
-
 import { profileRouter } from './routes/profile.routes.js';
+import { donationRouter } from './routes/donation.routes.js';
 import path from 'path';
 import fs from 'fs';
 
@@ -27,10 +26,9 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 
 
-
-
 app.use('/api/quiz', quizRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/donation', donationRouter);
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 

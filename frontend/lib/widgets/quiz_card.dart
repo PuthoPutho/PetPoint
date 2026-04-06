@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/quiz.dart';
 import '../screens/quiz/quiz_detail_screen.dart';
+import '../services/quiz_service.dart';
+import '../providers/auth_provider.dart';
 
 class QuizCard extends StatelessWidget {
   final Quiz quizData;
@@ -24,13 +26,40 @@ class QuizCard extends StatelessWidget {
         ),
         elevation: 0, 
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QuizDetailScreen(quizData: quizData),
-            ),
-          );
+          onTap: () async {
+            final userId = AuthProvider.of(context).userId ?? '';
+            
+            // 1. แสดง Loading เผื่อเน็ตช้า
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (ctx) => const Center(child: CircularProgressIndicator(color: Color(0xFF59AC77))),
+            );
+
+            try {
+              // 2. ดึงข้อมูลตัวเต็ม (เพื่อเช็ค isCompleted)
+              final fullQuiz = await QuizService.getQuizDetails(
+                quizData.uuid,
+                userId: userId.isNotEmpty ? userId : null
+              );
+
+              if (!context.mounted) return;
+              Navigator.pop(context); // ปิด Loading
+
+              // 3. ไปหน้า Detail
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuizDetailScreen(quizData: fullQuiz),
+                ),
+              );
+            } catch (e) {
+              if (!context.mounted) return;
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: $e')),
+              );
+            }
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

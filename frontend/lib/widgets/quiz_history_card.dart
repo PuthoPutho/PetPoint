@@ -58,22 +58,11 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
               children: [
                 
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                  child: Image.asset(
-                    widget.imagePath,
-                    height: 180,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        height: 180,
-                        color: Colors.grey[300],
-                        child: const Center(
-                          child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
-                        ),
-                      );
-                    },
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
+                  child: _buildImage(widget.imagePath),
                 ),
 
                 Padding(
@@ -140,6 +129,39 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildImage(String path) {
+    //  Helper สำหรับตัดสินใจว่าจะใช้ Image.network หรือ Image.asset
+    const String serverUrl = 'http://localhost:3000'; // ถ้าขึ้น Production ต้องแก้ตรงนี้
+    
+    if (path.isEmpty) {
+      return Container(
+        height: 180, width: double.infinity, color: Colors.grey[200],
+        child: const Icon(Icons.quiz_outlined, size: 40, color: Colors.grey),
+      );
+    }
+
+    if (path.startsWith('http') || path.startsWith('https')) {
+      return Image.network(path, height: 180, width: double.infinity, fit: BoxFit.cover, 
+        errorBuilder: (c, e, s) => _buildErrorPlaceholder());
+    }
+
+    if (path.startsWith('/uploads')) {
+      return Image.network('$serverUrl$path', height: 180, width: double.infinity, fit: BoxFit.cover, 
+        errorBuilder: (c, e, s) => _buildErrorPlaceholder());
+    }
+
+    // กรณีเป็น Local Asset
+    return Image.asset(path, height: 180, width: double.infinity, fit: BoxFit.cover, 
+      errorBuilder: (c, e, s) => _buildErrorPlaceholder());
+  }
+
+  Widget _buildErrorPlaceholder() {
+    return Container(
+      height: 180, width: double.infinity, color: Colors.grey[300],
+      child: const Center(child: Icon(Icons.broken_image, size: 40, color: Colors.grey)),
     );
   }
 }

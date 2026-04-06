@@ -60,15 +60,32 @@ export const quizRepository = {
         );
     },
 
-    // 4. ดึงรายชื่อควิซ "ทั้งหมด" (เอาไปทำหน้าเมนู)
-    getAllQuizzes: async () => {
-        return await db.select({
-            ...getTableColumns(quiz), // ดึงคอลัมน์เดิมมาให้ครบ (title, image, duration ฯลฯ)
-            questionCount: sql<number>`cast(count(${questions.uuid}) as int)` // แอบนับจำนวนข้อให้
+    // 4. ดึงรายชื่อควิซ "ทั้งหมด" (รองรับการเช็คสถานะ Completed ของแต่ละ User)
+    getAllQuizzes: async (userId?: string) => {
+        // ใช้ SQL Subquery เพื่อหาว่า User เคยทำ Quiz ไหนไปบ้าง
+        const userAttempts = userId ? 
+            db.selectDistinctOn([quiz_attempts.quizId], {
+                quizId: quiz_attempts.quizId,
+                isCompleted: sql<boolean>`true`.as('isCompleted')
+            })
+            .from(quiz_attempts)
+            .where(eq(quiz_attempts.userId, userId))
+            .as('ua') : null;
+
+        const query = db.select({
+            ...getTableColumns(quiz),
+            questionCount: sql<number>`cast(count(${questions.uuid}) as int)`,
+            isCompleted: userAttempts ? userAttempts.isCompleted : sql<boolean>`false`
         })
-            .from(quiz)
-            .leftJoin(questions, eq(quiz.uuid, questions.quizId))
-            .groupBy(quiz.uuid);
+        .from(quiz)
+        .leftJoin(questions, eq(quiz.uuid, questions.quizId));
+
+        if (userAttempts) {
+            // @ts-ignore - Drizzle types can be tricky with complex joins in select
+            query.leftJoin(userAttempts, eq(quiz.uuid, userAttempts.quizId));
+        }
+
+        return await query.groupBy(quiz.uuid, userAttempts ? userAttempts.isCompleted : sql`null`);
     },
 
     // 4.1 ใช้สำหรับหน้า Quiz Details ก่อนกดเข้าห้องสอบ (นับจำนวนข้อ + เช็คว่าเคยทำหรือยัง)
@@ -148,6 +165,7 @@ export const quizRepository = {
             quizId: quiz.uuid,
             quizTitle: quiz.title,
             category: quiz.category,
+            quizImage: quiz.quizImage, //  เพิ่มรูปภาพเพื่อให้ UI แสดงผลได้ครบถ้วน
             score: quiz_attempts.score,
             createdAt: quiz_attempts.createdAt
         })

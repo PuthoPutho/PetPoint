@@ -12,9 +12,9 @@ class QuizChoice {
   // 🌟 ฟังก์ชันแปลง JSON สำหรับตัวเลือก (Choice)
   factory QuizChoice.fromJson(Map<String, dynamic> json) {
     return QuizChoice(
-      id: json['id'].toString(), 
-      text: json['text'] ?? json['choiceText'] ?? '',
-      isCorrect: json['isCorrect'] ?? false,
+      id: json['uuid']?.toString() ?? json['id']?.toString() ?? '', 
+      text: json['choices'] ?? json['text'] ?? json['choiceText'] ?? '',
+      isCorrect: json['isCorrect'] ?? json['is_correct'] ?? false,
     );
   }
 }
@@ -36,7 +36,7 @@ class QuizQuestion {
   factory QuizQuestion.fromJson(Map<String, dynamic> json) {
     var choicesList = json['choices'] as List? ?? [];
     return QuizQuestion(
-      id: json['id'].toString(),
+      id: json['uuid']?.toString() ?? json['id']?.toString() ?? '',
       question: json['question'] ?? json['text'] ?? '',
       choices: choicesList.map((c) => QuizChoice.fromJson(c)).toList(),
       explanation: json['explanation'] ?? '',

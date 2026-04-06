@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/quiz.dart';
 import 'package:frontend/screens/quiz/quiz_detail_screen.dart';
 import 'package:frontend/services/quiz_service.dart';
-
+import 'package:frontend/providers/auth_provider.dart';
 import '../../widgets/quiz_history_card.dart';
 
 class AllScoreScreen extends StatefulWidget {
@@ -19,45 +18,67 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
     'All',
     'Vocab',
     'Grammar',
-    'Conversation',
     'Meaning',
     'Sentence',
+    'Reading',
+  
   ];
 
-  final List<Map<String, String>> quizHistoryData = const [
-    {
-      'title': 'Vocabulary   A1',
-      'subtitle': 'Part 1',
-      'score': '8/10',
-      'points': '10 Points',
-      'imagePath': 'assets/vocab_a1_part1.png',
-    },
-    {
-      'title': 'Grammar   B1',
-      'subtitle': 'Part 2',
-      'score': '9/10',
-      'points': '15 Points',
-      'imagePath': 'assets/vocab_a1_part1.png',
-    },
-  ];
+  List<dynamic> _historyData = [];
+  bool _isLoading = true;
+  bool _isFirstLoad = true;
 
-  List<Map<String, String>> get filteredData {
-    if (selectedFilter == 'All') {
-      return quizHistoryData;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isFirstLoad) {
+      _isFirstLoad = false;
+      _loadHistoryData();
     }
-    return quizHistoryData.where((data) {
-      final title = (data['title'] ?? '').toLowerCase();
-      final subtitle = (data['subtitle'] ?? '').toLowerCase();
-      final filter = selectedFilter.toLowerCase();
+  }
 
-      if (filter == 'vocab' && title.contains('vocabulary')) return true;
-      return title.contains(filter) || subtitle.contains(filter);
+  Future<void> _loadHistoryData() async {
+    setState(() => _isLoading = true);
+    try {
+      final userId = AuthProvider.of(context).userId ?? '';
+      if (userId.isNotEmpty) {
+        final history = await QuizService.getUserQuizHistory(userId);
+        setState(() {
+          // 🌟 ตรวจสอบประเภทข้อมูลให้ชัวร์ว่าเป็น List
+          if (history is List) {
+            _historyData = history;
+          } else {
+            _historyData = [];
+            print('⚠️ Warning: History data is not a list');
+          }
+          _isLoading = false;
+        });
+      } else {
+        setState(() => _isLoading = false);
+      }
+    } catch (e) {
+      print('❌ Error loading history: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  List<dynamic> get filteredData {
+    if (selectedFilter == 'All') {
+      return _historyData;
+    }
+    return _historyData.where((data) {
+      final category = (data['category'] ?? '').toString().toLowerCase();
+      final filter = selectedFilter.toLowerCase();
+      return category.contains(filter);
     }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final displayData = [];
+    final displayData = filteredData;
+    final currentScore = AuthProvider.of(context).currentScore;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -72,7 +93,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTopScoreCard(),
+                _buildTopScoreCard(currentScore),
 
                 const SizedBox(height: 32),
 
@@ -165,15 +186,19 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
                   ),
                 ),
 
-                //end
                 const SizedBox(height: 20),
 
-                if (displayData.isEmpty)
+                if (_isLoading)
                   const Padding(
-                    padding: EdgeInsets.only(top: 20.0),
+                    padding: EdgeInsets.only(top: 40.0),
+                    child: Center(child: CircularProgressIndicator(color: Color(0xFF59AC77))),
+                  )
+                else if (displayData.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 40.0),
                     child: Center(
                       child: Text(
-                        'No history found for this category.',
+                        'No history found.',
                         style: TextStyle(
                           color: Colors.grey,
                           fontFamily: 'GoogleSans',
@@ -188,37 +213,58 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
                     itemCount: displayData.length,
                     itemBuilder: (context, index) {
                       final data = displayData[index];
+                      String dateStr = "";
+                      if (data['createdAt'] != null) {
+                        try {
+                          final dt = DateTime.parse(data['createdAt'].toString());
+                          dateStr = "${dt.day}/${dt.month}/${dt.year}";
+                        } catch(_) {}
+                      }
+
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: QuizHistoryCard(
-                          title: data.title,
-                          subtitle: data.category,
-                          score: "0",
-                          points: "0",
-                          imagePath: "assets/vocab_a1_part1.png",
-                          //onTap
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => QuizDetailScreen(
-                                  quizData: Quiz(
-                                    uuid: data.uuid,
-                                    title: data.title,
-                                    description: data.description,
-                                    category: data.category,
-                                    points: data.points,
-                                    duration: data.duration,
-                                    questionCount: data.questionCount,
-                                    level: data.level,
-                                    tag: data.tag,
-                                    createdAt: DateTime.now(),
-                                  ),
-                                ),
-                              ),
+                          title: data['quizTitle'] ?? 'No Title',
+                          subtitle: "${data['category'] ?? 'General'} • $dateStr",
+                          score: "Score: ${data['score'] ?? 0}",
+                          points: "Done",
+                          imagePath: data['quizImage'] ?? "",
+                          onTap: () async {
+                            final userId = AuthProvider.of(context).userId ?? '';
+                            if (userId.isEmpty) return;
+
+                            // 1. โชว์ Loading นิดนึงก่อนไปหน้าถัดไป (กันค้าง)
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (ctx) => const Center(child: CircularProgressIndicator(color: Color(0xFF59AC77))),
                             );
+
+                            try {
+                              // 2. ดึงข้อมูลควิซแบบละเอียด (พร้อมสถานะ isCompleted)
+                              final fullQuiz = await QuizService.getQuizDetails(
+                                data['quizId']?.toString() ?? '',
+                                userId: userId
+                              );
+
+                              if (!mounted) return;
+                              Navigator.pop(context); // ปิด Loading
+
+                              // 3. พาไปหน้า Quiz Detail
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuizDetailScreen(quizData: fullQuiz),
+                                ),
+                              );
+                            } catch (e) {
+                              if (!mounted) return;
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Error: $e')),
+                              );
+                            }
                           },
-                          // -----------------------------------------------------------
                         ),
                       );
                     },
@@ -231,7 +277,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
     );
   }
 
-  Widget _buildTopScoreCard() {
+  Widget _buildTopScoreCard(int currentScore) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24.0),
@@ -267,15 +313,15 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
           ),
           const SizedBox(height: 32),
           _buildPointRow(
-            title: 'Your Balance :',
-            value: '73',
+            title: 'Your Score :',
+            value: '$currentScore',
             unit: 'Points',
             backgroundColor: const Color(0xFFFFCCDE),
           ),
           const SizedBox(height: 12),
           _buildPointRow(
             title: 'Your Donated :',
-            value: '1000',
+            value: '${AuthProvider.of(context).donatedScore}',
             unit: 'Points',
             backgroundColor: const Color(0xFFFFE97E),
           ),

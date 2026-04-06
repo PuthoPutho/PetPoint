@@ -113,9 +113,9 @@ class QuizDetailScreen extends StatelessWidget {
                     );
 
     },
-                  child: const Text(
-                    'Start Quiz',
-                    style: TextStyle(fontFamily: 'GoogleSans', fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                  child: Text(
+                    quizData.isCompleted == true ? 're-attempt' : 'Start Quiz',
+                    style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

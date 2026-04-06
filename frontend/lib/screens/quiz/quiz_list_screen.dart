@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/quiz.dart';
 import '../../services/quiz_service.dart';
+import '../../providers/auth_provider.dart';
 import '../../widgets/quiz_card.dart';
 
 class QuizListScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
     'Vocabulary',
     'Grammar',
     'Reading',
-    'Conversation',
+    'Meaning',
     'Sentence',
   ];
   String selectedCategory = 'All Category';
@@ -41,25 +42,50 @@ class _QuizListScreenState extends State<QuizListScreen> {
   String selectedTimeFilter = 'All time';
   String searchQuery = '';
 
+  bool _isFirstLoad = true;
+
   @override
   void initState() {
     super.initState();
-    _loadQuizzes();
+    // 🌟 ย้ายการโหลดไปที่ didChangeDependencies แทน เพื่อความปลอดภัยของ Context
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isFirstLoad) {
+      _isFirstLoad = false;
+      _loadQuizzes();
+    }
   }
 
   // ฟังก์ชันโหลดข้อมูลจาก Backend
   Future<void> _loadQuizzes() async {
     try {
-      final quizzes = await QuizService.getAllQuizzes();
+      final userId = AuthProvider.of(context).userId;
+      if (userId == null || userId.isEmpty) {
+        setState(() => isLoading = false);
+        return;
+      }
+      
+      final quizzes = await QuizService.getAllQuizzes(userId: userId);
       setState(() {
-        allQuizzes = quizzes;
+        // 🌟 ประกันความปลอดภัยของข้อมูล
+        if (quizzes is List<Quiz>) {
+          allQuizzes = quizzes;
+        } else {
+          allQuizzes = [];
+        }
         isLoading = false;
       });
     } catch (e) {
-      setState(() {
-        errorMessage = 'ไม่สามารถโหลดข้อมูลได้: $e';
-        isLoading = false;
-      });
+      print('❌ Error loading quizzes: $e');
+      if (mounted) {
+        setState(() {
+          errorMessage = 'ไม่สามารถโหลดข้อมูลได้: $e';
+          isLoading = false;
+        });
+      }
     }
   }
 
