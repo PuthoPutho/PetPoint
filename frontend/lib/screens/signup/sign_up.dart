@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-// คอมเมนต์ google_sign_in ไว้ก่อนชั่วคราวเพื่อเทสต์ UI
+import 'package:flutter/foundation.dart'; 
+import 'package:http/http.dart' as http; 
+import 'dart:convert'; 
 // import 'package:google_sign_in/google_sign_in.dart'; 
 
 class SignUpScreen extends StatefulWidget {
@@ -11,22 +13,64 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   
-  // final GoogleSignIn _googleSignIn = GoogleSignIn();
   bool _isHoveringLogin = false;
 
-  Future<void> _handleGoogleSignIn() async {
-    
-    print("Google Sign-In Clicked! (Mock)");
-    /*
-    try {
-      final GoogleSignInAccount? account = await _googleSignIn.signIn();
-      if (account != null) {
-        print("Sign-Up Success: ${account.email}");
-      }
-    } catch (error) {
-      print("Google Sign-In Error: $error");
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _signUpAPI() async {
+    final username = _usernameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (username.isEmpty || email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all fields')),
+      );
+      return;
     }
-    */
+
+    setState(() => _isLoading = true);
+
+    final String baseUrl = kIsWeb ? 'http://localhost:3000' : 'http://10.0.2.2:3000';
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/auth/signup'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "username": username,
+          "email": email,
+          "password": password
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Account created successfully! Please login.'), backgroundColor: Colors.green),
+        );
+        Navigator.pop(context); 
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'] ?? 'Sign up failed'), backgroundColor: Colors.red),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+  // ------------------------------------
+
+  Future<void> _handleGoogleSignIn() async {
+    print("Google Sign-In Clicked! (Mock)");
   }
 
   @override
@@ -55,7 +99,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ),
-
             
             Positioned(
               bottom: 470, 
@@ -75,7 +118,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
 
-       
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -92,30 +134,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       const Text('Username', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500)),
                       const SizedBox(height: 8),
-                      _buildTextField(hint: 'Your username'),
+                      _buildTextField(hint: 'Your username', controller: _usernameController),
                       const SizedBox(height: 15),
 
                       const Text('Email', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500)),
                       const SizedBox(height: 8),
-                      _buildTextField(hint: 'Your Email'),
+                      _buildTextField(hint: 'Your Email', controller: _emailController),
                       const SizedBox(height: 15),
 
                       const Text('Password', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500)),
                       const SizedBox(height: 8),
-                      _buildTextField(hint: 'Your Password', isPassword: true),
+                      _buildTextField(hint: 'Your Password', isPassword: true, controller: _passwordController),
                       const SizedBox(height: 35),
 
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _isLoading ? null : _signUpAPI,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryGreen,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                             elevation: 0,
                           ),
-                          child: const Text('Sign-up', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                          child: _isLoading 
+                            ? const CircularProgressIndicator(color: Colors.white)
+                            : const Text('Sign-up', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       const SizedBox(height: 25),
@@ -199,8 +243,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildTextField({required String hint, bool isPassword = false}) {
+ 
+  Widget _buildTextField({required String hint, bool isPassword = false, required TextEditingController controller}) {
     return TextField(
+      controller: controller, 
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: hint,

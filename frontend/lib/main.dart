@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+
+
 import 'package:frontend/models/quiz.dart';
 import 'package:frontend/screens/login/login.dart';
-//import 'package:frontend/screens/signup/sign_up.dart';
 import 'package:frontend/screens/home/home.dart';
 import 'package:frontend/screens/quiz/quiz_detail_screen.dart';
 import 'package:frontend/screens/quiz/quiz_list_screen.dart';
-//import 'screens/quiz/quiz_list_screen.dart';
-//import 'package:frontend/screens/home/home.dart';
 import 'package:frontend/screens/shelter/shelter.dart';
 import 'package:frontend/screens/myprofile/profile_screen.dart';
 import 'package:frontend/screens/allscore/all_score.dart';
@@ -29,27 +28,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6B4226)),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: const LoginScreen(), 
-  
-      initialRoute: '/',
+      
+     
+      initialRoute: '/login', 
+      
+      
       routes: {
-        '/': (context) => const MainNavigationScreen(),
-        // '/': (context) => QuizDetailScreen(
-        //   quizData: Quiz(
-        //     uuid: '1',
-        //     title: 'Quiz 1',
-        //     description: 'Description 1',
-        //     category: 'Category 1',
-        //     points: 1,
-        //     duration: 1,
-        //     questionCount: 1,
-        //     level: 'Level 1',
-        //     tag: 'Tag 1',
-        //     createdAt: DateTime.now(),
-        //   ),
-        // ),
+        '/login': (context) => const LoginScreen(), 
+        '/main': (context) => const MainNavigationScreen(), // หน้าหลักของแอปหลังจากล็อกอิน
         
+        // หน้าอื่นๆ 
         '/foster': (context) => const PlaceholderScreen(title: 'Foster'),
         '/score': (context) => const PlaceholderScreen(title: 'Score'),
         '/quiz': (context) => const PlaceholderScreen(title: 'Quiz'),
