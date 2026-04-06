@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:frontend/providers/auth_provider.dart';
 import '../news/news.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,9 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currentScore = 80; 
-  
-  
   bool _isMegaphoneHovered = false;
 
   String _getCatImage(int score) {
@@ -27,6 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // อ่านจาก AuthProvider โดยตรง — InheritedWidget จัดการ rebuild ให้เองอยู่แล้ว
+    final auth = AuthProvider.of(context);
+    final displayName = auth.username ?? 'User';
+    final currentScore = auth.currentScore;
     return Scaffold(
       body: Stack(
         children: [
@@ -51,6 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
               _getCatImage(currentScore), 
               height: 320, 
               fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                // 🌟 ป้องกันแอป Crash เมื่อมีปัญหาเรื่อง Asset
+                return const Icon(Icons.pets, size: 100, color: Color(0xFFFCE380));
+              },
             ),
           ),
 
@@ -70,8 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Welcome",
                             style: TextStyle(
                               fontSize: 36,
@@ -80,8 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Text(
-                            "PunPun",
-                            style: TextStyle(
+                            displayName,
+                            style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFFEA89A7), 

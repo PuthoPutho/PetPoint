@@ -1,13 +1,21 @@
-// ไฟล์: src/services/profile.service.ts
 import { ProfileRepository } from '../repositories/profile.repository.js';
+import { donationService } from './donation.service.js';
 
 // เรียกใช้งาน Repository (เชฟ)
 const profileRepo = new ProfileRepository();
 
 export class ProfileService {
-    // 1. ดึงโปรไฟล์
+    // 1. ดึงโปรไฟล์ (เพิ่มการคำนวณยอดบริจาครวมจากตาราง donation เข้าไปด้วย)
     async getProfile(userId: string) {
-        return await profileRepo.findById(userId);
+        const profile = await profileRepo.findById(userId);
+        if (!profile) return null;
+
+        const donatedTotal = await donationService.getDonatedScore(userId);
+        
+        return {
+            ...profile,
+            donatedScore: donatedTotal
+        };
     }
 
     // 2. อัปเดตโปรไฟล์ (Logic เรื่อง Path รูปภาพย้ายมาอยู่นี่)

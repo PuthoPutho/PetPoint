@@ -69,6 +69,8 @@ class ShelterScreen extends StatelessWidget {
           ),
 
           const SizedBox(height: 24),
+          
+          // --- ส่วนที่ 2: รายการ Shelter (Hardcoded) ---
           ShelterCard(
             imageWidget: Image.asset(
               'assets/shelter1.png', 
@@ -76,45 +78,22 @@ class ShelterScreen extends StatelessWidget {
             ),
             title: 'บ้านนางฟ้าของสัตว์จร',
             subtitle: 'จังหวัดสระบุรี',
+            shelterId: '00000000-0000-0000-0000-000000000001', // ID สำหรับทดสอบ
           ),
+          
           ShelterCard(
             imageWidget: Image.asset(
               'assets/shelter1.png', 
               fit: BoxFit.cover,
             ),
-            title: 'บ้านนางฟ้าของสัตว์จร',
-            subtitle: 'จังหวัดสระบุรี',
+            title: 'มูลนิธิเพื่อสุนัขในซอย',
+            subtitle: 'จังหวัดภูเก็ต',
+            shelterId: '00000000-0000-0000-0000-000000000002', // ID สำหรับทดสอบ
           ),
 
           const SizedBox(height: 80), 
         ],
       ),
-
-      // // Bottom Navigation Bar 
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   selectedItemColor: const Color(0xFF67AC7D),
-      //   unselectedItemColor: Colors.grey,
-      //   showSelectedLabels: true,
-      //   showUnselectedLabels: true,
-      //   currentIndex: 0,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Foster'),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(LucideIcons.trophy),
-      //       label: 'Score',
-      //     ),
-      //     BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(LucideIcons.bookOpen),
-      //       label: 'Quiz',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(LucideIcons.user),
-      //       label: 'Profile',
-      //     ),
-      //   ],
-      // ),
     );
   }
 

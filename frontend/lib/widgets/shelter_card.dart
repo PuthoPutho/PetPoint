@@ -5,12 +5,14 @@ class ShelterCard extends StatefulWidget {
   final Widget imageWidget;
   final String title;
   final String subtitle;
+  final String shelterId;
 
   const ShelterCard({
     super.key,
     required this.imageWidget,
     required this.title,
     required this.subtitle,
+    required this.shelterId,
   });
 
   @override
@@ -38,6 +40,7 @@ class _ShelterCardState extends State<ShelterCard> {
               builder: (context) => ShelterDetailScreen(
                 title: widget.title,
                 subtitle: widget.subtitle, 
+                shelterId: widget.shelterId,
               ),
             ),
           );

@@ -1,18 +1,18 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
 class UserService {
   //  1. ประกาศ baseUrl ไว้ที่นี่เลย (ถ้าตอนเทสต์ใช้ IP อื่น อย่าลืมเปลี่ยนให้ตรงกับของ quiz_service นะครับ)
   static const String serverUrl = 'http://localhost:3000'; // เอาไว้ดึงรูป
-  static const String baseUrl = '$serverUrl/api';             // เอาไว้ยิง API 
+  static const String baseUrl = '$serverUrl/api'; // เอาไว้ยิง API
 
   static String getImageUrl(String? path) {
     if (path == null || path.isEmpty || path == "null") return "";
     if (path.startsWith('http')) return path;
-    
+
     // เอา serverUrl มาต่อ จะได้ http://localhost:3000/uploads/xxx.jpg พอดี!
-    return '$serverUrl$path'; 
+    return '$serverUrl$path';
   }
 
   // ดึงโปรไฟล์
@@ -28,21 +28,42 @@ class UserService {
     return null;
   }
 
- //  ฟังก์ชันอัปเดตโปรไฟล์ (ส่งได้ทั้งชื่อ และ ไฟล์รูปภาพ)
-  static Future<bool> updateProfile(String userId, String username, File? imageFile) async {
+  // ดึงข้อมูล Shelter ทั้งหมดจาก Database
+  static Future<List<dynamic>> getAllShelters() async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/shelter'));
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body)['data'] ?? [];
+      }
+    } catch (e) {
+      print('Error fetching shelters: $e');
+    }
+    return [];
+  }
+
+  //  ฟังก์ชันอัปเดตโปรไฟล์ (ส่งได้ทั้งชื่อ และ ไฟล์รูปภาพ)
+  static Future<bool> updateProfile(
+    String userId,
+    String username,
+    Uint8List? imageBytes,
+  ) async {
     try {
       // ใช้ MultipartRequest สำหรับการแนบไฟล์
-      var request = http.MultipartRequest('PUT', Uri.parse('$baseUrl/profile/$userId'));
-      
+      var request = http.MultipartRequest(
+        'PUT',
+        Uri.parse('$baseUrl/profile/$userId'),
+      );
+
       // 1. แนบชื่อไป
       request.fields['username'] = username;
 
-      // 2. ถ้ามีการเลือกรูปใหม่ ให้แนบไฟล์รูปไปด้วย
-      if (imageFile != null) {
+      // 2. ถ้ามีการเลือกรูปใหม่ ให้แนบไฟล์รูปไปด้วย (ใช้ bytes แทน path เพื่อให้รันได้ทุก platform)
+      if (imageBytes != null) {
         request.files.add(
-          await http.MultipartFile.fromPath(
+          http.MultipartFile.fromBytes(
             'profileImage', // ชื่อฟิลด์ที่ Backend รอรับ
-            imageFile.path,
+            imageBytes,
+            filename: 'profile_image.jpg', // ต้องใส่ชื่อไฟล์ด้วย
           ),
         );
       }
@@ -62,10 +83,12 @@ class UserService {
     }
   }
 
-  // ดึงข้อมูลใยแมงมุม 
+  // ดึงข้อมูลใยแมงมุม
   static Future<List<dynamic>> getSpiderChartData(String userId) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/quiz/spider-chart/$userId'));
+      final response = await http.get(
+        Uri.parse('$baseUrl/quiz/spider-chart/$userId'),
+      );
       if (response.statusCode == 200) {
         return jsonDecode(response.body)['data'] ?? [];
       }
@@ -73,5 +96,32 @@ class UserService {
       print('Error fetching spider chart: $e');
     }
     return [];
+  }
+
+  // บริจาคคะแนน
+  static Future<Map<String, dynamic>?> donateToShelter(
+    String userId,
+    String shelterId,
+    int amount,
+  ) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/donation'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'shelterId': shelterId,
+          'amount': amount,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> body = jsonDecode(response.body);
+        return body['data'];
+      }
+    } catch (e) {
+      print('Error donating: $e');
+    }
+    return null;
   }
 }

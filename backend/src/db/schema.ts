@@ -74,11 +74,11 @@ export const user_skill_stats = pgTable('user_skill_stats', {
 export const shelter = pgTable('shelter', {
   uuid: uuid('uuid').primaryKey().defaultRandom(),
   name: text('name').notNull(),
-  shelterImage: text('image'),
+  shelterImage: text('image'),  
   address: text('address').notNull(),
   phone: text('phone').notNull(),
   details: text('details').notNull(),
-  owner: text('owner').notNull(),
+  owner: text('owner').notNull(), 
   createdAt: timestamp('created_at').defaultNow(),
 });
 

@@ -4,6 +4,8 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/quiz.dart';
 import '../../models/question.dart';
 import '../../services/quiz_service.dart';
+import '../../services/profile_service.dart';
+import '../../providers/auth_provider.dart';
 import 'quiz_result_screen.dart';
 
 class QuizPlayScreen extends StatefulWidget {
@@ -129,12 +131,23 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
       }
 
       //  3. ยิง API บันทึกคะแนน!
-      // ( ข้อควรระวัง: ลองเช็คในตาราง user ใน DB ว่ามี userId อะไรให้เทสต์บ้าง ผมขอสมมติเป็น 'user-1' ไปก่อนนะครับ)
+      final userId = AuthProvider.of(context).userId ?? '';
       await QuizService.submitQuiz(
-        userId: '85243aaf-423b-4da0-8bf6-6336ab35fbff', // <--- อนาคตถ้าเชื่อมระบบ Login สำเร็จ ค่อยดึง ID ของคนนั้นมาใส่ครับ
+        userId: userId,
         quizId: widget.quizData.uuid, 
         answers: detailedAnswers,
       );
+
+      // โหลด score ใหม่จาก Backend และอัปเดต AuthProvider
+      if (mounted && userId.isNotEmpty) {
+        final profile = await UserService.getUserProfile(userId);
+        if (profile != null && mounted) {
+          final newScore = profile['currentScore'] as int? ?? 0;
+          AuthProvider.of(context).updateScore(newScore);
+          // 🌟 ส่งสัญญาณให้หน้า Profile/Home รีโหลดข้อมูลใหม่
+          AuthProvider.of(context).triggerRefresh();
+        }
+      }
 
       setState(() {
         isLoading = false;

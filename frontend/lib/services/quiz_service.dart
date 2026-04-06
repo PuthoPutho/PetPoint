@@ -10,9 +10,15 @@ class QuizService {
   static const String baseUrl = 'http://localhost:3000/api'; 
 
   // 1. ดึงควิซทั้งหมด (หน้า QuizList)
-  static Future<List<Quiz>> getAllQuizzes() async {
+  static Future<List<Quiz>> getAllQuizzes({String? userId}) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/quiz'));
+      // 🌟 ปรับปรุง: รองรับการส่ง userId เพื่อเช็คสถานะ isCompleted รายบุคคล
+      String url = '$baseUrl/quiz';
+      if (userId != null) {
+        url += '?userId=$userId';
+      }
+
+      final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         // สมมติว่า Backend ส่ง JSON หน้าตา { "success": true, "data": [ ... ] }
@@ -33,7 +39,7 @@ class QuizService {
     try {
       //ทริค: แนบ userId ไปกับ URL เพื่อให้ Backend รู้ว่าใครกำลังกดเข้ามาดู
       // (ถ้าโปรเจกต์คุณใช้ระบบ Token(JWT) ส่งผ่าน Header แทนได้เลยครับ)
-      String url = '$baseUrl/quiz/$quizId/details';
+      String url = '$baseUrl/quiz/$quizId'; // 👈 แก้จาก /details เป็นแบบปกติให้ตรงกับ Backend
       if (userId != null) {
         url += '?userId=$userId';
       }
@@ -111,7 +117,7 @@ class QuizService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        return data; // ส่ง Array ประวัติการสอบกลับไปให้ UI
+        return data['data'] ?? []; // ส่งเฉพาะ Array ประวัติการสอบกลับไปให้ UI
       } else {
         print('❌ ดึงประวัติไม่สำเร็จ: ${response.statusCode}');
         return [];

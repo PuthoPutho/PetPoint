@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../providers/auth_provider.dart';
+import '../../services/profile_service.dart';
 
 class ShelterDetailScreen extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
+  final String shelterId; // 👈 เพิ่ม ID ของ Shelter
 
   const ShelterDetailScreen({
     super.key,
     required this.title,
     required this.subtitle,
+    required this.shelterId,
     this.imagePath = 'assets/shelter1.png', 
   });
 
@@ -154,9 +158,47 @@ class ShelterDetailScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // กดแล้วเรียก Popup
-                      _showSuccessDialog(context);
+                    onPressed: () async {
+                      final auth = AuthProvider.of(context);
+                      final userId = auth.userId ?? '';
+
+                      if (userId.isEmpty) return;
+
+                      // 1. เช็คคะแนนฝั่ง Client เบื้องต้น
+                      if (auth.currentScore < 100) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('คะแนนไม่เพียงพอสำหรับการบริจาค (ต้องการ 100 Points)')),
+                        );
+                        return;
+                      }
+
+                      // 2. แสดง Loading
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (ctx) => const Center(child: CircularProgressIndicator(color: Color(0xFF5AAB73))),
+                      );
+
+                      // 3. ยิง API บริจาค
+                      final result = await UserService.donateToShelter(userId, shelterId, 100);
+
+                      if (!context.mounted) return;
+                      Navigator.pop(context); // ปิด Loading
+
+                      if (result != null) {
+                        // 4. อัปเดตคะแนนใน AuthProvider
+                        auth.updateScore(
+                          int.parse(result['newScore'].toString()), 
+                          donatedScore: int.parse(result['donatedTotal'].toString())
+                        );
+
+                        // 5. แสดง Success Popup
+                        _showSuccessDialog(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('การบริจาคล้มเหลว กรุณาลองใหม่อีกครั้ง')),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF5AAB73),
