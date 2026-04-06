@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart'; // เพิ่มสำหรับ kIsWeb
+import 'package:http/http.dart' as http; // เพิ่มสำหรับ API
+import 'dart:convert'; // เพิ่มสำหรับ json
 // คอมเมนต์ปิด google_sign_in ไว้ก่อนชั่วคราวเพื่อเทสต์ UI
 // import 'package:google_sign_in/google_sign_in.dart'; 
 import 'package:frontend/screens/signup/sign_up.dart'; 
@@ -14,20 +17,67 @@ class _LoginScreenState extends State<LoginScreen> {
   // คอมเมนต์ตัวแปรนี้ไว้ก่อน
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
   bool _isHoveringSignUp = false;
+  
+  // ----- ส่วนที่เพิ่มมาใหม่สำหรับ API -----
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _loginAPI() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter email and password')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    // เช็คแพลตฟอร์มว่ารันบน Web (localhost) หรือ Emulator (10.0.2.2)
+    final String baseUrl = kIsWeb ? 'http://localhost:3000' : 'http://10.0.2.2:3000';
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/auth/login'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "password": password}),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        // Login สำเร็จ
+        final token = data['data']['token'];
+        print("Token: $token");
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login Successful!'), backgroundColor: Colors.green),
+        );
+        
+        // เด้งไปหน้าหลัก
+        Navigator.pushReplacementNamed(context, '/main');
+      } else {
+        // Login ไม่สำเร็จ
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'] ?? 'Login failed'), backgroundColor: Colors.red),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+  // ------------------------------------
 
   Future<void> _handleGoogleSignIn() async {
     // จำลองการทำงานไปก่อน
     print("Google Sign-In Clicked! (Mock)");
-    /*
-    try {
-      final GoogleSignInAccount? account = await _googleSignIn.signIn();
-      if (account != null) {
-        print("Login Success: ${account.email}");
-      }
-    } catch (error) {
-      print("Google Sign-In Error: $error");
-    }
-    */
   }
 
   @override
@@ -100,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      _buildTextField(hint: 'Your Email'),
+                      // ใส่ Controller ตรงนี้
+                      _buildTextField(hint: 'Your Email', controller: _emailController),
                       const SizedBox(height: 20),
 
                       const Text(
@@ -111,14 +162,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      _buildTextField(hint: 'Your Password', isPassword: true),
+                      // ใส่ Controller ตรงนี้
+                      _buildTextField(hint: 'Your Password', isPassword: true, controller: _passwordController),
                       const SizedBox(height: 35),
 
-                      // ปุ่ม Login
+                      // ปุ่ม Login (เพิ่ม Logic API)
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _isLoading ? null : _loginAPI,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryGreen,
                             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -127,14 +179,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             elevation: 0,
                           ),
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          child: _isLoading 
+                            ? const CircularProgressIndicator(color: Colors.white)
+                            : const Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
                         ),
                       ),
                       const SizedBox(height: 25),
@@ -240,8 +294,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildTextField({required String hint, bool isPassword = false}) {
+  // ปรับให้รับ controller
+  Widget _buildTextField({required String hint, bool isPassword = false, required TextEditingController controller}) {
     return TextField(
+      controller: controller, // เพิ่มบรรทัดนี้
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: hint,
