@@ -271,46 +271,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
             trailing: const Icon(LucideIcons.chevronRight, color: Colors.grey),
           ),
           // ปุ่ม Logout
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: const Text('Logout', style: TextStyle(fontFamily: 'GoogleSans', fontWeight: FontWeight.bold)),
-                  content: const Text('Are you sure you want to logout?', style: TextStyle(fontFamily: 'GoogleSans')),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(ctx),
-                      child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                        AuthProvider.of(context).logout();
-                        // ต้องสั่ง Navigator เพื่อให้แน่ใจว่าล้าง Stack ทั้งหมดแล้วกลับไปหน้า Login
-                        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-                      },
-                      child: const Text('Logout', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-              );
-            },
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: Colors.red.shade100, width: 1.5),
-              ),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                leading: Icon(LucideIcons.logOut, color: Colors.red.shade300, size: 28),
-                title: Text('Logout', style: TextStyle(color: Colors.red.shade300, fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'GoogleSans')),
-                trailing: Icon(LucideIcons.chevronRight, color: Colors.red.shade200),
-              ),
-            ),
+GestureDetector(
+  onTap: () {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Logout', style: TextStyle(fontFamily: 'GoogleSans', fontWeight: FontWeight.bold)),
+        content: const Text('Are you sure you want to logout?', style: TextStyle(fontFamily: 'GoogleSans')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel', style: TextStyle(color: Colors.white)),
           ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              AuthProvider.of(context).logout();
+              // ต้องสั่ง Navigator เพื่อให้แน่ใจว่าล้าง Stack ทั้งหมดแล้วกลับไปหน้า Login
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+            },
+            child: const Text('Logout', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  },
+  child: Container(
+    margin: const EdgeInsets.only(bottom: 15),
+    decoration: BoxDecoration(
+      color: Colors.red, // พื้นหลังปุ่มสีแดง
+      borderRadius: BorderRadius.circular(30),
+    ),
+    child: const ListTile( // ใส่ const เพิ่มประสิทธิภาพได้เลยเพราะค่าสีถูก fixed หมดแล้ว
+      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+      leading: Icon(LucideIcons.logOut, color: Colors.white, size: 28), // ไอคอนด้านหน้าสีขาว
+      title: Text(
+        'Logout', 
+        style: TextStyle(
+          color: Colors.white, // ตัวหนังสือสีขาว
+          fontSize: 16, 
+          fontWeight: FontWeight.w500, 
+          fontFamily: 'GoogleSans'
+        )
+      ),
+      trailing: Icon(LucideIcons.chevronRight, color: Colors.white), // ไอคอนลูกศรสีขาว
+    ),
+  ),
+),
         ],
       ),
     );
