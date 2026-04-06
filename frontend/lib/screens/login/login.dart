@@ -5,6 +5,7 @@ import 'dart:convert'; // เพิ่มสำหรับ json
 // คอมเมนต์ปิด google_sign_in ไว้ก่อนชั่วคราวเพื่อเทสต์ UI
 // import 'package:google_sign_in/google_sign_in.dart'; 
 import 'package:frontend/screens/signup/sign_up.dart'; 
+import 'dart:io';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -37,7 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     // เช็คแพลตฟอร์มว่ารันบน Web (localhost) หรือ Emulator (10.0.2.2)
-    final String baseUrl = kIsWeb ? 'http://localhost:3000' : 'http://10.0.2.2:3000';
+    String baseUrl = 'http://localhost:3000'; // ค่าเริ่มต้นสำหรับ Web และ iOS Simulator
+    if (!kIsWeb && Platform.isAndroid) {
+      baseUrl = 'http://10.0.2.2:3000';       // เปลี่ยนเป็น 10.0.2.2 เฉพาะตอนเป็น Android
+    }
 
     try {
       final response = await http.post(

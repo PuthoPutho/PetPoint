@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http; 
 import 'dart:convert'; 
 // import 'package:google_sign_in/google_sign_in.dart'; 
+import 'dart:io';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -34,7 +35,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     setState(() => _isLoading = true);
 
-    final String baseUrl = kIsWeb ? 'http://localhost:3000' : 'http://10.0.2.2:3000';
+    String baseUrl = 'http://localhost:3000'; // ค่าเริ่มต้นสำหรับ Web และ iOS Simulator
+    if (!kIsWeb && Platform.isAndroid) {
+      baseUrl = 'http://10.0.2.2:3000';       // เปลี่ยนเป็น 10.0.2.2 เฉพาะตอนเป็น Android
+    }
 
     try {
       final response = await http.post(
