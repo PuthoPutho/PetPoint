@@ -281,7 +281,7 @@ GestureDetector(
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+            child: const Text('Cancel', style: TextStyle(color: Colors.black)),
           ),
           TextButton(
             onPressed: () {
@@ -290,7 +290,7 @@ GestureDetector(
               // ต้องสั่ง Navigator เพื่อให้แน่ใจว่าล้าง Stack ทั้งหมดแล้วกลับไปหน้า Login
               Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
             },
-            child: const Text('Logout', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: const Text('Logout', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
