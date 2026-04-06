@@ -4,7 +4,16 @@ import 'package:http/http.dart' as http;
 
 class UserService {
   //  1. ประกาศ baseUrl ไว้ที่นี่เลย (ถ้าตอนเทสต์ใช้ IP อื่น อย่าลืมเปลี่ยนให้ตรงกับของ quiz_service นะครับ)
-  static const String baseUrl = 'http://localhost:3000/api'; 
+  static const String serverUrl = 'http://localhost:3000'; // เอาไว้ดึงรูป
+  static const String baseUrl = '$serverUrl/api';             // เอาไว้ยิง API 
+
+  static String getImageUrl(String? path) {
+    if (path == null || path.isEmpty || path == "null") return "";
+    if (path.startsWith('http')) return path;
+    
+    // เอา serverUrl มาต่อ จะได้ http://localhost:3000/uploads/xxx.jpg พอดี!
+    return '$serverUrl$path'; 
+  }
 
   // ดึงโปรไฟล์
   static Future<Map<String, dynamic>?> getUserProfile(String userId) async {

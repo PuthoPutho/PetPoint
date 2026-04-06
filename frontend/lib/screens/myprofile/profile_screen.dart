@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<String> spiderLabels = ['Grammar', 'Vocabulary', 'Reading', 'Sentence', 'Meaning'];
 
   final String myUserId = '85243aaf-423b-4da0-8bf6-6336ab35fbff';
-  final String baseUrl = 'http://192.168.1.40:3000';
+  final String baseUrl = 'http://localhost:3000';
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) {
         setState(() {
           if (userData != null) {
-            print('🔍 Check User Data from DB: $userData'); // 🌟 ดูตรงนี้ใน Console ว่า image มาไหม
+            print('🔍 Check User Data from DB: $userData'); //  ดูตรงนี้ใน Console ว่า image มาไหม
             _username = userData['username'] ?? 'No Name';
             _email = userData['email'] ?? 'No Email';
             
@@ -111,26 +111,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 alignment: Alignment.bottomRight,
                 children: [
                   CircleAvatar(
-                    radius: 70,
+                    radius: 70, // ขนาดวงกลม
                     backgroundColor: Colors.grey[100],
-                   //  เปลี่ยนจากเดิมที่เชื่อม $baseUrl เสมอ เป็นการเช็คเงื่อนไขก่อน
-child: ClipOval(
-  child: (_imagePath != null && _imagePath != "")
-      ? (_imagePath!.startsWith('http') 
-          //  ถ้าเป็นลิงก์เน็ต (https://...) ให้ใช้ตรงๆ ได้เลย
-          ? Image.network(
-              _imagePath!, 
-              width: 140, height: 140, fit: BoxFit.cover,
-              errorBuilder: (c, e, s) => Image.asset('assets/OrangeCat.png'),
-            )
-          //  ถ้าเริ่มต้นด้วย /uploads ให้ต่อ baseUrl ปกติ
-          : Image.network(
-              '$baseUrl$_imagePath',
-              width: 140, height: 140, fit: BoxFit.cover,
-              errorBuilder: (c, e, s) => Image.asset('assets/OrangeCat.png'),
-            ))
-      : Image.asset('assets/OrangeCat.png', width: 140, height: 140, fit: BoxFit.cover),
-),
+                    
+                    // 🌟 1. ใช้ ClipOval ครอบเพื่อให้ขอบกลมเป๊ะ
+                    child: ClipOval(
+                      // 🌟 2. ใช้ SizedBox.fromSize บังคับให้พื้นที่ด้านในเป็นสี่เหลี่ยมจัตุรัส (140x140)
+                      child: SizedBox.fromSize(
+                        size: const Size.fromRadius(70), // เท่ากับ 2*radius
+                        child: (_imagePath != null && _imagePath != "")
+                            ? Image.network(
+                                UserService.getImageUrl(_imagePath),
+                                //  3. สำคัญมาก! ใช้ BoxFit.cover เพื่อให้รูปขยายเต็มสี่เหลี่ยมโดยไม่เบี้ยว (ตัดส่วนที่เกินทิ้ง)
+                                fit: BoxFit.cover, 
+                                width: 140, 
+                                height: 140,
+                                errorBuilder: (context, error, stackTrace) {
+                                  print('❌ โหลดรูปภาพไม่ได้ สาเหตุ: $error');
+                                  return Image.asset('assets/OrangeCat.png', fit: BoxFit.cover);
+                                },
+                              )
+                            : Image.asset('assets/OrangeCat.png', width: 140, height: 140, fit: BoxFit.cover),
+                      ),
+                    ),
                   ),
                   Positioned(
                     right: 10, bottom: 10,
