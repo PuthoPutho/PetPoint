@@ -7,7 +7,7 @@ export const user = pgTable('user', {
   profileImage: text('profile_image'),
   username: text('username').notNull(),
   email: text('email').notNull().unique(),
-  password: text('password'), 
+  password: text('password').notNull(),
   provider: text('provider').default('local'),
   currentScore: integer('current_score').default(0),
   equippedPet: text('equipped_pet').default('cat_orange'), // เก็บ Pet ที่กำลังใช้งาน
