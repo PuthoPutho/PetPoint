@@ -7,16 +7,21 @@ class ShelterDetailScreen extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
-  final String shelterId; // 👈 เพิ่ม ID ของ Shelter
+  final String shelterId;
+  final String phone;
+  final String owner;
+  final String details;
 
   const ShelterDetailScreen({
     super.key,
     required this.title,
     required this.subtitle,
     required this.shelterId,
+    required this.phone,
+    required this.owner,
+    required this.details,
     this.imagePath = 'assets/shelter1.png', 
   });
-
   
   void _showSuccessDialog(BuildContext context) {
     showDialog(
@@ -109,22 +114,39 @@ class ShelterDetailScreen extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    imagePath,
-                    width: double.infinity,
-                    height: 180,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      width: double.infinity,
-                      height: 180,
-                      color: Colors.grey.shade300,
-                      child: const Icon(
-                        LucideIcons.image,
-                        size: 50,
-                        color: Colors.grey,
+                  child: imagePath.startsWith('http') 
+                    ? Image.network(
+                        imagePath,
+                        width: double.infinity,
+                        height: 180,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          width: double.infinity,
+                          height: 180,
+                          color: Colors.grey.shade300,
+                          child: const Icon(
+                            LucideIcons.image,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      )
+                    : Image.asset(
+                        imagePath,
+                        width: double.infinity,
+                        height: 180,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          width: double.infinity,
+                          height: 180,
+                          color: Colors.grey.shade300,
+                          child: const Icon(
+                            LucideIcons.image,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -141,17 +163,13 @@ class ShelterDetailScreen extends StatelessWidget {
                 _buildInfoRow(icon: LucideIcons.mapPin, text: subtitle),
                 _buildInfoRow(
                   icon: LucideIcons.user,
-                  text: 'คุณอนงค์เนตร สิทธิกาล (คุณป้าต่าย)',
+                  text: owner,
                 ),
                 _buildInfoRow(
                   icon: Icons.pets,
-                  text: 'สุนัขและแมวดูแลกว่า 2,000+ ตัว',
+                  text: details,
                 ),
-                _buildInfoRow(
-                  icon: LucideIcons.facebook,
-                  text: 'บ้านนางฟ้าของสัตว์จร (@CHSAThai)',
-                ),
-                _buildInfoRow(icon: LucideIcons.phone, text: '089 099 6000'),
+                _buildInfoRow(icon: LucideIcons.phone, text: phone),
                 const SizedBox(height: 24),
 
                 SizedBox(

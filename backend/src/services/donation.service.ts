@@ -36,7 +36,13 @@ export const donationService = {
                 .from(userTable)
                 .where(eq(userTable.uuid, userId));
 
-            const donatedTotal = await donationService.getDonatedScore(userId);
+            const totalResult = await tx.select({
+                total: sql<number>`cast(sum(${donationTable.amount}) as int)`
+            })
+            .from(donationTable)
+            .where(eq(donationTable.userId, userId));
+            
+            const donatedTotal = totalResult[0]?.total ?? 0;
 
             return {
                 newScore: updatedUser.currentScore,

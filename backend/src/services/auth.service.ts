@@ -54,9 +54,16 @@ export const authService = {
 
     const { password, ...userWithoutPassword } = existingUser;
     
+    // ดึงยอดบริจาครวมของ user
+    const { donationService } = await import('./donation.service.js');
+    const donatedTotal = await donationService.getDonatedScore(existingUser.uuid);
+    
     // ส่งข้อมูล User พร้อมกับ Token กลับไป
     return { 
-      user: userWithoutPassword, 
+      user: {
+        ...userWithoutPassword,
+        donatedScore: donatedTotal
+      }, 
       token 
     };
   }

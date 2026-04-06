@@ -1,15 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/shelter_card.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:frontend/services/profile_service.dart';
 
-void main() {
-  runApp(
-    const MaterialApp(home: ShelterScreen(), debugShowCheckedModeBanner: false),
-  );
+class ShelterScreen extends StatefulWidget {
+  const ShelterScreen({super.key});
+
+  @override
+  State<ShelterScreen> createState() => _ShelterScreenState();
 }
 
-class ShelterScreen extends StatelessWidget {
-  const ShelterScreen({super.key});
+class _ShelterScreenState extends State<ShelterScreen> {
+  List<dynamic> _shelters = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadShelters();
+  }
+
+  Future<void> _loadShelters() async {
+    try {
+      final data = await UserService.getAllShelters();
+      if (mounted) {
+        setState(() {
+          _shelters = data;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading shelters: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,72 +56,84 @@ class ShelterScreen extends StatelessWidget {
           ),
         ),
       ),
-      // ใช้ ListView เพื่อให้หน้าจอ scroll ได้เมื่อมีการ์ดหลายใบ
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          // --- ส่วนที่ 1: บัตร How to Donate ---
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFF67AC7D),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: [
-                const Text(
-                  'How to Donate',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: _isLoading 
+        ? const Center(child: CircularProgressIndicator(color: Color(0xFF67AC7D)))
+        : ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
+              // --- ส่วนที่ 1: บัตร How to Donate ---
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF67AC7D),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Column(
                   children: [
-                    _buildStepCard('สะสมให้ครบ\n100 Point', Icons.pets),
-                    _buildStepCard(
-                      'กดเลือกสถานที่\nที่ต้องการบริจาค',
-                      LucideIcons.mousePointer2,
+                    const Text(
+                      'How to Donate',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    _buildStepCard(
-                      'กดคลิกที่ปุ่ม\nConfirm',
-                      LucideIcons.checkSquare,
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildStepCard('สะสมให้ครบ\n100 Point', Icons.pets),
+                        _buildStepCard(
+                          'กดเลือกสถานที่\nที่ต้องการบริจาค',
+                          LucideIcons.mousePointer2,
+                        ),
+                        _buildStepCard(
+                          'กดคลิกที่ปุ่ม\nConfirm',
+                          LucideIcons.checkSquare,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
 
-          const SizedBox(height: 24),
-          
-          // --- ส่วนที่ 2: รายการ Shelter (Hardcoded) ---
-          ShelterCard(
-            imageWidget: Image.asset(
-              'assets/shelter1.png', 
-              fit: BoxFit.cover,
-            ),
-            title: 'บ้านนางฟ้าของสัตว์จร',
-            subtitle: 'จังหวัดสระบุรี',
-            shelterId: '00000000-0000-0000-0000-000000000001', // ID สำหรับทดสอบ
-          ),
-          
-          ShelterCard(
-            imageWidget: Image.asset(
-              'assets/shelter1.png', 
-              fit: BoxFit.cover,
-            ),
-            title: 'มูลนิธิเพื่อสุนัขในซอย',
-            subtitle: 'จังหวัดภูเก็ต',
-            shelterId: '00000000-0000-0000-0000-000000000002', // ID สำหรับทดสอบ
-          ),
+              const SizedBox(height: 24),
+              
+              // --- ส่วนที่ 2: รายการ Shelter จาก Database ---
+              if (_shelters.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Text(
+                      'ไม่พบข้อมูลศูนย์พักพิง',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                  ),
+                )
+              else
+                ..._shelters.map((shelter) {
+                  return ShelterCard(
+                    imagePath: UserService.getImageUrl(shelter['shelterImage']),
+                    imageWidget: Image.network(
+                      UserService.getImageUrl(shelter['shelterImage']), 
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        color: Colors.grey[200],
+                        child: const Icon(Icons.pets, color: Colors.grey, size: 50),
+                      ),
+                    ),
+                    title: shelter['name'] ?? 'Unknown Shelter',
+                    subtitle: shelter['address'] ?? 'No address',
+                    shelterId: shelter['uuid'] ?? '',
+                    phone: shelter['phone'] ?? 'No phone',
+                    owner: shelter['owner'] ?? 'Unknown owner',
+                    details: shelter['details'] ?? 'No details',
+                  );
+                }).toList(),
 
-          const SizedBox(height: 80), 
-        ],
-      ),
+              const SizedBox(height: 80), 
+            ],
+          ),
     );
   }
 

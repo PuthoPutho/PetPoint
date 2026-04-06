@@ -5,6 +5,7 @@ import { quizRouter } from './routes/quiz.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import { profileRouter } from './routes/profile.routes.js';
 import { donationRouter } from './routes/donation.routes.js';
+import { shelterRouter } from './routes/shelter.routes.js';
 import path from 'path';
 import fs from 'fs';
 
@@ -29,6 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/quiz', quizRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/donation', donationRouter);
+app.use('/api/shelter', shelterRouter);
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 

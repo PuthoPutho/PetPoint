@@ -80,21 +80,7 @@ async function seed() {
     }
 
     console.log('✅ Seeding completed successfully!');
-    // 2. Seed Shelters (ถ้ามีไฟล์ shelter.json)
-    try {
-      const shelterData = JSON.parse(
-        await readFile(path.join(__dirname, 'data', 'shelter.json'), 'utf-8')
-      );
-      console.log(`Inserting ${shelterData.length} shelters...`);
-      const mappedShelterData = shelterData.map((s: any) => {
-        const { image, ...rest } = s;
-        return { ...rest, shelterImage: image };
-      });
-      await db.insert(schema.shelter).values(mappedShelterData);
-      console.log('✅ เพิ่ม Shelters สำเร็จ');
-    } catch (err) {
-      console.log('⚠️ ไม่พบไฟล์ shelter.json ข้ามการ Seed ฝั่ง Shelter ไปก่อน');
-    }
+    
 
     // 3. Seed Users 
     try {
