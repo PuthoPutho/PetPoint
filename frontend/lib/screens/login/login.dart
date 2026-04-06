@@ -61,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final username = userData['user']?['username'] ?? userData['username'] ?? 'User';
         final userEmail = userData['user']?['email'] ?? userData['email'] ?? email;
         final score = userData['user']?['currentScore'] ?? userData['currentScore'] ?? 0;
+        final donatedScore = userData['user']?['donatedScore'] ?? userData['donatedScore'] ?? 0;
         final profileImage = userData['user']?['profileImage'] ?? userData['profileImage'];
 
         print("✅ Token: $token");
@@ -75,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
             username: username,
             email: userEmail,
             currentScore: score is int ? score : int.tryParse(score.toString()) ?? 0,
+            donatedScore: donatedScore is int ? donatedScore : int.tryParse(donatedScore.toString()) ?? 0,
             profileImage: profileImage,
           );
         }

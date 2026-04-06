@@ -6,6 +6,10 @@ class ShelterCard extends StatefulWidget {
   final String title;
   final String subtitle;
   final String shelterId;
+  final String phone;
+  final String owner;
+  final String details;
+  final String imagePath;
 
   const ShelterCard({
     super.key,
@@ -13,6 +17,10 @@ class ShelterCard extends StatefulWidget {
     required this.title,
     required this.subtitle,
     required this.shelterId,
+    required this.phone,
+    required this.owner,
+    required this.details,
+    required this.imagePath,
   });
 
   @override
@@ -41,6 +49,10 @@ class _ShelterCardState extends State<ShelterCard> {
                 title: widget.title,
                 subtitle: widget.subtitle, 
                 shelterId: widget.shelterId,
+                phone: widget.phone,
+                owner: widget.owner,
+                details: widget.details,
+                imagePath: widget.imagePath,
               ),
             ),
           );
