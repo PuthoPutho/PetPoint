@@ -76,6 +76,7 @@ export const quizService = {
             return { success: true, data: quizzes };
         } catch (error) {
             console.error("getQuizzesList Error:", error);
+            console.error("🚨 Error Database:", error);
             throw new Error("ไม่สามารถดึงข้อมูลควิซได้");
         }
     },

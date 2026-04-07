@@ -114,14 +114,6 @@ class _ShelterScreenState extends State<ShelterScreen> {
                 ..._shelters.map((shelter) {
                   return ShelterCard(
                     imagePath: UserService.getImageUrl(shelter['shelterImage']),
-                    imageWidget: Image.network(
-                      UserService.getImageUrl(shelter['shelterImage']), 
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        color: Colors.grey[200],
-                        child: const Icon(Icons.pets, color: Colors.grey, size: 50),
-                      ),
-                    ),
                     title: shelter['name'] ?? 'Unknown Shelter',
                     subtitle: shelter['address'] ?? 'No address',
                     shelterId: shelter['uuid'] ?? '',
