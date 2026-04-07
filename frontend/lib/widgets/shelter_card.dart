@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../screens/shelter/shelter_detail.dart'; 
 
 class ShelterCard extends StatefulWidget {
-  final Widget imageWidget;
   final String title;
   final String subtitle;
   final String shelterId;
@@ -13,7 +12,6 @@ class ShelterCard extends StatefulWidget {
 
   const ShelterCard({
     super.key,
-    required this.imageWidget,
     required this.title,
     required this.subtitle,
     required this.shelterId,
@@ -85,7 +83,23 @@ class _ShelterCardState extends State<ShelterCard> {
                 child: SizedBox(
                   width: double.infinity,
                   height: 200,
-                  child: widget.imageWidget,
+                  child: widget.imagePath.startsWith('http')
+                      ? Image.network(
+                          widget.imagePath,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Container(
+                            color: Colors.grey[200],
+                            child: const Icon(Icons.pets, color: Colors.grey, size: 50),
+                          ),
+                        )
+                      : Image.asset(
+                          widget.imagePath,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Container(
+                            color: Colors.grey[200],
+                            child: const Icon(Icons.pets, color: Colors.grey, size: 50),
+                          ),
+                        ),
                 ),
               ),
               Padding(

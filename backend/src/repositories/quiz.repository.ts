@@ -80,12 +80,16 @@ export const quizRepository = {
         .from(quiz)
         .leftJoin(questions, eq(quiz.uuid, questions.quizId));
 
-        if (userAttempts) {
+     if (userAttempts) {
             // @ts-ignore - Drizzle types can be tricky with complex joins in select
             query.leftJoin(userAttempts, eq(quiz.uuid, userAttempts.quizId));
+            
+            // ถ้ามี user ให้ group by สถานะ isCompleted ด้วย
+            return await query.groupBy(quiz.uuid, userAttempts.isCompleted);
+        } else {
+            // ถ้าไม่มี user (เช่น หน้าก่อนล็อกอิน) ให้ group by แค่ uuid เพียวๆ
+            return await query.groupBy(quiz.uuid);
         }
-
-        return await query.groupBy(quiz.uuid, userAttempts ? userAttempts.isCompleted : sql`null`);
     },
 
     // 4.1 ใช้สำหรับหน้า Quiz Details ก่อนกดเข้าห้องสอบ (นับจำนวนข้อ + เช็คว่าเคยทำหรือยัง)

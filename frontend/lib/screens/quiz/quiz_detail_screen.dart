@@ -147,7 +147,7 @@ class QuizDetailScreen extends StatelessWidget {
     );
   }
 
-  // 🎨 ดึงสีปกให้ตรงกับในหน้า Card
+  //  ดึงสีปกให้ตรงกับในหน้า Card
   Color _getCategoryColor(String category) {
     final cat = category.toLowerCase();
     if (cat.contains('vocab') || cat.contains('volcab')) return const Color(0xFFFBE07A); // สีเหลือง
