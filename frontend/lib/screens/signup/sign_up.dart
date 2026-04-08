@@ -35,10 +35,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     setState(() => _isLoading = true);
 
-    String baseUrl = 'http://localhost:3000'; // ค่าเริ่มต้นสำหรับ Web และ iOS Simulator
-    if (!kIsWeb && Platform.isAndroid) {
-      baseUrl = 'http://10.0.2.2:3000';       // เปลี่ยนเป็น 10.0.2.2 เฉพาะตอนเป็น Android
-    }
+    String baseUrl = 'https://petpoint.onrender.com'; // ค่าเริ่มต้นสำหรับ Web และ iOS Simulator
+    
 
     try {
       final response = await http.post(

@@ -69,6 +69,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
       }
       
       final quizzes = await QuizService.getAllQuizzes(userId: userId);
+      if (!mounted) return;
       setState(() {
         // 🌟 ประกันความปลอดภัยของข้อมูล
         if (quizzes is List<Quiz>) {

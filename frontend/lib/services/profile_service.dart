@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class UserService {
   //  1. ประกาศ baseUrl ไว้ที่นี่เลย (ถ้าตอนเทสต์ใช้ IP อื่น อย่าลืมเปลี่ยนให้ตรงกับของ quiz_service นะครับ)
-  static const String serverUrl = 'http://localhost:3000'; // เอาไว้ดึงรูป
+  static const String serverUrl = 'https://petpoint.onrender.com'; // เอาไว้ดึงรูป
   static const String baseUrl = '$serverUrl/api'; // เอาไว้ยิง API
 
   static String getImageUrl(String? path) {

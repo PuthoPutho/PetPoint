@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// เก็บข้อมูล user ที่ login แล้วทั่วทั้งแอป
 class AuthProvider extends InheritedNotifier<AuthState> {
@@ -18,6 +19,8 @@ class AuthProvider extends InheritedNotifier<AuthState> {
 
 /// State ที่เก็บข้อมูล user session
 class AuthState extends ChangeNotifier {
+  final _storage = const FlutterSecureStorage();
+
   String? _userId;
   String? _token;
   String? _username;
@@ -38,6 +41,43 @@ class AuthState extends ChangeNotifier {
   int get refreshTrigger => _refreshTrigger; // Getter สำหรับให้หน้าอื่นๆ คอยฟัง (Watch)
   bool get isLoggedIn => _userId != null && _token != null;
 
+  /// โหลดข้อมูลจาก Secure Storage ตอนเปิดแอป
+  Future<void> loadAuthData() async {
+    final token = await _storage.read(key: 'token');
+    final userId = await _storage.read(key: 'userId');
+    
+    if (token != null && userId != null) {
+      _token = token;
+      _userId = userId;
+      _username = await _storage.read(key: 'username');
+      _email = await _storage.read(key: 'email');
+      _currentScore = int.tryParse(await _storage.read(key: 'currentScore') ?? '0') ?? 0;
+      _donatedScore = int.tryParse(await _storage.read(key: 'donatedScore') ?? '0') ?? 0;
+      _profileImage = await _storage.read(key: 'profileImage');
+      notifyListeners();
+    }
+  }
+
+  /// บันทึกข้อมูลลง Secure Storage
+  Future<void> _saveToStorage() async {
+    if (_userId != null) await _storage.write(key: 'userId', value: _userId);
+    if (_token != null) await _storage.write(key: 'token', value: _token);
+    if (_username != null) await _storage.write(key: 'username', value: _username);
+    if (_email != null) await _storage.write(key: 'email', value: _email);
+    await _storage.write(key: 'currentScore', value: _currentScore.toString());
+    await _storage.write(key: 'donatedScore', value: _donatedScore.toString());
+    if (_profileImage != null) {
+      await _storage.write(key: 'profileImage', value: _profileImage);
+    } else {
+      await _storage.delete(key: 'profileImage');
+    }
+  }
+
+  /// ล้างข้อมูลใน Secure Storage
+  Future<void> _clearStorage() async {
+    await _storage.deleteAll();
+  }
+
   /// เรียกหลัง login สำเร็จ เพื่อบันทึกข้อมูล user
   void login({
     required String userId,
@@ -56,6 +96,7 @@ class AuthState extends ChangeNotifier {
     _donatedScore = donatedScore;
     _profileImage = profileImage;
     notifyListeners();
+    _saveToStorage();
   }
 
   /// อัปเดต score (เช่น หลัง quiz)
@@ -63,12 +104,14 @@ class AuthState extends ChangeNotifier {
     _currentScore = newScore;
     if (donatedScore != null) _donatedScore = donatedScore;
     notifyListeners();
+    _saveToStorage();
   }
 
   /// อัปเดตเฉพาะยอดบริจาค
   void updateDonatedScore(int newDonatedScore) {
     _donatedScore = newDonatedScore;
     notifyListeners();
+    _saveToStorage();
   }
 
   /// อัปเดตโปรไฟล์ (ชื่อ + รูป)
@@ -76,6 +119,7 @@ class AuthState extends ChangeNotifier {
     if (username != null) _username = username;
     if (profileImage != null) _profileImage = profileImage;
     notifyListeners();
+    _saveToStorage();
   }
 
   /// เรียกเมื่อต้องการให้หน้าอื่นๆ (เช่น Profile) ทำการโหลดข้อมูลใหม่จาก API
@@ -94,5 +138,6 @@ class AuthState extends ChangeNotifier {
     _donatedScore = 0;
     _profileImage = null;
     notifyListeners();
+    _clearStorage();
   }
 }

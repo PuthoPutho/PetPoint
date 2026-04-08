@@ -7,7 +7,7 @@ class QuizService {
   //  ข้อควรระวัง: ถ้าทดสอบด้วย Android Emulator ห้ามใช้ localhost นะครับ ให้ใช้ 10.0.2.2 แทน
   // ถ้าทดสอบบน iOS Simulator ใช้ localhost หรือ 127.0.0.1 ได้เลย
   // หรือถ้าเอา Backend ขึ้นเซิร์ฟเวอร์แล้ว (เช่น Render/Vercel) ให้ใส่ URL จริงตรงนี้
-  static const String baseUrl = 'http://localhost:3000/api'; 
+  static const String baseUrl = 'https://petpoint.onrender.com/api'; 
 
   // 1. ดึงควิซทั้งหมด (หน้า QuizList)
   static Future<List<Quiz>> getAllQuizzes({String? userId}) async {
