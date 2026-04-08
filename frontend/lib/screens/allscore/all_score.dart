@@ -43,6 +43,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
       final userId = AuthProvider.of(context).userId ?? '';
       if (userId.isNotEmpty) {
         final history = await QuizService.getUserQuizHistory(userId);
+        if (!mounted) return;
         setState(() {
           //  ตรวจสอบประเภทข้อมูลให้ชัวร์ว่าเป็น List
           if (history is List) {

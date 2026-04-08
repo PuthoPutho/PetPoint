@@ -16,6 +16,22 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // สร้าง AuthState ตัวเดียวที่จะแชร์ทั่วแอป
   final AuthState _authState = AuthState();
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _initAuth();
+  }
+
+  Future<void> _initAuth() async {
+    await _authState.loadAuthData();
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -39,14 +55,21 @@ class _MyAppState extends State<MyApp> {
         ),
         // ใช้ ListenableBuilder เฉพาะในส่วน home เท่านั้น
         // เพื่อไม่ให้ต้อง rebuild MaterialApp ทั้งหมดเมื่อคะแนนหรือโปรไฟล์เปลี่ยน
-        home: ListenableBuilder(
-          listenable: _authState,
-          builder: (context, _) {
-            return _authState.isLoggedIn
-                ? const MainNavigationScreen()
-                : const LoginScreen();
-          },
-        ),
+        home: _isLoading
+            ? const Scaffold(
+                backgroundColor: Colors.white,
+                body: Center(
+                  child: CircularProgressIndicator(color: Color(0xFF59AC77)),
+                ),
+              )
+            : ListenableBuilder(
+                listenable: _authState,
+                builder: (context, _) {
+                  return _authState.isLoggedIn
+                      ? const MainNavigationScreen()
+                      : const LoginScreen();
+                },
+              ),
         routes: {
           '/login': (context) => const LoginScreen(),
           '/main': (context) => const MainNavigationScreen(),
