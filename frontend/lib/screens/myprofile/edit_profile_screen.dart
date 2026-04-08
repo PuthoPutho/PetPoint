@@ -22,8 +22,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Uint8List? _pickedImageBytes; // เก็บเป็น Bytes แทน File เพื่อให้ใช้บน Web ได้
   late TextEditingController _usernameController;
   
-  // 🌟 จุดสำคัญ: ตั้งค่า URL ให้ตรงกับ Backend (ถ้าใช้ Android Emulator ให้เปลี่ยนเป็น 10.0.2.2)
-  final String baseUrl = 'http://localhost:3000'; 
+
 
   @override
   void initState() {
@@ -140,7 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               //  2. ถ้ายังไม่เลือกใหม่ แต่มีรูปเดิมจาก Server ส่งมา
                               : (widget.currentImagePath != null && widget.currentImagePath!.isNotEmpty && widget.currentImagePath != "null")
                                   ? Image.network(
-                                      '$baseUrl${widget.currentImagePath}',
+                                      widget.currentImagePath!,
                                       width: 140, height: 140, fit: BoxFit.cover,
                                       errorBuilder: (c, e, s) => Image.asset('assets/OrangeCat.png', fit: BoxFit.cover),
                                     )

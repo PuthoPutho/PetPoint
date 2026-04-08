@@ -8,12 +8,23 @@ class UserService {
   static const String baseUrl = '$serverUrl/api'; // เอาไว้ยิง API
 
   static String getImageUrl(String? path) {
-    if (path == null || path.isEmpty || path == "null") return "";
-    if (path.startsWith('http')) return path;
+  if (path == null || path.isEmpty || path == "null") return "";
 
-    // เอา serverUrl มาต่อ จะได้ http://localhost:3000/uploads/xxx.jpg พอดี!
-    return '$serverUrl$path';
+  //  ถ้าเป็นลิงก์เต็มจาก Supabase (https://...) ให้ส่งคืนไปเลย
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
   }
+
+  //  สำหรับรูปเก่าในเครื่อง (/uploads/...) 
+  // ตรวจสอบว่า serverUrl ลงท้ายด้วย / หรือไม่ เพื่อป้องกันเครื่องหมาย // ซ้อนกัน
+  final cleanServerUrl = serverUrl.endsWith('/') 
+      ? serverUrl.substring(0, serverUrl.length - 1) 
+      : serverUrl;
+      
+  final cleanPath = path.startsWith('/') ? path : '/$path';
+
+  return '$cleanServerUrl$cleanPath';
+}
 
   // ดึงโปรไฟล์
   static Future<Map<String, dynamic>?> getUserProfile(String userId) async {

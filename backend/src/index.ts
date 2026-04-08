@@ -6,8 +6,7 @@ import authRoutes from './routes/auth.routes.js';
 import { profileRouter } from './routes/profile.routes.js';
 import { donationRouter } from './routes/donation.routes.js';
 import { shelterRouter } from './routes/shelter.routes.js';
-import path from 'path';
-import fs from 'fs';
+
 
 
 dotenv.config();
@@ -31,16 +30,10 @@ app.use('/api/quiz', quizRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/donation', donationRouter);
 app.use('/api/shelter', shelterRouter);
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 
-const uploadDir = './uploads';
-if (!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir);
-    console.log('✅ Created uploads folder automatically');
-}
 
 
-app.listen(port, () => {
+app.listen(Number(port), '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
 });

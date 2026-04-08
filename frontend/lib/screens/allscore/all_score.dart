@@ -44,7 +44,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
       if (userId.isNotEmpty) {
         final history = await QuizService.getUserQuizHistory(userId);
         setState(() {
-          // 🌟 ตรวจสอบประเภทข้อมูลให้ชัวร์ว่าเป็น List
+          //  ตรวจสอบประเภทข้อมูลให้ชัวร์ว่าเป็น List
           if (history is List) {
             _historyData = history;
           } else {
