@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/quiz.dart';
 import '../screens/quiz/quiz_detail_screen.dart';
+import '../services/quiz_service.dart';
+import '../providers/auth_provider.dart';
 
 class QuizCard extends StatelessWidget {
   final Quiz quizData;
@@ -9,6 +11,7 @@ class QuizCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('👉 รูปภาพของควิซ ${quizData.title} คือ: ${quizData.image}');
     return Container(
       width: 336,
       height: 218,
@@ -21,27 +24,60 @@ class QuizCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: Colors.grey.shade200, width: 1),
         ),
-        elevation: 0, // ลดเงาให้ดูแบนๆ คล้ายดีไซน์
+        elevation: 0, 
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QuizDetailScreen(quizData: quizData),
-            ),
-          );
+          onTap: () async {
+            final userId = AuthProvider.of(context).userId ?? '';
+            
+            // 1. แสดง Loading เผื่อเน็ตช้า
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (ctx) => const Center(child: CircularProgressIndicator(color: Color(0xFF59AC77))),
+            );
+
+            try {
+              // 2. ดึงข้อมูลตัวเต็ม (เพื่อเช็ค isCompleted)
+              final fullQuiz = await QuizService.getQuizDetails(
+                quizData.uuid,
+                userId: userId.isNotEmpty ? userId : null
+              );
+
+              if (!context.mounted) return;
+              Navigator.pop(context); // ปิด Loading
+
+              // 3. ไปหน้า Detail
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuizDetailScreen(quizData: fullQuiz),
+                ),
+              );
+            } catch (e) {
+              if (!context.mounted) return;
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: $e')),
+              );
+            }
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ส่วนที่ 1: รูปภาพหน้าปก (ใช้กรอบสีแทนชั่วคราว)
-              Container(
+              // ส่วนที่ 1: อัปเดตการดึงรูปภาพจาก Backend
+              SizedBox(
                 height: 152,
                 width: double.infinity,
-                color: _getCategoryColor(quizData.category),
-                child: const Center(
-                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(color: Colors.white)),
-                ),
+                child: quizData.image != null && quizData.image!.isNotEmpty
+                    ? Image.network(
+                        quizData.image!,
+                        fit: BoxFit.cover, // ให้รูปขยายเต็มกรอบพอดี
+                        errorBuilder: (context, error, stackTrace) {
+                          // ถ้ารูปจาก URL โหลดไม่ขึ้น (ลิงก์ตาย) ให้กลับไปโชว์สีพื้นหลังแทน
+                          return _buildFallbackImage();
+                        },
+                      )
+                    : _buildFallbackImage(), // ถ้า Backend ไม่ส่งคีย์ image มา
               ),
               // ส่วนที่ 2: ข้อความด้านล่าง
               Expanded(
@@ -64,7 +100,7 @@ class QuizCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              quizData.description,
+                              'Part ${quizData.tag}',
                               style: const TextStyle(color: Colors.grey, fontSize: 12),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -88,7 +124,17 @@ class QuizCard extends StatelessWidget {
     );
   }
 
-  // ฟังก์ชันเล็กๆ ช่วยสุ่มสีพื้นหลังให้ตรงส่วนหมวดหมู่
+  // วิดเจ็ตตัวสำรอง (Fallback) ถ้ารูปโหลดไม่มา
+  Widget _buildFallbackImage() {
+    return Container(
+      color: _getCategoryColor(quizData.category),
+      child: const Center(
+        child: Icon(Icons.image_not_supported, color: Colors.white, size: 40),
+      ),
+    );
+  }
+
+  // ฟังก์ชันเล็กๆ ช่วยสุ่มสีพื้นหลัง
   Color _getCategoryColor(String category) {
     final cat = category.toLowerCase();
     if (cat.contains('vocab') || cat.contains('volcab')) return const Color(0xFFFBE07A); // สีเหลือง

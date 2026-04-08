@@ -8,11 +8,14 @@ async function deleteData() {
     // Order matters for deletion if cascade isn't fully relied upon
     // though schema has onDelete: 'cascade' for relationship links
 
-    console.log('Clearing score_history...');
-    await db.delete(schema.score_history);
-
     console.log('Clearing quiz_history...');
     await db.delete(schema.quiz_history);
+
+    console.log('Clearing quiz_attempts...');
+    await db.delete(schema.quiz_attempts);
+
+    console.log('Clearing user_skill_stats...');
+    await db.delete(schema.user_skill_stats);
 
     console.log('Clearing donation...');
     await db.delete(schema.donation);

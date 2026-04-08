@@ -1,0 +1,24 @@
+[
+  {
+    "profileImage": "https://i0.wp.com/www.xinhuathai.com/wp-content/uploads/2024/02/7507fc8a87b444b69dfa21c7b448c481.jpg?resize=696%2C466&ssl=1",
+    "username": "test1",
+    "email": "test1@gmail.com",
+    "password": "test1",
+    "provider": "local",
+    "currentScore": 0,
+    "equippedPet": "cat_orange",
+    "createdAt": "2026-04-03T08:00:00.000Z",
+    "updatedAt": "2026-04-03T08:00:00.000Z"
+  },
+  {
+    "profileImage": null,
+    "username": "test2",
+    "email": "test2@gmail.com",
+    "password": "test2",
+    "provider": "local",
+    "currentScore": 0,
+    "equippedPet": "cat_orange",
+    "createdAt": "2026-03-25T14:30:00.000Z",
+    "updatedAt": "2026-04-02T09:15:22.000Z"
+  }
+]

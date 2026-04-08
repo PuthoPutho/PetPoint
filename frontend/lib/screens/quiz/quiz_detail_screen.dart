@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/quiz.dart';
 import '../../utils/app_colors.dart';
+import 'quiz_play_screen.dart';
 
 class QuizDetailScreen extends StatelessWidget {
   final Quiz quizData; // 👈 รับข้อมูลควิซที่ถูกกดส่งมาหน้านี้
@@ -10,14 +11,27 @@ class QuizDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int totalSeconds = quizData.duration;
+    final int minutes = totalSeconds ~/ 60;
+    final int seconds = totalSeconds % 60;
+    
+    String timeDisplay = '';
+    if (minutes > 0 && seconds > 0) {
+      timeDisplay = '$minutes min $seconds sec';
+    } else if (minutes > 0) {
+      timeDisplay = '$minutes min';
+    } else {
+      timeDisplay = '$seconds sec';
+    }
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5), // พื้นหลังสีเทาอ่อน
+      backgroundColor: Colors.white, // พื้นหลังขาวตาม Figma
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          onPressed: () => Navigator.pop(context), // 👈 กดแล้วย้อนกลับหน้าเดิม
+          icon: const Icon(LucideIcons.chevronLeft, color: Colors.black),
+          onPressed: () => Navigator.pop(context), 
         ),
       ),
       body: Padding(
@@ -28,7 +42,15 @@ class QuizDetailScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24), // กล่องโค้งมนตามดีไซน์
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
+            ],
+            border: Border.all(color: Colors.grey.withOpacity(0.1)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,31 +63,31 @@ class QuizDetailScreen extends StatelessWidget {
                   color: _getCategoryColor(quizData.category), // สีปกจะเปลี่ยนตามหมวดหมู่เดียวกับที่แสดงในการ์ด
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Center(
-                  child: Text('ใส่รูปภาพตรงนี้', style: TextStyle(color: Colors.white)),
-                ),
+                child: quizData.image != null && quizData.image!.isNotEmpty
+    ? Image.network(quizData.image!, fit: BoxFit.cover)
+    : Center(child: Icon(Icons.image_not_supported, color: Colors.white)),
               ),
               const SizedBox(height: 24),
 
               // 2. ชื่อและรายละเอียด
               Text(
                 quizData.title,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
               Text(
-                quizData.description,
-                style: const TextStyle(color: Colors.grey, fontSize: 16),
+                'Part ${quizData.tag}',
+                style: const TextStyle(fontFamily: 'GoogleSans', color: Colors.grey, fontSize: 16),
               ),
               const SizedBox(height: 24),
 
               // 3. กล่องข้อมูล (ใช้ฟังก์ชัน _buildInfoRow ที่สร้างไว้ด้านล่าง)
-              _buildInfoRow(Icons.book_outlined, '${quizData.questionCount} questions', AppColors.primaryGreen),
-              _buildInfoRow(Icons.timer_outlined, '${quizData.duration} minutes', AppColors.primaryGreen),
-              _buildInfoRow(Icons.star_border_rounded, '${quizData.points} points', AppColors.primaryGreen),
-              _buildInfoRow(Icons.info_outline_rounded, quizData.category, AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.bookOpen, '${quizData.questionCount} questions', AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.timer, timeDisplay, AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.star, '${quizData.points} points', AppColors.primaryGreen),
+              _buildInfoRow(LucideIcons.info, '${quizData.description} ', AppColors.primaryGreen),
 
-              const Spacer(), // 👈 ดันปุ่มให้ไปอยู่ล่างสุดของกล่อง
+              const Spacer(),
 
               // 4. ปุ่ม Start Quiz
               SizedBox(
@@ -79,12 +101,21 @@ class QuizDetailScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    print('เริ่มทำควิซ: ${quizData.title}');
-                    // TODO: นำทางไปหน้า QuizPlayScreen
-                  },
-                  child: const Text(
-                    'Start Quiz',
-                    style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+
+
+                   
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizPlayScreen(quizData: quizData),
+                      ),
+                    );
+
+    },
+                  child: Text(
+                    quizData.isCompleted == true ? 're-attempt' : 'Start Quiz',
+                    style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -108,13 +139,15 @@ class QuizDetailScreen extends StatelessWidget {
         children: [
           Icon(icon, color: iconColor),
           const SizedBox(width: 16),
-          Text(text, style: const TextStyle(fontSize: 16)),
+          Expanded(
+            child: Text(text, style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 16)),
+          ),
         ],
       ),
     );
   }
 
-  // 🎨 ดึงสีปกให้ตรงกับในหน้า Card
+  //  ดึงสีปกให้ตรงกับในหน้า Card
   Color _getCategoryColor(String category) {
     final cat = category.toLowerCase();
     if (cat.contains('vocab') || cat.contains('volcab')) return const Color(0xFFFBE07A); // สีเหลือง
