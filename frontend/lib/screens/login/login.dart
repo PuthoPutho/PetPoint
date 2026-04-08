@@ -3,10 +3,12 @@ import 'package:flutter/foundation.dart'; // เพิ่มสำหรับ k
 import 'package:http/http.dart' as http; // เพิ่มสำหรับ API
 import 'dart:convert'; // เพิ่มสำหรับ json
 // คอมเมนต์ปิด google_sign_in ไว้ก่อนชั่วคราวเพื่อเทสต์ UI
-// import 'package:google_sign_in/google_sign_in.dart'; 
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:frontend/screens/signup/sign_up.dart';
 import 'package:frontend/providers/auth_provider.dart';
 import 'dart:io';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
+import 'dart:async';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,11 +21,101 @@ class _LoginScreenState extends State<LoginScreen> {
   // คอมเมนต์ตัวแปรนี้ไว้ก่อน
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
   bool _isHoveringSignUp = false;
-  
+
   // ----- ส่วนที่เพิ่มมาใหม่สำหรับ API -----
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _isNavigating = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _syncGoogleLoginWithBackend(supabase.User user) async {
+    if (_isNavigating) return;
+    _isNavigating = true; // Prevent double trigger
+
+    if (mounted) setState(() => _isLoading = true);
+    String baseUrl = 'https://petpoint.onrender.com';
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/auth/google'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": user.email,
+          "username":
+              user.userMetadata?['full_name'] ?? user.email?.split('@')[0],
+          "profileImage": user.userMetadata?['avatar_url'],
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        final userData = data['data'];
+        final token = userData['token'];
+        final userId =
+            userData['user']?['uuid'] ??
+            userData['userId'] ??
+            userData['id'] ??
+            '';
+        final username = userData['user']?['username'] ?? 'User';
+        final userEmail = userData['user']?['email'] ?? user.email;
+        final score = userData['user']?['currentScore'] ?? 0;
+        final donatedScore = userData['user']?['donatedScore'] ?? 0;
+        final profileImage = userData['user']?['profileImage'];
+
+        if (mounted) {
+          AuthProvider.of(context).login(
+            userId: userId,
+            token: token,
+            username: username,
+            email: userEmail,
+            currentScore: score is int
+                ? score
+                : int.tryParse(score.toString()) ?? 0,
+            donatedScore: donatedScore is int
+                ? donatedScore
+                : int.tryParse(donatedScore.toString()) ?? 0,
+            profileImage: profileImage,
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Google Login Successful!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+
+          Navigator.pushReplacementNamed(context, '/main');
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(data['message'] ?? 'Login failed'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        _isNavigating = false;
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+      }
+      _isNavigating = false;
+    } finally {
+      if (mounted && !_isNavigating) setState(() => _isLoading = false);
+    }
+  }
 
   Future<void> _loginAPI() async {
     final email = _emailController.text.trim();
@@ -39,8 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     // เช็คแพลตฟอร์มว่ารันบน Web (localhost) หรือ Emulator (10.0.2.2)
-    String baseUrl = 'https://petpoint.onrender.com'; // ค่าเริ่มต้นสำหรับ Web และ iOS Simulator
-    
+    String baseUrl =
+        'https://petpoint.onrender.com'; // ค่าเริ่มต้นสำหรับ Web และ iOS Simulator
 
     try {
       final response = await http.post(
@@ -55,12 +147,21 @@ class _LoginScreenState extends State<LoginScreen> {
         // Login สำเร็จ - ดึงข้อมูล user จาก response
         final userData = data['data'];
         final token = userData['token'];
-        final userId = userData['user']?['uuid'] ?? userData['userId'] ?? userData['id'] ?? '';
-        final username = userData['user']?['username'] ?? userData['username'] ?? 'User';
-        final userEmail = userData['user']?['email'] ?? userData['email'] ?? email;
-        final score = userData['user']?['currentScore'] ?? userData['currentScore'] ?? 0;
-        final donatedScore = userData['user']?['donatedScore'] ?? userData['donatedScore'] ?? 0;
-        final profileImage = userData['user']?['profileImage'] ?? userData['profileImage'];
+        final userId =
+            userData['user']?['uuid'] ??
+            userData['userId'] ??
+            userData['id'] ??
+            '';
+        final username =
+            userData['user']?['username'] ?? userData['username'] ?? 'User';
+        final userEmail =
+            userData['user']?['email'] ?? userData['email'] ?? email;
+        final score =
+            userData['user']?['currentScore'] ?? userData['currentScore'] ?? 0;
+        final donatedScore =
+            userData['user']?['donatedScore'] ?? userData['donatedScore'] ?? 0;
+        final profileImage =
+            userData['user']?['profileImage'] ?? userData['profileImage'];
 
         print("✅ Token: $token");
         print("✅ UserId: $userId");
@@ -73,22 +174,32 @@ class _LoginScreenState extends State<LoginScreen> {
             token: token,
             username: username,
             email: userEmail,
-            currentScore: score is int ? score : int.tryParse(score.toString()) ?? 0,
-            donatedScore: donatedScore is int ? donatedScore : int.tryParse(donatedScore.toString()) ?? 0,
+            currentScore: score is int
+                ? score
+                : int.tryParse(score.toString()) ?? 0,
+            donatedScore: donatedScore is int
+                ? donatedScore
+                : int.tryParse(donatedScore.toString()) ?? 0,
             profileImage: profileImage,
           );
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login Successful!'), backgroundColor: Colors.green),
+          const SnackBar(
+            content: Text('Login Successful!'),
+            backgroundColor: Colors.green,
+          ),
         );
-        
+
         // ต้องสั่ง Navigator อีกครั้งเพื่อให้หน้า Login หายไปและไปที่หน้าหลักจริง
         Navigator.pushReplacementNamed(context, '/main');
       } else {
         // Login ไม่สำเร็จ
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(data['message'] ?? 'Login failed'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(data['message'] ?? 'Login failed'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } catch (e) {
@@ -102,8 +213,62 @@ class _LoginScreenState extends State<LoginScreen> {
   // ------------------------------------
 
   Future<void> _handleGoogleSignIn() async {
-    // จำลองการทำงานไปก่อน
-    print("Google Sign-In Clicked! (Mock)");
+    if (mounted) setState(() => _isLoading = true);
+
+    try {
+      // 1. Define the Client IDs
+      const webClientId =
+          '482723845705-chh6h0bmnnb252t780788kb3e3j5b2cr.apps.googleusercontent.com';
+      const iosClientId =
+          '482723845705-0vjen1u4f1luoceif22j7s01jfc6e30a.apps.googleusercontent.com'; // if you support iOS
+
+      // 2. Initialize Google Sign In
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        serverClientId: webClientId,
+      );
+
+      // 3. Trigger the native Google Sign In flow
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        if (mounted) setState(() => _isLoading = false);
+        return; // User canceled
+      }
+
+      // 4. Obtain the auth details (Tokens)
+      final googleAuth = await googleUser.authentication;
+      final accessToken = googleAuth.accessToken;
+      final idToken = googleAuth.idToken;
+
+      if (accessToken == null) throw 'No Access Token found.';
+      if (idToken == null) throw 'No ID Token found.';
+
+      // 5. Pass the tokens to Supabase
+      final supabase.AuthResponse response = await supabase
+          .Supabase
+          .instance
+          .client
+          .auth
+          .signInWithIdToken(
+            provider: supabase.OAuthProvider.google,
+            idToken: idToken,
+            accessToken: accessToken,
+          );
+
+      if (response.user != null) {
+        // 6. Sync with backend
+        await _syncGoogleLoginWithBackend(response.user!);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -177,7 +342,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 8),
                       // ใส่ Controller ตรงนี้
-                      _buildTextField(hint: 'Your Email', controller: _emailController),
+                      _buildTextField(
+                        hint: 'Your Email',
+                        controller: _emailController,
+                      ),
                       const SizedBox(height: 20),
 
                       const Text(
@@ -189,7 +357,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 8),
                       // ใส่ Controller ตรงนี้
-                      _buildTextField(hint: 'Your Password', isPassword: true, controller: _passwordController),
+                      _buildTextField(
+                        hint: 'Your Password',
+                        isPassword: true,
+                        controller: _passwordController,
+                      ),
                       const SizedBox(height: 35),
 
                       // ปุ่ม Login (เพิ่ม Logic API)
@@ -205,16 +377,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             elevation: 0,
                           ),
-                          child: _isLoading 
-                            ? const CircularProgressIndicator(color: Colors.white)
-                            : const Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          child: _isLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
                       ),
                       const SizedBox(height: 25),
@@ -282,21 +456,26 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             MouseRegion(
                               cursor: SystemMouseCursors.click,
-                              onEnter: (_) => setState(() => _isHoveringSignUp = true),
-                              onExit: (_) => setState(() => _isHoveringSignUp = false),
+                              onEnter: (_) =>
+                                  setState(() => _isHoveringSignUp = true),
+                              onExit: (_) =>
+                                  setState(() => _isHoveringSignUp = false),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const SignUpScreen(),
+                                      builder: (context) =>
+                                          const SignUpScreen(),
                                     ),
                                   );
                                 },
                                 child: Text(
                                   'sign up',
                                   style: TextStyle(
-                                    color: _isHoveringSignUp ? primaryGreen.withOpacity(0.7) : primaryGreen,
+                                    color: _isHoveringSignUp
+                                        ? primaryGreen.withOpacity(0.7)
+                                        : primaryGreen,
                                     fontWeight: FontWeight.bold,
                                     decoration: _isHoveringSignUp
                                         ? TextDecoration.underline
@@ -321,7 +500,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // ปรับให้รับ controller
-  Widget _buildTextField({required String hint, bool isPassword = false, required TextEditingController controller}) {
+  Widget _buildTextField({
+    required String hint,
+    bool isPassword = false,
+    required TextEditingController controller,
+  }) {
     return TextField(
       controller: controller, // เพิ่มบรรทัดนี้
       obscureText: isPassword,

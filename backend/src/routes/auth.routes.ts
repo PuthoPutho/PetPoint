@@ -39,4 +39,21 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+// API: เข้าสู่ระบบด้วย Google
+router.post('/google', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, username, profileImage } = req.body;
+
+    if (!email) {
+      res.status(400).json({ message: 'Email is required' });
+      return;
+    }
+
+    const result = await authService.googleLogin({ email, username, profileImage });
+    res.status(200).json({ message: 'Login successful', data: result });
+  } catch (error: any) {
+    res.status(401).json({ message: error.message });
+  }
+});
+
 export default router;

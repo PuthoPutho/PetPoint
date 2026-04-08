@@ -3,8 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:frontend/providers/auth_provider.dart';
 import 'package:frontend/screens/login/login.dart';
 import 'package:frontend/screens/main_navigation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await Supabase.initialize(
+    url: 'https://gthphqenkqgrbrezoeal.supabase.co',
+    anonKey: 'sb_publishable_1ozRVgYoRL2aMmf4MDIlWQ__4uTFWty',
+  );
+
   runApp(MyApp());
 }
 

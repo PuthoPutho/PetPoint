@@ -66,5 +66,44 @@ export const authService = {
       }, 
       token 
     };
+  },
+
+  // ฟังก์ชันเข้าสู่ระบบด้วย Google 
+  async googleLogin(data: any) {
+    let existingUser = await authRepository.findUserByEmail(data.email);
+    
+    if (!existingUser) {
+      // สร้างผู้ใช้ใหม่ถ้ายังไม่มี
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('oauth-auto-generated-password', salt);
+      existingUser = await authRepository.createUser({
+        username: data.username || data.email.split('@')[0],
+        email: data.email,
+        password: hashedPassword,
+        provider: 'google',
+        profileImage: data.profileImage,
+      });
+    }
+
+    // ออก JWT Token 
+    const token = jwt.sign(
+      { uuid: existingUser.uuid, email: existingUser.email },
+      JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    const { password, ...userWithoutPassword } = existingUser;
+    
+    // ดึงยอดบริจาครวม
+    const { donationService } = await import('./donation.service.js');
+    const donatedTotal = await donationService.getDonatedScore(existingUser.uuid);
+    
+    return { 
+      user: {
+        ...userWithoutPassword,
+        donatedScore: donatedTotal
+      }, 
+      token 
+    };
   }
 };
