@@ -18,8 +18,9 @@ export class ProfileService {
         };
     }
 
-    // 2. อัปเดตโปรไฟล์ (Logic เรื่อง Path รูปภาพย้ายมาอยู่นี่)
-    async updateProfile(userId: string, username: string, filename?: string) {
+    // 2. อัปเดตโปรไฟล์ ( แก้ให้รับลิงก์เต็มๆ จาก Supabase)
+    // เปลี่ยนชื่อตัวแปรจาก filename เป็น imageUrl เพื่อให้ไม่งงครับ
+    async updateProfile(userId: string, username: string, imageUrl?: string) {
         // เตรียมข้อมูลที่จะอัปเดต
         let updateData: any = {};
         
@@ -27,9 +28,9 @@ export class ProfileService {
             updateData.username = username;
         }
 
-        // ถ้ามีไฟล์รูปภาพแนบมาด้วย ให้ต่อ Path เหมือนเดิมเป๊ะ
-        if (filename) {
-            updateData.profileImage = `/uploads/${filename}`;
+        // 🌟 ถ้ามีลิงก์รูปภาพ (Supabase URL) ส่งมา ให้เซฟลิงก์นั้นลง Database เลย ไม่ต้องเติม /uploads/ แล้ว
+        if (imageUrl) {
+            updateData.profileImage = imageUrl; 
         }
 
         // ส่งข้อมูลที่จัดทรงเสร็จแล้วไปให้ Database
