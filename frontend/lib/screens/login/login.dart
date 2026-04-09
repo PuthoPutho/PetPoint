@@ -87,8 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
           );
 
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Google Login Successful!'),
+            SnackBar(
+              content: Text('Welcome, $username!'),
               backgroundColor: Colors.green,
             ),
           );
@@ -185,8 +185,8 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login Successful!'),
+          SnackBar(
+            content: Text('Welcome, $username!'),
             backgroundColor: Colors.green,
           ),
         );
@@ -344,7 +344,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         hint: 'Your Email',
                         controller: _emailController,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 18),
 
                       const Text(
                         'Password',
@@ -369,7 +369,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: _isLoading ? null : _loginAPI,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryGreen,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 18),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -382,14 +382,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               : const Text(
                                   'Login',
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                         ),
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 20),
 
                       // เส้นคั่น Or
                       Row(
@@ -405,7 +405,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Expanded(child: Divider(color: Colors.grey.shade300)),
                         ],
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 20),
 
                       // ปุ่ม Google
                       SizedBox(
@@ -504,12 +504,13 @@ class _LoginScreenState extends State<LoginScreen> {
     required TextEditingController controller,
   }) {
     return TextField(
-      controller: controller, // เพิ่มบรรทัดนี้
+      controller: controller, 
       obscureText: isPassword,
+      style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey.shade400),
-        contentPadding: const EdgeInsets.all(16),
+        hintStyle: TextStyle(color: Colors.grey.shade400 ,fontSize: 14),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(color: Colors.grey.shade200),

@@ -137,17 +137,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const Text('Username', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500)),
                       const SizedBox(height: 8),
                       _buildTextField(hint: 'Your username', controller: _usernameController),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 12),
 
                       const Text('Email', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500)),
                       const SizedBox(height: 8),
                       _buildTextField(hint: 'Your Email', controller: _emailController),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 12),
 
                       const Text('Password', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500)),
                       const SizedBox(height: 8),
                       _buildTextField(hint: 'Your Password', isPassword: true, controller: _passwordController),
-                      const SizedBox(height: 35),
+                      const SizedBox(height: 25),
 
                       SizedBox(
                         width: double.infinity,
@@ -161,10 +161,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: _isLoading 
                             ? const CircularProgressIndicator(color: Colors.white)
-                            : const Text('Sign-up', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                            : const Text('Sign-up', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
                         ),
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 20),
 
                       Row(
                         children: [
@@ -176,7 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Expanded(child: Divider(color: Colors.grey.shade300)),
                         ],
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 18),
 
                       SizedBox(
                         width: double.infinity,
@@ -250,6 +250,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return TextField(
       controller: controller, 
       obscureText: isPassword,
+      style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(color: Colors.grey.shade400),
