@@ -9,6 +9,7 @@ import 'package:frontend/providers/auth_provider.dart';
 import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 import 'dart:async';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _isNavigating = true; // Prevent double trigger
 
     if (mounted) setState(() => _isLoading = true);
-    String baseUrl = 'https://petpoint.onrender.com';
+    String baseUrl = dotenv.env['BASE_URL'] ?? 'https://petpoint.onrender.com';
 
     try {
       final response = await http.post(
@@ -130,9 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _isLoading = true);
 
-    // เช็คแพลตฟอร์มว่ารันบน Web (localhost) หรือ Emulator (10.0.2.2)
-    String baseUrl =
-        'https://petpoint.onrender.com'; // ค่าเริ่มต้นสำหรับ Web และ iOS Simulator
+    // เช็คแพลตฟอร์มว่ารันบน Web (localhost) หรือ Emulator (10.0.2.2) call from env
+    String baseUrl = dotenv.env['BASE_URL'] ?? 'https://petpoint.onrender.com';
 
     try {
       final response = await http.post(
@@ -217,10 +217,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       // 1. Define the Client IDs
-      const webClientId =
-          '482723845705-chh6h0bmnnb252t780788kb3e3j5b2cr.apps.googleusercontent.com';
-      const iosClientId =
-          '482723845705-0vjen1u4f1luoceif22j7s01jfc6e30a.apps.googleusercontent.com'; // if you support iOS
+      final webClientId = dotenv.env['WEB_CLIENT_ID'] ?? '';
+      final iosClientId = dotenv.env['IOS_CLIENT_ID'] ?? '';
 
       // 2. Initialize Google Sign In
       final GoogleSignIn googleSignIn = GoogleSignIn(
