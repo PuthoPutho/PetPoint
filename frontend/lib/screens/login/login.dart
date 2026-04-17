@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart'; // เพิ่มสำหรับ kIsWeb
-import 'package:http/http.dart' as http; // เพิ่มสำหรับ API
-import 'dart:convert'; // เพิ่มสำหรับ json
-// คอมเมนต์ปิด google_sign_in ไว้ก่อนชั่วคราวเพื่อเทสต์ UI
+import 'package:flutter/foundation.dart'; 
+import 'package:http/http.dart' as http; 
+import 'dart:convert'; 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:frontend/screens/signup/sign_up.dart';
 import 'package:frontend/providers/auth_provider.dart';
@@ -19,11 +18,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // คอมเมนต์ตัวแปรนี้ไว้ก่อน
-  // final GoogleSignIn _googleSignIn = GoogleSignIn();
+  
   bool _isHoveringSignUp = false;
 
-  // ----- ส่วนที่เพิ่มมาใหม่สำหรับ API -----
+  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -38,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _syncGoogleLoginWithBackend(supabase.User user) async {
     if (_isNavigating) return;
-    _isNavigating = true; // Prevent double trigger
+    _isNavigating = true; 
 
     if (mounted) setState(() => _isLoading = true);
     String baseUrl = dotenv.env['BASE_URL'] ?? 'https://petpoint.onrender.com';
@@ -129,9 +127,16 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    if (!email.contains('@')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email containing "@"')),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
 
-    // เช็คแพลตฟอร์มว่ารันบน Web (localhost) หรือ Emulator (10.0.2.2) call from env
+   
     String baseUrl = dotenv.env['BASE_URL'] ?? 'https://petpoint.onrender.com';
 
     try {
@@ -144,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        // Login สำเร็จ - ดึงข้อมูล user จาก response
+      
         final userData = data['data'];
         final token = userData['token'];
         final userId =
@@ -167,7 +172,6 @@ class _LoginScreenState extends State<LoginScreen> {
         print("✅ UserId: $userId");
         print("✅ Username: $username");
 
-        // บันทึกข้อมูลลง AuthProvider เพื่อให้ทุกหน้าเข้าถึงได้
         if (mounted) {
           AuthProvider.of(context).login(
             userId: userId,
@@ -191,10 +195,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
 
-        // ต้องสั่ง Navigator อีกครั้งเพื่อให้หน้า Login หายไปและไปที่หน้าหลักจริง
         Navigator.pushReplacementNamed(context, '/main');
       } else {
-        // Login ไม่สำเร็จ
+        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(data['message'] ?? 'Login failed'),
@@ -216,23 +219,20 @@ class _LoginScreenState extends State<LoginScreen> {
     if (mounted) setState(() => _isLoading = true);
 
     try {
-      // 1. Define the Client IDs
+   
       final webClientId = dotenv.env['WEB_CLIENT_ID'] ?? '';
       final iosClientId = dotenv.env['IOS_CLIENT_ID'] ?? '';
 
-      // 2. Initialize Google Sign In
       final GoogleSignIn googleSignIn = GoogleSignIn(
         serverClientId: webClientId,
       );
 
-      // 3. Trigger the native Google Sign In flow
       final googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         if (mounted) setState(() => _isLoading = false);
-        return; // User canceled
+        return; 
       }
 
-      // 4. Obtain the auth details (Tokens)
       final googleAuth = await googleUser.authentication;
       final accessToken = googleAuth.accessToken;
       final idToken = googleAuth.idToken;
@@ -240,7 +240,6 @@ class _LoginScreenState extends State<LoginScreen> {
       if (accessToken == null) throw 'No Access Token found.';
       if (idToken == null) throw 'No ID Token found.';
 
-      // 5. Pass the tokens to Supabase
       final supabase.AuthResponse response = await supabase
           .Supabase
           .instance
@@ -253,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
 
       if (response.user != null) {
-        // 6. Sync with backend
+       
         await _syncGoogleLoginWithBackend(response.user!);
       }
     } catch (e) {
@@ -280,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
         bottom: false,
         child: Stack(
           children: [
-            // 1. ส่วนหัวข้อ "Login"
+            
             Positioned(
               top: 60,
               left: 0,
@@ -297,7 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
-            // 2. รูปน้องแมว
+            
             Positioned(
               bottom: 420,
               left: 0,
@@ -316,7 +315,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
-            // 3. ส่วนฟอร์มสีขาว
+            
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -339,7 +338,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      // ใส่ Controller ตรงนี้
+                      
                       _buildTextField(
                         hint: 'Your Email',
                         controller: _emailController,
@@ -354,7 +353,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      // ใส่ Controller ตรงนี้
+                      
                       _buildTextField(
                         hint: 'Your Password',
                         isPassword: true,
@@ -362,7 +361,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 35),
 
-                      // ปุ่ม Login (เพิ่ม Logic API)
+                      // ปุ่ม Login 
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(

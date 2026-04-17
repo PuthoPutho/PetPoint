@@ -37,19 +37,7 @@ class NewsScreen extends StatelessWidget {
           ),
         ],
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   currentIndex: 2,
-      //   selectedItemColor: const Color(0xFF62B179),
-      //   unselectedItemColor: Colors.grey,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Foster'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.emoji_events_outlined), label: 'Score'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.book_outlined), label: 'Quiz'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
-      //   ],
-      // ),
+
     );
   }
 }

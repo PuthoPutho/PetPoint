@@ -5,7 +5,7 @@ import '../../utils/app_colors.dart';
 import 'quiz_play_screen.dart';
 
 class QuizDetailScreen extends StatelessWidget {
-  final Quiz quizData; // 👈 รับข้อมูลควิซที่ถูกกดส่งมาหน้านี้
+  final Quiz quizData; 
 
   const QuizDetailScreen({super.key, required this.quizData});
 
@@ -38,7 +38,7 @@ class QuizDetailScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.8, // 👈 ปรับความสูงของกล่องตรงนี้ (ตอนนี้ตั้งไว้ที่ 80% ของหน้าจอ)
+          height: MediaQuery.of(context).size.height * 0.8, 
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -55,12 +55,12 @@ class QuizDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. รูปภาพหน้าปก
+              
               Container(
                 height: 160,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: _getCategoryColor(quizData.category), // สีปกจะเปลี่ยนตามหมวดหมู่เดียวกับที่แสดงในการ์ด
+                  color: _getCategoryColor(quizData.category), 
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: quizData.image != null && quizData.image!.isNotEmpty
@@ -69,7 +69,7 @@ class QuizDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
-              // 2. ชื่อและรายละเอียด
+             
               Text(
                 quizData.title,
                 style: const TextStyle(fontFamily: 'GoogleSans', fontSize: 22, fontWeight: FontWeight.bold),
@@ -81,7 +81,7 @@ class QuizDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
-              // 3. กล่องข้อมูล (ใช้ฟังก์ชัน _buildInfoRow ที่สร้างไว้ด้านล่าง)
+              
               _buildInfoRow(LucideIcons.bookOpen, '${quizData.questionCount} questions', AppColors.primaryGreen),
               _buildInfoRow(LucideIcons.timer, timeDisplay, AppColors.primaryGreen),
               _buildInfoRow(LucideIcons.star, '${quizData.points} points', AppColors.primaryGreen),
@@ -89,7 +89,7 @@ class QuizDetailScreen extends StatelessWidget {
 
               const Spacer(),
 
-              // 4. ปุ่ม Start Quiz
+             
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -126,7 +126,7 @@ class QuizDetailScreen extends StatelessWidget {
     );
   }
 
-  // 🧩 เลโก้ชิ้นเล็กๆ สำหรับสร้างแถวข้อมูล (ช่วยให้โค้ดไม่รก)
+
   Widget _buildInfoRow(IconData icon, String text, Color iconColor) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -147,14 +147,14 @@ class QuizDetailScreen extends StatelessWidget {
     );
   }
 
-  //  ดึงสีปกให้ตรงกับในหน้า Card
+
   Color _getCategoryColor(String category) {
     final cat = category.toLowerCase();
-    if (cat.contains('vocab') || cat.contains('volcab')) return const Color(0xFFFBE07A); // สีเหลือง
-    if (cat.contains('grammar')) return const Color(0xFFE28BB0); // สีชมพู
-    if (cat.contains('reading')) return const Color(0xFFEE8A4B); // สีส้ม
-    if (cat.contains('conversation')) return Colors.lightBlueAccent; // สีฟ้า
-    if (cat.contains('sentence')) return Colors.greenAccent; // สีเขียว
+    if (cat.contains('vocab') || cat.contains('volcab')) return const Color(0xFFFBE07A); 
+    if (cat.contains('grammar')) return const Color(0xFFE28BB0); 
+    if (cat.contains('reading')) return const Color(0xFFEE8A4B); 
+    if (cat.contains('conversation')) return Colors.lightBlueAccent;
+    if (cat.contains('sentence')) return Colors.greenAccent; 
     return Colors.blue;
   }
 }

@@ -36,10 +36,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _initAuth() async {
-    await _authState.loadAuthData();
+    
+    await Future.wait([
+      _authState.loadAuthData(),
+      Future.delayed(const Duration(seconds: 4)), 
+    ]);
+
     if (mounted) {
       setState(() {
-        _isLoading = false;
+        _isLoading = false; 
       });
     }
   }
@@ -64,15 +69,8 @@ class _MyAppState extends State<MyApp> {
           ),
           useMaterial3: true,
         ),
-        // ใช้ ListenableBuilder เฉพาะในส่วน home เท่านั้น
-        // เพื่อไม่ให้ต้อง rebuild MaterialApp ทั้งหมดเมื่อคะแนนหรือโปรไฟล์เปลี่ยน
         home: _isLoading
-            ? const Scaffold(
-                backgroundColor: Colors.white,
-                body: Center(
-                  child: CircularProgressIndicator(color: Color(0xFF59AC77)),
-                ),
-              )
+            ? const PetPointLoadingScreen()
             : ListenableBuilder(
                 listenable: _authState,
                 builder: (context, _) {
@@ -95,7 +93,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// วิดเจ็ตหน้าว่างสำหรับรอการสร้างหน้าจริง
+
 class PlaceholderScreen extends StatelessWidget {
   final String title;
   const PlaceholderScreen({super.key, required this.title});
@@ -105,6 +103,83 @@ class PlaceholderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: Center(child: Text('Coming Soon: $title Page')),
+    );
+  }
+}
+
+// ==========================================
+// Loading Screen
+// ==========================================
+class PetPointLoadingScreen extends StatefulWidget {
+  const PetPointLoadingScreen({super.key});
+
+  @override
+  State<PetPointLoadingScreen> createState() => _PetPointLoadingScreenState();
+}
+
+class _PetPointLoadingScreenState extends State<PetPointLoadingScreen> 
+    with SingleTickerProviderStateMixin {
+  
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 0.95, end: 1.05).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            
+            ScaleTransition(
+              scale: _animation,
+              child: Image.asset(
+                'assets/logo.png', 
+                width: 160,
+                fit: BoxFit.contain,
+              ),
+            ),
+            
+            const SizedBox(height: 30),
+            
+           
+            const Text(
+              'PET POINT',
+              style: TextStyle(
+                color: Color(0xFF59AC77),
+                fontSize: 36,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2.0,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

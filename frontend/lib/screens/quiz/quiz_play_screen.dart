@@ -38,7 +38,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   @override
   void initState() {
     super.initState();
-    _loadQuestions(); // 🌟 3. เรียกโหลดข้อมูลแทนการเริ่มเวลาเลย
+    _loadQuestions(); 
   }
 
   Future<void> _loadQuestions() async {
@@ -50,7 +50,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
       });
 
       if (_questions.isNotEmpty) {
-        _startTimer(); // โหลดเสร็จค่อยเริ่มจับเวลา
+        _startTimer(); 
       } else {
         setState(() {
           errorMessage = 'ไม่พบคำถามในควิซนี้';
@@ -108,14 +108,11 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
       });
       _startTimer();
     } else {
-      // ==========================================
-      //  สอบเสร็จแล้ว เตรียมข้อมูลเพื่อส่งให้ Backend
-      // ==========================================
+     
       setState(() {
-        isLoading = true; // ขึ้นหน้า Loading หมุนๆ ระหว่างรอเซฟคะแนน
+        isLoading = true; 
       });
 
-      // แพ็คข้อมูลคำตอบให้ตรงกับที่ Backend (saveQuizHistory) ต้องการ
       List<Map<String, dynamic>> detailedAnswers = [];
       for (int i = 0; i < _questions.length; i++) {
         final q = _questions[i];
@@ -130,7 +127,6 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
         });
       }
 
-      //  3. ยิง API บันทึกคะแนน!
       final userId = AuthProvider.of(context).userId ?? '';
       await QuizService.submitQuiz(
         userId: userId,
@@ -138,13 +134,12 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
         answers: detailedAnswers,
       );
 
-      // โหลด score ใหม่จาก Backend และอัปเดต AuthProvider
+    
       if (mounted && userId.isNotEmpty) {
         final profile = await UserService.getUserProfile(userId);
         if (profile != null && mounted) {
           final newScore = profile['currentScore'] as int? ?? 0;
           AuthProvider.of(context).updateScore(newScore);
-          // 🌟 ส่งสัญญาณให้หน้า Profile/Home รีโหลดข้อมูลใหม่
           AuthProvider.of(context).triggerRefresh();
         }
       }
@@ -153,10 +148,8 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
         isLoading = false;
       });
 
-      // ==========================================
-      //  4. บันทึกเสร็จแล้ว ค่อยพาไปหน้า Result Screen
-      // ==========================================
-      if (!mounted) return; // กัน Error กรณีผู้ใช้ปิดแอปไปก่อน
+      
+      if (!mounted) return; 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -174,7 +167,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   Widget build(BuildContext context) {
     final colorGreen = const Color(0xFF59AC77);
 
-    // 🌟 ดักหน้าจอตอนโหลด และ ตอนพัง
+    
     if (isLoading) {
       return const Scaffold(
         backgroundColor: Colors.white,

@@ -13,16 +13,16 @@ class QuizListScreen extends StatefulWidget {
 }
 
 class _QuizListScreenState extends State<QuizListScreen> {
-  // สถานะการโหลดและข้อมูล
+  
   List<Quiz> allQuizzes = [];
   bool isLoading = true;
   String? errorMessage;
 
-  // สถานะ UI สำหรับเมนู Dropdown แบบลอย
+  
   bool _isCategoryExpanded = false;
   bool _isTimeFilterExpanded = false;
 
-  // ตัวเลือกฟิลเตอร์
+ 
   final List<String> categories = [
     'All Category',
     'Vocabulary',
@@ -47,7 +47,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
   @override
   void initState() {
     super.initState();
-    // 🌟 ย้ายการโหลดไปที่ didChangeDependencies แทน เพื่อความปลอดภัยของ Context
+    
   }
 
   @override
@@ -59,7 +59,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
     }
   }
 
-  // ฟังก์ชันโหลดข้อมูลจาก Backend
+ 
   Future<void> _loadQuizzes() async {
     try {
       final userId = AuthProvider.of(context).userId;
@@ -71,7 +71,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
       final quizzes = await QuizService.getAllQuizzes(userId: userId);
       if (!mounted) return;
       setState(() {
-        // 🌟 ประกันความปลอดภัยของข้อมูล
+        
         if (quizzes is List<Quiz>) {
           allQuizzes = quizzes;
         } else {
@@ -92,13 +92,13 @@ class _QuizListScreenState extends State<QuizListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 🌟 ส่วนลอจิกการกรอง (Filter Logic)
+      
     final filteredQuizzes = allQuizzes.where((quiz) {
-      // 1. กรองตามหมวดหมู่
+      
       final matchesCategory =
           selectedCategory == 'All Category' || quiz.category == selectedCategory;
 
-      // 2. กรองตามเวลา (ที่เพิ่งแก้ไป)
+      
       bool matchesTime = true;
       
       if (quiz.createdAt != null) {
@@ -116,7 +116,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
 
       
 
-      // 3. กรองตามการค้นหา
+      
       bool matchesSearch = true;
       if (searchQuery.isNotEmpty) {
         final query = searchQuery.toLowerCase();
@@ -205,7 +205,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                         child: Container(color: Colors.transparent),
                       ),
 
-                    // เมนูแบบลอย
+                   
                     if (_isCategoryExpanded)
                       Positioned(
                         top: 0, left: 0, width: (MediaQuery.of(context).size.width - 48) / 2,
@@ -230,7 +230,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
     );
   }
 
-  // แยกส่วนการแสดงผลหลักออกมาเพื่อความสะอาดของโค้ด
+  
   Widget _buildMainContent(List<Quiz> filteredList) {
     if (isLoading) {
       return const Center(child: CircularProgressIndicator(color: Colors.green));
@@ -249,7 +249,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
     );
   }
 
-  // วิดเจ็ตปุ่มฟิลเตอร์
+
   Widget _buildFilterButton({required String label, required bool isExpanded, required VoidCallback onTap}) {
     return Expanded(
       child: GestureDetector(
@@ -274,7 +274,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
     );
   }
 
-  // วิดเจ็ตเมนูแบบลอย
+
   Widget _buildFloatingMenu(List<String> items, String selectedValue, Function(String) onSelect) {
     return Container(
       decoration: BoxDecoration(

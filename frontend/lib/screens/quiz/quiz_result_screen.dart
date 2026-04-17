@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../models/quiz.dart';
 import '../../models/question.dart';
-import '../main_navigation.dart'; // สำหรับกด Next แล้วกลับหน้าแรก
+import '../main_navigation.dart'; 
 
 class QuizResultScreen extends StatelessWidget {
   final Quiz quizData;
   final List<QuizQuestion> questions;
-  final List<String?> userAnswers; // ลิสต์เก็บ ID ชอยส์ที่ผู้ใช้เลือก (ถ้าหมดเวลาจะเป็น null)
+  final List<String?> userAnswers; 
 
   const QuizResultScreen({
     super.key,
@@ -21,7 +21,7 @@ class QuizResultScreen extends StatelessWidget {
     int correctCount = 0;
     for (int i = 0; i < questions.length; i++) {
       if (userAnswers[i] != null) {
-        // แก้ไขเป็น String เปรียบเทียบกับ String
+      
         final selectedChoice = questions[i].choices.firstWhere((c) => c.id == userAnswers[i],
             orElse: () => QuizChoice(id: '', text: '', isCorrect: false));
         if (selectedChoice.isCorrect) correctCount++;
@@ -38,7 +38,7 @@ class QuizResultScreen extends StatelessWidget {
           child: Column(
             children: [
               // ==========================================
-              //  กล่อง 1: สรุปคะแนน (Total Score)
+              //  Total Score
               // ==========================================
               Container(
                 width: double.infinity,
@@ -70,9 +70,9 @@ class QuizResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     
-                    //(ใช้ Transform ทับช่องว่างของกรอบรูปใสๆ ดึงให้มือแมวลงมาเกาะที่ขอบสีเขียว)
+                    
                     Transform.translate(
-                      offset: const Offset(0, 48), // ดึงภาพลงมาข้างล่าง 34 พิกเซลให้สนิทเป๊ะ
+                      offset: const Offset(0, 48), 
                       child: Image.asset(
                         'assets/catresult.png', 
                         height: 150,
@@ -82,7 +82,6 @@ class QuizResultScreen extends StatelessWidget {
                     ),
                     
 
-                    // กล่องสถิติ 3 ช่อง (Total, Correct, Wrong)
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -105,7 +104,7 @@ class QuizResultScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // ==========================================
-              // 📦 กล่อง 2: ปุ่ม Next
+              //  ปุ่ม Next
               // ==========================================
               SizedBox(
                 width: double.infinity,
@@ -116,7 +115,7 @@ class QuizResultScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () {
-                    // กด Next ให้เคลียร์หน้าจอทั้งหมดแล้วกลับไป MainScreen แท็บ Quiz
+                   
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => const MainNavigationScreen(initialIndex: 3)),
@@ -129,7 +128,7 @@ class QuizResultScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // ==========================================
-              // 📦 กล่อง 3: เฉลย (Answer Key)
+              //Answer Key
               // ==========================================
               Container(
                 width: double.infinity,
@@ -154,21 +153,21 @@ class QuizResultScreen extends StatelessWidget {
                     Text("Part ${quizData.tag}", style: const TextStyle(fontSize: 14, color: Colors.grey)),
                     const SizedBox(height: 24),
 
-                    // ลูปสร้างเฉลยทีละข้อ
+                    
                     ...List.generate(questions.length, (index) {
                       final question = questions[index];
                       final userAnswerId = userAnswers[index];
                       
-                      // หาชอยส์ที่ถูก
+                     
                       final correctChoice = question.choices.firstWhere((c) => c.isCorrect);
                       
-                      // หาชอยส์ที่ผู้ใช้ตอบ
+                    
                       QuizChoice? userChoice;
                       if (userAnswerId != null) {
                         userChoice = question.choices.firstWhere((c) => c.id == userAnswerId);
                       }
                       
-                      // เช็คว่าถูกไหม
+                   
                       final isCorrect = userChoice != null && userChoice.isCorrect;
 
                       return Container(
@@ -181,7 +180,7 @@ class QuizResultScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // หัวข้อ Question X + สถานะ Correct/Wrong
+                            
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -198,11 +197,11 @@ class QuizResultScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             
-                            // ตัวคำถาม
+                         
                             Text(question.question, style: const TextStyle(fontSize: 16)),
                             const SizedBox(height: 12),
 
-                            // ถ้าตอบผิด ให้โชว์กรอบสีแดงบอกว่าตอบอะไรไป
+                            
                             if (!isCorrect)
                               Container(
                                 width: double.infinity,
@@ -219,7 +218,7 @@ class QuizResultScreen extends StatelessWidget {
                                 ),
                               ),
 
-                            // กรอบสีเขียวบอกคำตอบที่ถูกต้อง (โชว์เสมอ)
+                            
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(12),
@@ -232,7 +231,7 @@ class QuizResultScreen extends StatelessWidget {
                               child: Text('Correct Answer: ${correctChoice.text}', style: TextStyle(color: colorGreen)),
                             ),
 
-                            // คำอธิบาย
+                            
                             Text('Explanation: ${question.explanation}', style: const TextStyle(fontSize: 14, color: Colors.grey)),
                           ],
                         ),

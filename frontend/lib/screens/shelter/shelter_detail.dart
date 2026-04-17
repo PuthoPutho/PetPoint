@@ -182,7 +182,7 @@ class ShelterDetailScreen extends StatelessWidget {
 
                       if (userId.isEmpty) return;
 
-                      // 1. เช็คคะแนนฝั่ง Client เบื้องต้น
+                      
                       if (auth.currentScore < 100) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('คะแนนไม่เพียงพอสำหรับการบริจาค (ต้องการ 100 Points)')),
@@ -190,27 +190,27 @@ class ShelterDetailScreen extends StatelessWidget {
                         return;
                       }
 
-                      // 2. แสดง Loading
+                    
                       showDialog(
                         context: context,
                         barrierDismissible: false,
                         builder: (ctx) => const Center(child: CircularProgressIndicator(color: Color(0xFF5AAB73))),
                       );
 
-                      // 3. ยิง API บริจาค
+                      
                       final result = await UserService.donateToShelter(userId, shelterId, 100);
 
                       if (!context.mounted) return;
-                      Navigator.pop(context); // ปิด Loading
+                      Navigator.pop(context); 
 
                       if (result != null) {
-                        // 4. อัปเดตคะแนนใน AuthProvider
+                   
                         auth.updateScore(
                           int.parse(result['newScore'].toString()), 
                           donatedScore: int.parse(result['donatedTotal'].toString())
                         );
 
-                        // 5. แสดง Success Popup
+                   
                         _showSuccessDialog(context);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -240,21 +240,7 @@ class ShelterDetailScreen extends StatelessWidget {
           ),
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   selectedItemColor: const Color(0xFF67AC7D),
-      //   unselectedItemColor: Colors.grey,
-      //   showSelectedLabels: true,
-      //   showUnselectedLabels: true,
-      //   currentIndex: 0,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Foster'),
-      //     BottomNavigationBarItem(icon: Icon(LucideIcons.trophy), label: 'Score'),
-      //     BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-      //     BottomNavigationBarItem(icon: Icon(LucideIcons.bookOpen), label: 'Quiz'),
-      //     BottomNavigationBarItem(icon: Icon(LucideIcons.user), label: 'Profile'),
-      //   ],
-      // ),
+      
     );
   }
 

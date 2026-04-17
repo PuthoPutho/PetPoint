@@ -17,8 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _email = "Loading...";
   String? _imagePath;
   bool isLoading = true;
-  bool _profileLoaded = false; // โหลดครั้งแรกแล้วหรือยัง
-  int _lastRefreshTrigger = 0; // 🌟 เก็บค่า Trigger ล่าสุดเอาไว้เทียบ
+  bool _profileLoaded = false; 
+  int _lastRefreshTrigger = 0; 
 
   List<double> spiderData = [0, 0, 0, 0, 0];
   List<String> spiderLabels = ['Grammar', 'Vocabulary', 'Reading', 'Sentence', 'Meaning'];
@@ -26,14 +26,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // ไม่โหลดที่นี่ — ใช้ didChangeDependencies แทน เพราะต้องการ context
+   
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     
-    // 🌟 ดึงข้อมูลจาก AuthProvider มาเช็คว่าต้องรีเฟรชไหม
     final auth = AuthProvider.of(context);
     if (!_profileLoaded || auth.refreshTrigger != _lastRefreshTrigger) {
       _profileLoaded = true;
@@ -60,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       final userData = results[0] as Map<String, dynamic>?;
       
-      // 🌟 ใช้การเช็คประเภทข้อมูล (Type Check) แทนการ Cast ทื่อๆ เพื่อป้องกันแอปค้าง
+    
       List<dynamic> chartData = [];
       if (results[1] != null && results[1] is List) {
         chartData = results[1] as List<dynamic>;
@@ -69,11 +68,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) {
         setState(() {
           if (userData != null) {
-            print('🔍 Check User Data from DB: $userData'); //  ดูตรงนี้ใน Console ว่า image มาไหม
+            print('🔍 Check User Data from DB: $userData'); 
             _username = userData['username'] ?? 'No Name';
             _email = userData['email'] ?? 'No Email';
             
-            // เช็คว่ามี Path รูปมาจริงๆ ไหม
+            
             var rawImage = userData['profileImage'];
             _imagePath = (rawImage != null && rawImage.toString().isNotEmpty && rawImage != "null") 
                          ? rawImage.toString() 
@@ -102,12 +101,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             }
 
-            // 🌟 ปรับปรุง: คำนวณคะแนนตามหมวดหมู่โดยใช้ค่าเฉลี่ยของ "คะแนนล่าสุด" ของแต่ละ Quiz ในหมวดนั้นๆ 
-            // หรือจะใช้คะแนนสูงสุดที่มีก็ได้ แต่ในที่นี้จะใช้เฉลี่ยของคะแนนล่าสุดเพื่อให้กราฟนิ่งและแม่นยำขึ้น
+            
             double calculateCategoryScore(String catName) {
               var scores = latestScores[catName]!.values.toList();
               if (scores.isEmpty) return 0.0;
-              // หาค่าเฉลี่ยของคะแนนล่าสุดในหมวดนั้นๆ
+              
               double avg = scores.reduce((a, b) => a + b) / scores.length;
               return avg.clamp(0.0, 20.0);
             }
@@ -150,18 +148,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 alignment: Alignment.bottomRight,
                 children: [
                   CircleAvatar(
-                    radius: 70, // ขนาดวงกลม
+                    radius: 70,
                     backgroundColor: Colors.grey[100],
                     
-                    // 🌟 1. ใช้ ClipOval ครอบเพื่อให้ขอบกลมเป๊ะ
+                   
                     child: ClipOval(
-                      // 🌟 2. ใช้ SizedBox.fromSize บังคับให้พื้นที่ด้านในเป็นสี่เหลี่ยมจัตุรัส (140x140)
+                      
                       child: SizedBox.fromSize(
-                        size: const Size.fromRadius(70), // เท่ากับ 2*radius
+                        size: const Size.fromRadius(70), 
                         child: (_imagePath != null && _imagePath != "")
                             ? Image.network(
                                 UserService.getImageUrl(_imagePath),
-                                //  3. สำคัญมาก! ใช้ BoxFit.cover เพื่อให้รูปขยายเต็มสี่เหลี่ยมโดยไม่เบี้ยว (ตัดส่วนที่เกินทิ้ง)
+                               
                                 fit: BoxFit.cover, 
                                 width: 140, 
                                 height: 140,
@@ -185,17 +183,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           if (result != null && result is Map) {
                             setState(() => isLoading = true);
                             final newName = result['username'];
-                            final Uint8List? imageBytes = result['imageBytes']; // รับเป็น Bytes มาแทน
+                            final Uint8List? imageBytes = result['imageBytes']; 
                             
                             final userId = AuthProvider.of(context).userId ?? '';
                             bool success = await UserService.updateProfile(userId, newName, imageBytes);
 
                             if (success) {
-                              // อัปเดต AuthProvider ด้วย username ใหม่
+                              
                               if (mounted) {
                                 AuthProvider.of(context).updateProfile(username: newName);
                               }
-                              await _loadProfileData(); // โหลดใหม่จาก Backend
+                              await _loadProfileData(); 
                             } else {
                               setState(() => isLoading = false);
                             }
@@ -265,11 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             "Notification",
             trailing: AnimatedCustomSwitch(initialValue: true, onChanged: (v) => print("Notify: $v")),
           ),
-          _buildSettingsItem(
-            LucideIcons.settings,
-            "Setting",
-            trailing: const Icon(LucideIcons.chevronRight, color: Colors.grey),
-          ),
+          
           // ปุ่ม Logout
 GestureDetector(
   onTap: () {
@@ -287,7 +281,7 @@ GestureDetector(
             onPressed: () {
               Navigator.pop(ctx);
               AuthProvider.of(context).logout();
-              // ต้องสั่ง Navigator เพื่อให้แน่ใจว่าล้าง Stack ทั้งหมดแล้วกลับไปหน้า Login
+              
               Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
             },
             child: const Text('Logout', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
@@ -299,22 +293,22 @@ GestureDetector(
   child: Container(
     margin: const EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
-      color: Colors.red, // พื้นหลังปุ่มสีแดง
+      color: Colors.red, 
       borderRadius: BorderRadius.circular(30),
     ),
-    child: const ListTile( // ใส่ const เพิ่มประสิทธิภาพได้เลยเพราะค่าสีถูก fixed หมดแล้ว
+    child: const ListTile( 
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
-      leading: Icon(LucideIcons.logOut, color: Colors.white, size: 28), // ไอคอนด้านหน้าสีขาว
+      leading: Icon(LucideIcons.logOut, color: Colors.white, size: 28), 
       title: Text(
         'Logout', 
         style: TextStyle(
-          color: Colors.white, // ตัวหนังสือสีขาว
+          color: Colors.white, 
           fontSize: 16, 
           fontWeight: FontWeight.w500, 
           fontFamily: 'GoogleSans'
         )
       ),
-      trailing: Icon(LucideIcons.chevronRight, color: Colors.white), // ไอคอนลูกศรสีขาว
+      trailing: Icon(LucideIcons.chevronRight, color: Colors.white), 
     ),
   ),
 ),
@@ -337,7 +331,7 @@ GestureDetector(
   }
 }
 
-// 🌟 ตัวคลาส AnimatedCustomSwitch ต้องอยู่นอกคลาสหลักแบบนี้ครับ
+
 class AnimatedCustomSwitch extends StatefulWidget {
   final bool initialValue;
   final ValueChanged<bool>? onChanged;

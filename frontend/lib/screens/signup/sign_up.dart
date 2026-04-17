@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart'; 
 import 'package:http/http.dart' as http; 
 import 'dart:convert'; 
-// import 'package:google_sign_in/google_sign_in.dart'; 
 import 'dart:io';
 
 class SignUpScreen extends StatefulWidget {
@@ -29,6 +28,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill all fields')),
+      );
+      return;
+    }
+
+    if (!email.contains('@')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email containing "@"')),
       );
       return;
     }

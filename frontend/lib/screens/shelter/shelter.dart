@@ -61,7 +61,7 @@ class _ShelterScreenState extends State<ShelterScreen> {
         : ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              // --- ส่วนที่ 1: บัตร How to Donate ---
+              // --- How to Donate ---
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 decoration: BoxDecoration(
@@ -99,7 +99,7 @@ class _ShelterScreenState extends State<ShelterScreen> {
 
               const SizedBox(height: 24),
               
-              // --- ส่วนที่ 2: รายการ Shelter จาก Database ---
+              // ---Shelter---
               if (_shelters.isEmpty)
                 const Padding(
                   padding: EdgeInsets.all(20.0),

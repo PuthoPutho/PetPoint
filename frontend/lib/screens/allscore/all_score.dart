@@ -234,7 +234,7 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
                             final userId = AuthProvider.of(context).userId ?? '';
                             if (userId.isEmpty) return;
 
-                            // 1. โชว์ Loading นิดนึงก่อนไปหน้าถัดไป (กันค้าง)
+                            
                             showDialog(
                               context: context,
                               barrierDismissible: false,
@@ -242,16 +242,16 @@ class _AllScoreScreenState extends State<AllScoreScreen> {
                             );
 
                             try {
-                              // 2. ดึงข้อมูลควิซแบบละเอียด (พร้อมสถานะ isCompleted)
+                              
                               final fullQuiz = await QuizService.getQuizDetails(
                                 data['quizId']?.toString() ?? '',
                                 userId: userId
                               );
 
                               if (!mounted) return;
-                              Navigator.pop(context); // ปิด Loading
+                              Navigator.pop(context); 
 
-                              // 3. พาไปหน้า Quiz Detail
+                              
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

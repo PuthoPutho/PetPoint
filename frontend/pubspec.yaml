@@ -81,6 +81,7 @@ flutter:
     - assets/catresult.png
     - assets/vocab_a1_part1.png
     - assets/trophy.png
+    - assets/logo.png
     
   fonts:
     - family: GoogleSans
